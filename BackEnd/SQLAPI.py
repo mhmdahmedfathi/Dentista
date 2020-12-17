@@ -4,6 +4,40 @@ from mysql.connector import errorcode
 from datetime import datetime
 # -------------------------------------------------------------------------------------------
 
+'''
+STEPS of Using this API
+1. Initialze the constructor with the connection strings
+2. At the end of using the API call the close_conncetion method
+3. insertion:
+    i- pass the table name to the parameter table
+    ii- Create a list of the attributes (Columns names) and assign it to the parameter attributes
+    iii- Create a list of the values that you want to assign to the attributes and assign it to the parameter values
+4. Deletion:
+    i- pass the table that you want to delete from to the parameter table
+    ii- pass the sql condition of deletion to the parameter sql_condition as you write the exact sql query 
+        for example: sql_condition =  " DENTIST_NAME = 'some_name' " (KEEP TRACK on the qouts)
+5. UPDATE:
+    i- pass the table that you want to delete from to the parameter table
+    ii- Create a python dictionary {'key1' : 'value1', 'key2' : 'value2'}, as the key is the column name and the value is the value you want to assign to this column.
+    iii- pass the sql condition of update to the parameter sql_condition as you write the exact sql query 
+        for example: sql_condition =  " DENTIST_NAME = 'some_name' " (KEEP TRACK on the qouts)
+6. SELECT:
+    i- pass the table that you want to delete from to the parameter table
+    ii- choose the columns that you want to retrive data from, if you want to retrive all the columns write a string '*' and assign it to the parameter columns
+    iii- if there is a sql condition pass it to the parameter sql_condition as mentioned before.
+    iv- this query will result in a python dictionary or Hash Table, that can be easily converted to a JSON file, so never forget to assign the method call to a variable.
+7. Execute_Query: (General Purposed):
+    i- Write the Query as a string and assign it to the method
+    ii- this function results all rows (if the query results rows)
+ 8. AT last NEVER FORGET To have a look into database logs file to check that everything goes correctly.
+
+
+'''
+
+
+
+
+
 class SQL:
     def __init__(self, host, user, password = "@dentist1", database = 'DENTISTA'):
         self.Config = {
@@ -50,7 +84,6 @@ class SQL:
                 Query = Query + "'" + str(value) + "', "
         Query = Query[:-2]
         Query = Query + " );"
-        print(Query)
         # ---------------------------------------------
         try:
             self.cursor.execute(Query)
@@ -79,11 +112,17 @@ class SQL:
 
     def update_query(self, table, columns_values_dict, sql_condition):
         Query = "UPDATE " + table + " SET "
+        x = 1
         for c_v in columns_values_dict:
-            Query = Query + c_v + " = " + columns_values_dict[c_v] + ", "
+            Query = Query + c_v + " = "
+            if type(columns_values_dict[c_v]) == type(x):
+                Query = Query + str(columns_values_dict[c_v]) + ','
+            else: 
+                Query = Query + " '" + columns_values_dict[c_v] + "', "
         
-        Query = Query[:-1]
+        Query = Query[:-2]
         Query = Query + " WHERE " + sql_condition + ";"
+
 
         try:
             self.cursor.execute(Query)
@@ -92,6 +131,8 @@ class SQL:
             Logs = "Update table [ " + table + " ] at " + current_time + " is done correctly\n"
             self.logs_file.write(Logs)
         except :
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
             Logs = "ERROR in Update table [ " + table + " ] at " + current_time + "\n"
             self.logs_file.write(Logs)
 
@@ -159,7 +200,7 @@ class SQL:
         self.conn.commit()
         self.cursor.close()
         self.conn.close()
-        self.logs_file.write("Connection is Closed")
+        self.logs_file.write("Connection is Closed \n \n")
         self.logs_file.close()
 
         
