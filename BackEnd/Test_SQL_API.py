@@ -32,6 +32,7 @@ def testcase3():
     out = connector.select_query(table='VIRTUAL_BANK', columns='*')
     print(out)
     connector.close_connection()
+    return out
 
 def testcase4():
     connector = SQL(host=server_name, user=server_admin)
