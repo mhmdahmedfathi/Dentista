@@ -1,4 +1,6 @@
+import 'package:dentista/Authentication/Delivery_Signup.dart';
 import 'package:dentista/Authentication/Manager_Signup.dart';
+import 'package:dentista/Models/AuthButtons.dart';
 import 'package:flutter/material.dart';
 
 void main ()
@@ -33,6 +35,28 @@ void main ()
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ManagerSignup();
+    //return DeliverySignUp();
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context)=>DeliverySignUp()));
+            },
+            child: drawButton("Delvery Sign-Up Form", Colors.green),
+          ),
+          SizedBox(height: 20),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context)=>ManagerSignup()));
+            },
+            child: drawButton("Manager Sign-Up Form", Colors.green),
+          )
+        ],
+      ),
+    );
   }
 }
