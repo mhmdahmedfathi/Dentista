@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/Manager_Signup.dart';
 import 'package:flutter/material.dart';
 
 void main ()
@@ -32,6 +33,6 @@ void main ()
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ManagerSignup();
   }
 }
