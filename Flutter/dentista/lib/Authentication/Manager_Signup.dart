@@ -1,5 +1,6 @@
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -125,6 +126,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       ),
                       SizedBox(height: 20),
                       TextFormField(
+                        obscureText: true,
                         decoration: authDecoration("Re-Enter Password"),
                         onChanged: (val){
                           setState(() {
@@ -204,7 +206,10 @@ class _ManagerSignupState extends State<ManagerSignup> {
                 SizedBox(width: 2),
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context)=>Home()));
+                    },
                     child: drawButton("Back to sign in", Colors.grey),
                   ),
                 ),
