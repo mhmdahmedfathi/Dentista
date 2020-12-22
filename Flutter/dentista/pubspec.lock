@@ -43,6 +43,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
+
   credit_card_number_validator:
     dependency: "direct main"
     description:
@@ -50,6 +51,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+
+
   cupertino_icons:
     dependency: "direct main"
     description:
