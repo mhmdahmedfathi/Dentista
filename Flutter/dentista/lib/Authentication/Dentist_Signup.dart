@@ -1,28 +1,17 @@
 //import 'dart:html';
 import 'dart:convert';
-
+import 'package:dentista/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:credit_card_number_validator/credit_card_number_validator.dart';
+import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Models/Alerts.dart';
 
-class Dentist
-{
-  String fname;
-  String lname;
-  String email;
-  String password;
-  String repassword;
-  String phone_number;
-  String address;
-  int ZipCode;
-  String Region;
-  String City;
-  String CreditCardNumber;
-  String ImageURL;
 
-}
+
 
 
 
@@ -31,47 +20,13 @@ class DentistSignup extends StatefulWidget {
   _DentistSignupState createState() => _DentistSignupState();
 }
 
-bool validate_password(String password)
-{
-  bool special_character = false;
-  bool numbers = false;
-  bool capical_character = false;
-  bool small_character = false;
-  bool password_length = false;
-  if (password.length >= 6)
-    {
-      password_length = true;
-    }
-  for (int i=0; i < password.length; i++)
-    {
-      var C = password[i];
 
-      int c_val = password.codeUnitAt(i);
-      //print(c_val);
-      if (c_val >= 65 && c_val <=90)
-        {
-          capical_character = true;
-        }
-      if(c_val >= 97 && c_val <= 122)
-        {
-          small_character = true;
-        }
-      if (c_val >= 48 && c_val <= 57)
-        {
-          numbers = true;
-        }
-      if (c_val >=58 && c_val <=64)
-        {
-          special_character = true;
-        }
-    }
-  return special_character && numbers && small_character && capical_character && password_length;
-  //return true;
-}
+
 
 class _DentistSignupState extends State<DentistSignup> {
 
   final _formKey = GlobalKey<FormState>();  // Used to validating the form
+  Validator _validator = new Validator();   // Creating Instance of the validator
   String fname;
   String lname;
   String email;
@@ -84,6 +39,7 @@ class _DentistSignupState extends State<DentistSignup> {
   String City;
   String CreditCardNumber;
   String ImageURL;
+  bool valid_email = true;
 
   bool policy_check = false;
 
@@ -147,7 +103,7 @@ class _DentistSignupState extends State<DentistSignup> {
                             fname = val;
                           });
                         },
-                        validator: (val){ return val.isEmpty ? "Please Enter Your FirstName ": null;},
+                        validator: (val){ return _validator.validate_name(val) == false ? "Please Enter Your FirstName ": null;},
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
@@ -157,18 +113,18 @@ class _DentistSignupState extends State<DentistSignup> {
                             lname = val;
                           });
                         },
-                        validator: (val){return val.isEmpty ? "Please Enter Your LastName ": null;},
+                        validator: (val){return _validator.validate_name(val) == false ? "Please Enter Your LastName ": null;},
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
                         decoration: authDecoration("Email"),
-                        onChanged: (val){
+                        onChanged: (val) {
                           setState(() {
                             email = val;
                           });
                         },
                         validator: (val){
-                          return val.isEmpty ? "Enter Your Email" : null;
+                          return val.isEmpty ? "Enter a valid Email" : null;
                         },
                       )
                       ,
@@ -182,7 +138,7 @@ class _DentistSignupState extends State<DentistSignup> {
 
                           });
                         },
-                        validator: (val){return validate_password(val) == false ? "Invalid Password" : null;},
+                        validator: (val){return _validator.validate_password(val) == false ? "Invalid Password" : null;},
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
@@ -213,8 +169,9 @@ class _DentistSignupState extends State<DentistSignup> {
                           CreditCardNumber = val;
 
                         });},
-                        validator: (val){return val.isEmpty ? "Enter Credit Card Number": null;},
+                        validator: (val){return _validator.credit_card_valid(val) == false ? "Enter a valid Credit Card Number": null;},
                       ),
+                      SizedBox(height: 20,),
                       TextFormField(
                         decoration: authDecoration("Address"),
                         onChanged: (val){
@@ -306,26 +263,78 @@ class _DentistSignupState extends State<DentistSignup> {
                     onTap: policy_check ? () async{
                       if(_formKey.currentState.validate())
                       {
-                        // Sending to Database
-                        final response = await http.post(
-                          'http://10.0.2.2:5000/',
+
+                        final email_response = await http.post(
+                          'http://10.0.2.2:5000/email_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: json.encode({
 
-                            'DENTIST_Fname': fname,
-                            'DENTIST_LNAME': lname,
-                            'DENTIST_EMAIL': email,
-                            'DENTIST_PASSWORD': password,
-                            'DENTIST_PHONE_NUMBER': phone_number,
-                            'DENTIST_ADDRESS': address,
-                            'DENTIST_ZIP_CODE': ZipCode,
-                            'DENTIST_REGION': Region,
-                            'DENTIST_CITY': City,
-                            'DENTIST_CREDIT_CARD_NUMBER': CreditCardNumber
+
+                            'email': email,
+
                           }),
                         );
+
+                        final phone_response = await http.post(
+                          'http://10.0.2.2:5000/phone_validation',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+
+
+                            'phone': phone_number,
+
+                          }),
+                        );
+
+
+                        String ValidationEmail = email_response.body;
+                        String ValidationPhone = phone_response.body;
+
+                        if (ValidationEmail == "0")
+                        {
+                          valid_email = false;
+                          //EmailAlert(context);
+                          Alert(context, "Invalid Email", "This Email is currently in use");
+                        }
+                        else if (ValidationPhone == "0")
+                          {
+                            Alert(context, "Invalid Phone number", "This Phone number is currently in use");
+                          }
+                        else
+                        {
+                          valid_email = true;
+                          // Sending to Database
+                          final response = await http.post(
+                            'http://10.0.2.2:5000/',
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: json.encode({
+
+                              'DENTIST_Fname': fname,
+                              'DENTIST_LNAME': lname,
+                              'DENTIST_EMAIL': email,
+                              'DENTIST_PASSWORD': password,
+                              'DENTIST_PHONE_NUMBER': phone_number,
+                              'DENTIST_ADDRESS': address,
+                              'DENTIST_ZIP_CODE': ZipCode,
+                              'DENTIST_REGION': Region,
+                              'DENTIST_CITY': City,
+                              'DENTIST_CREDIT_CARD_NUMBER': CreditCardNumber
+                            }),
+                          );
+                        }
+
+
+
+
+
+                        //print(response.body);
+                        print(valid_email);
 
 
 
@@ -337,7 +346,10 @@ class _DentistSignupState extends State<DentistSignup> {
                 SizedBox(width: 2),
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context)=>Home()));
+                    },
                     child: drawButton("Back to sign in", Colors.grey),
                   ),
                 ),

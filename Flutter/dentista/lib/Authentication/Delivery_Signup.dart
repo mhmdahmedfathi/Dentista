@@ -162,6 +162,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
+                      if(val.length <6) return "Password must be more than 6 characters" ;
                       return val != Password
                           ? "The Password doesn't match"
                           : null;

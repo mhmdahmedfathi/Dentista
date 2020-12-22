@@ -1,5 +1,7 @@
 import 'package:dentista/Authentication/Delivery_Signup.dart';
+import 'package:dentista/Authentication/Dentist_Signup.dart';
 import 'package:dentista/Authentication/Manager_Signup.dart';
+import 'package:dentista/Authentication/Store_Signup.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:flutter/material.dart';
 
@@ -43,9 +45,27 @@ class Home extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context)=>DentistSignup()));
+            },
+            child: drawButton("Dentist Sign-Up Form", Colors.green),
+          ),
+          SizedBox(height: 20),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context)=>DeliverySignUp()));
             },
-            child: drawButton("Delvery Sign-Up Form", Colors.green),
+            child: drawButton("Delivery Sign-Up Form", Colors.green),
+
+          ),
+          SizedBox(height: 20),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context)=>StoreSignUp()));
+            },
+            child: drawButton("Store Sign-Up Form", Colors.green),
+
           ),
           SizedBox(height: 20),
           GestureDetector(
