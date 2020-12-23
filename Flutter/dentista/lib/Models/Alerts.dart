@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-Future<void> Alert(BuildContext context, String message_title, String message_content) async {
+Future<void> Alert(BuildContext context, String message_title, String message_content, {String message2 = "You can either try another one, or sign in"}) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -10,7 +10,7 @@ Future<void> Alert(BuildContext context, String message_title, String message_co
           child: ListBody(
             children: <Widget>[
               Text(message_content),
-              Text('You can either try another one, or sign in'),
+              Text(message2),
             ],
           ),
         ),

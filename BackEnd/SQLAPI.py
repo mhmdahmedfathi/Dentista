@@ -196,11 +196,13 @@ class SQL:
             return None
     
     def close_connection(self):
-        
-        self.conn.commit()
-        self.cursor.close()
-        self.conn.close()
-        self.logs_file.write("Connection is Closed \n \n")
+        try:
+            self.conn.commit()
+            self.cursor.close()
+            self.conn.close()
+            self.logs_file.write("Connection is Closed \n \n")
+        except:
+            pass
         self.logs_file.close()
 
         
