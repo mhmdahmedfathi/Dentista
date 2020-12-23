@@ -1,3 +1,4 @@
+import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/main.dart';
@@ -11,6 +12,7 @@ class ManagerSignup extends StatefulWidget {
 
 class _ManagerSignupState extends State<ManagerSignup> {
   final _formKey = GlobalKey<FormState>();  // Used to validating the form
+  final _validator = Validator();
   //Variables to be sent to the backend 
   String firstName ='';
   String lastName ='';
@@ -19,6 +21,9 @@ class _ManagerSignupState extends State<ManagerSignup> {
   String repassword ='';
   String manageType ='';
   ////////////////////////////////////
+  bool policy_check = false;
+
+  Color btn_color = Colors.grey;
   List<String> managementType = ["Store Management" , "Delivery Management"];
  
   @override
@@ -30,7 +35,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
           SafeArea(
             child: Container(
               color: Colors.grey[200],
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.fromLTRB(30, 30, 30, 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +53,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       Text("Manager" ,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
                             fontSize: 60.0,
                         ),
                       ),
@@ -81,7 +87,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                           return val.isEmpty ? "Please Enter Your FirstName" : null;
+                           return _validator.validate_name(val) ? "Please Enter Your FirstName" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -94,7 +100,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                          return val.isEmpty ? "Please Enter Your LastName" : null;
+                          return _validator.validate_name(val) ? "Please Enter Your LastName" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -121,7 +127,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                          return val.length<6 ? "Password must be more than 6 characters" : null;
+                          return _validator.validate_password(val) ? "Password must be more than 6 characters" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -177,7 +183,34 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20)
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Checkbox(
+                            onChanged: (bool val) {
+                              setState(() {
+                                this.policy_check = val;
+                                if (policy_check == true)
+                                {
+                                  btn_color = Colors.green;
+                                }
+                                else
+                                {
+                                  btn_color = Colors.grey;
+                                }
+                              });
+                            },
+                            value: this.policy_check,
+                          ),
+                          Text("I confirm that I have read Dentista \n User of Agreement and Privacy Policy",
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                fontFamily: "Montserrat"
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20,)
                     ],
                   ),
                 ),
@@ -190,7 +223,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap:policy_check ? (){
                       //if condition to check if the all inputs are valid
                       if(_formKey.currentState.validate())
                         {
@@ -199,8 +232,8 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           
                           print("Done");
                         }
-                    },
-                    child: drawButton("Register", Colors.green),
+                    }:null,
+                    child: drawButton("Register", btn_color),
                   ),
                 ),
                 SizedBox(width: 2),

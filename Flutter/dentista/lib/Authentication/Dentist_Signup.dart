@@ -71,6 +71,7 @@ class _DentistSignupState extends State<DentistSignup> {
                         "Dentist",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
                           fontSize: 60.0,
                         ),
 
@@ -221,24 +222,21 @@ class _DentistSignupState extends State<DentistSignup> {
                       SizedBox(height: 20),
                       Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Checkbox(
-                              onChanged: (bool val) {
-                                setState(() {
-                                  this.policy_check = val;
-                                  if (policy_check == true)
-                                    {
-                                      btn_color = Colors.green;
-                                    }
-                                  else
-                                    {
-                                      btn_color = Colors.grey;
-                                    }
-                                });
-                              },
-                              value: this.policy_check,
-                            ),
+                          Checkbox(
+                            onChanged: (bool val) {
+                              setState(() {
+                                this.policy_check = val;
+                                if (policy_check == true)
+                                  {
+                                    btn_color = Colors.green;
+                                  }
+                                else
+                                  {
+                                    btn_color = Colors.grey;
+                                  }
+                              });
+                            },
+                            value: this.policy_check,
                           ),
                           Text("I confirm that I have read Dentista \n User of Agreement and Privacy Policy",
                             style: TextStyle(
@@ -247,7 +245,8 @@ class _DentistSignupState extends State<DentistSignup> {
                             ),
                           )
                         ],
-                      )
+                      ),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
