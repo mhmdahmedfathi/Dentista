@@ -39,6 +39,9 @@ class _DentistSignupState extends State<DentistSignup> {
   String City;
   String CreditCardNumber;
   String ImageURL;
+  int ExpirationMonth;
+  int ExpirationYear;
+  int CVV;
   bool valid_email = true;
 
   bool policy_check = false;
@@ -173,6 +176,43 @@ class _DentistSignupState extends State<DentistSignup> {
                         validator: (val){return _validator.credit_card_valid(val) == false ? "Enter a valid Credit Card Number": null;},
                       ),
                       SizedBox(height: 20,),
+                      Row(
+                        children: [
+                          Expanded(child: TextFormField(
+                            decoration: authDecoration("Expiration Month"),
+                            onChanged: (val){
+                              setState(() {
+                                ExpirationMonth = int.parse(val);
+                              });
+                            },
+                            validator: (val) {return val.isEmpty ? "*required":null;},
+                          )
+                          ),
+                          Expanded(child: TextFormField(
+                            decoration: authDecoration("Expiration Year"),
+                            onChanged: (val){
+                              setState(() {
+                                ExpirationYear = int.parse(val);
+                              });
+                            },
+                            validator: (val) {return val.isEmpty ? "*required": null;},
+                          )
+                          ),
+
+                        ],
+                      ),
+                      SizedBox(height: 20,),
+                      TextFormField(
+                        decoration: authDecoration("CVV"),
+                        onChanged: (val){
+                          setState(() {
+                            CVV = int.parse(val);
+                          });
+                        },
+                        validator: (val) {return val.isEmpty ? "*required": null;},
+                      ),
+
+                      SizedBox(height: 20,),
                       TextFormField(
                         decoration: authDecoration("Address"),
                         onChanged: (val){
@@ -264,7 +304,7 @@ class _DentistSignupState extends State<DentistSignup> {
                       {
 
                         final email_response = await http.post(
-                          'http://10.0.2.2:5000/email_validation',
+                          'http://10.0.2.2:5000/dentist_email_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -277,7 +317,7 @@ class _DentistSignupState extends State<DentistSignup> {
                         );
 
                         final phone_response = await http.post(
-                          'http://10.0.2.2:5000/phone_validation',
+                          'http://10.0.2.2:5000/dentist_phone_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -289,9 +329,23 @@ class _DentistSignupState extends State<DentistSignup> {
                           }),
                         );
 
+                        final creditcard_validator = await http.post(
+                          'http://10.0.2.2:5000/dentist_creditcard_validation',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'CardNumber': CreditCardNumber,
+                            'CardEMonth': ExpirationMonth,
+                            'CardEYear': ExpirationYear,
+                            'CardCVV': CVV
+                          }),
+                        );
+
 
                         String ValidationEmail = email_response.body;
                         String ValidationPhone = phone_response.body;
+                        String ValidationCreditCard = creditcard_validator.body;
 
                         if (ValidationEmail == "0")
                         {
@@ -303,12 +357,16 @@ class _DentistSignupState extends State<DentistSignup> {
                           {
                             Alert(context, "Invalid Phone number", "This Phone number is currently in use");
                           }
+                        else if (ValidationCreditCard == "0")
+                          {
+                            Alert(context, "Invalid Credit Card", "This Credit Card doesn't exist", message2: "Enter a Valid One");
+                          }
                         else
                         {
                           valid_email = true;
                           // Sending to Database
                           final response = await http.post(
-                            'http://10.0.2.2:5000/',
+                            'http://10.0.2.2:5000/dentist_signup',
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
@@ -326,17 +384,8 @@ class _DentistSignupState extends State<DentistSignup> {
                               'DENTIST_CREDIT_CARD_NUMBER': CreditCardNumber
                             }),
                           );
+                          Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
                         }
-
-
-
-
-
-                        //print(response.body);
-                        print(valid_email);
-
-
-
                       }
                     }:null,
                     child: drawButton("Register", btn_color),

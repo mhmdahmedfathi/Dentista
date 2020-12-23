@@ -29,7 +29,7 @@ def sql_testcase_1():
 
 def testcase3():
     connector = SQL(host=server_name, user=server_admin)
-    out = connector.select_query(table='VIRTUAL_BANK', columns='*')
+    out = connector.select_query(table='DENTIST', columns='*', sql_condition= "DENTIST_EMAIL = 'yousef.gamal.it@gmail.com'")
     print(out)
     connector.close_connection()
     return out
@@ -103,5 +103,5 @@ def bank_testcase():
 
 
 if __name__ == "__main__":
-    testcase6()
+    testcase3()
 
