@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
+import 'package:dentista/Models/Alerts.dart';
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -21,6 +25,7 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  bool rememberme = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +97,26 @@ class _SignInState extends State<SignIn> {
                         },
                       ),
                       SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Checkbox(
+                            onChanged: (bool val) {
+                              setState(() {
+                                this.rememberme = val;
+
+                              });
+                            },
+                            value: this.rememberme,
+                          ),
+                          Text("Remember Me",
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                fontFamily: "Montserrat"
+                            ),
+                          )
+                        ],
+
+                      )
                     ],
                   ),
                 ),
@@ -104,10 +129,42 @@ class _SignInState extends State<SignIn> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap:()
+                    onTap:()async
                       {
-                        setSharedpref();
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
+                        final account = await http.post(
+                          'http://10.0.2.2:5000/LogIn',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'email': email,
+                            'password': password
+                          }),
+                        );
+                        String AccountType = account.body;
+                        if(AccountType == "Dentist")
+                          {
+                            setSharedpref();
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome())));
+                          }
+                        else if (AccountType == "Delivery")
+                          {
+
+                          }
+                        else if (AccountType == "Store")
+                          {
+
+                          }
+                        else if (AccountType == "Manager")
+                          {
+
+                          }
+                        else
+                          {
+                            Alert(context, "Log in Failed", "This is an invalid email or account", message2: "Please Try again");
+                          }
+                        //setSharedpref();
+                        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
                       },
                     child: drawButton("Sign in", Colors.green),
                   ),
