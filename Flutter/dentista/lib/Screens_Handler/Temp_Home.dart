@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import 'package:flutter/material.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 
 class TempHome extends StatelessWidget {
   @override
@@ -12,7 +13,14 @@ class TempHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dentista" , style: TextStyle(color: Colors.black),),
+
       ),
+        body: RaisedButton(
+          child: Text('Back'),
+          onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+          },
+        )
     );
   }
 }
