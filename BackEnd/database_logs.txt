@@ -1,0 +1,2 @@
+Connection established 
+Retrive from table Manager at 23:04:12 is done correctly
