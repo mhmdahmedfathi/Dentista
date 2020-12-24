@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/Store2_signup.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/main.dart';
@@ -18,11 +19,6 @@ class _StoreSignUpState extends State<StoreSignUp> {
   String Email = "";
   String Password = "";
   String RePassword = "";
-  String Address = "";
-  String City = "";
-  String Region = "";
-  String ZIP ="" ;
-
 
   @override
   Widget build(BuildContext context) {
@@ -161,78 +157,6 @@ class _StoreSignUpState extends State<StoreSignUp> {
                             },
 
                           ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  decoration: authDecoration("City"),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      City = val;
-                                    });
-                                  },
-                                  validator: (val) {
-                                    if (val.isEmpty)
-                                      return "Please Enter Your \n City";
-                                    else
-                                      return null;
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                  child: TextFormField(
-                                    decoration: authDecoration("Region"),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        Region = val;
-                                      });
-                                    },
-                                    validator: (val) {
-                                      return val.isEmpty
-                                          ? "Please Enter Your \n Region"
-                                          : null;
-                                    },
-                                  ))
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  decoration: authDecoration("Address"),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      Address = val;
-                                    });
-                                  },
-                                  validator: (val) {
-                                    if (val.isEmpty)
-                                      return "Please Enter Your \n Address";
-                                    else
-                                      return null;
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                  child: TextFormField(
-                                    decoration: authDecoration("ZIP Code"),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        ZIP = val;
-                                      });
-                                    },
-                                    validator: (val) {
-                                      return val.isEmpty
-                                          ? "Please Enter Your \n ZIP Code"
-                                          : null;
-                                    },
-                                  ))
-                            ],
-                          ),
                           SizedBox(height: 20)
                         ],
                       ),
@@ -247,17 +171,19 @@ class _StoreSignUpState extends State<StoreSignUp> {
                   Expanded(
                       child: GestureDetector(
                         onTap: () {
+
                           //if condition to check if the all inputs are valid
                           if (_formKey.currentState.validate())
                           {
                             //For Testing only
                             //backend code should be written here
-
                             print("Done");
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context)=>Store2signup()  ));
                           }
                         },
                         child: drawButton(
-                            "Register",
+                            "Next",
                             Colors.green
                         ),
                       )
