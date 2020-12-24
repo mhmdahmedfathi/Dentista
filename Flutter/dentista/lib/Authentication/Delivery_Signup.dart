@@ -185,11 +185,11 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                      // return val.isEmpty
-                      //     ? "Please Enter Your Credit Card Number"
-                      //     : _validator.credit_card_valid(val)
-                      //         ? null
-                      //         : "Enter a valid Credit Card Number";
+                       return val.isEmpty
+                           ? "Please Enter Your Credit Card Number"
+                           : _validator.credit_card_valid(val)
+                               ? null
+                               : "Enter a valid Credit Card Number";
                     },
                   ),
                   SizedBox(
