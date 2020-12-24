@@ -4,6 +4,7 @@ from SQLAPI import SQL
 import json
 import Dentist
 import Manager
+import Delivery
 from validate_email import validate_email
 
 from Verifications import Validator
@@ -30,7 +31,10 @@ app.add_url_rule('/dentist_phone_validation', view_func=Dentist.dentist_phone_va
 app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_CreditCard_validation, methods = ['POST'])
 app.add_url_rule('/manager_signup' , view_func=Manager.Manager_Insertion, methods=['POST'])
 app.add_url_rule('/manager_email_validation' , view_func=Manager.Manager_email_validator , methods=['POST'])
-
+app.add_url_rule('/delivery_signup', view_func=Delivery.Delivery_insertion,methods=['POST'])
+app.add_url_rule('/delivery_email_validation',view_func=Delivery.Delivery_email_validation,methods=['POST'])
+app.add_url_rule('/delivery_phone_validation',view_func=Delivery.Delivery_PhoneNumber_validator,methods=['POST'])
+app.add_url_rule('/delivery_creditcard_validation',view_func=Delivery.Delivery_CreditCard_validation,methods=['POST'])
 def run_server(debug=False):
     app.run(debug=debug)
 
