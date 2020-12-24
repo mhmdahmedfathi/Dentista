@@ -23,6 +23,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
   String LastName = "";
   String Area = "";
   String CreditCardNumber = "";
+  String PhoneNumber = "";
   int ExpirationMonth;
   int ExpirationYear;
   int CVV;
@@ -159,6 +160,22 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                           : null;
                     },
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: authDecoration("Phone Number"),
+                    onChanged: (val) {
+                      setState(() {
+                        PhoneNumber = val;
+                      });
+                    },
+                    validator: (val) {
+                      return PhoneNumber.length != 11
+                          ? "Invalid phone number"
+                          : null;
+                    },
+                  ),
                   SizedBox(height: 20.0),
                   TextFormField(
                     decoration: authDecoration("Credit Card Number"),
@@ -168,11 +185,11 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                      return val.isEmpty
-                          ? "Please Enter Your Credit Card Number"
-                          : _validator.credit_card_valid(val)
-                              ? null
-                              : "Enter a valid Credit Card Number";
+                      // return val.isEmpty
+                      //     ? "Please Enter Your Credit Card Number"
+                      //     : _validator.credit_card_valid(val)
+                      //         ? null
+                      //         : "Enter a valid Credit Card Number";
                     },
                   ),
                   SizedBox(
@@ -324,11 +341,9 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     ? () async {
                         //if condition to check if the all inputs are valid
                         if (_formKey.currentState.validate()) {
-                          print("Here");
-
-                          //////////////////////////////////////////////////
+                          ////////////////////////////////////////////////
                           final email_response = await http.post(
-                              'http://127.0.0.1:39920//Delivery_email_validation',
+                              'http://10.0.2.2:5000/delivery_email_validation',
                               headers: <String, String>{
                                 'Content-Type':
                                     'application/json; charset=UTF-8',
@@ -336,9 +351,19 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                               body: json.encode({
                                 'email': Email,
                               }));
-                          //////////////////////////////////////////////////
+                          ////////////////////////////////////////////////
+                          final phonenumber_validator = await http.post(
+                              'http://10.0.2.2:5000/delivery_phone_validation',
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'phone': PhoneNumber,
+                              }));
+                          ////////////////////////////////////////////////
                           final creditcard_validator = await http.post(
-                              'http://127.0.0.1:39920//Delivery_CreditCard_validation',
+                              'http://10.0.2.2:5000/delivery_creditcard_validation',
                               headers: <String, String>{
                                 'Content-Type':
                                     'application/json; charset=UTF-8',
@@ -349,14 +374,19 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                 'CardEYear': ExpirationYear,
                                 'CardCVV': CVV
                               }));
-                          //////////////////////////////////////////////////
+                          ////////////////////////////////////////////////
                           String ValidationEmail = email_response.body;
                           String ValidationCreditCard =
                               creditcard_validator.body;
+                          String validationPhoneNumber =
+                              phonenumber_validator.body;
                           if (ValidationEmail == "0") {
                             valid_email = false;
                             Alert(context, "Invalid Email",
                                 "This Email is currently in use");
+                          } else if (validationPhoneNumber == "0") {
+                            Alert(context, "Invalid Phone number",
+                                "This Phone number is currently in use");
                           } else if (ValidationCreditCard == "0") {
                             Alert(context, "Invalid Credit Card",
                                 "This Credit Card doesn't exist",
@@ -365,7 +395,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                             valid_email = true;
                             // Sending to Database
                             final response = await http.post(
-                                'http://127.0.0.1:39920//Delivery_signup',
+                                'http://10.0.2.2:5000/delivery_signup',
                                 headers: <String, String>{
                                   'Content-Type':
                                       'application/json; charset=UTF-8',
@@ -375,13 +405,16 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                   'DELIVERY_Lname': LastName,
                                   'DELIVERY_EMAIL': Email,
                                   'DELIVERY_PASSWORD': Password,
-                                  'DELIVERY_CREDIT_CARD_NUMBER VARCHAR':
+                                  'DELIVERY_CREDIT_CARD_NUMBER':
                                       CreditCardNumber,
                                   'AREA': Area,
                                   'VECHILE_LICENCE': VehicleLicence,
-                                  'VECHILE_MODEL': VehicleModel
+                                  'VECHILE_MODEL': VehicleModel,
+                                  'Delivery_PHONE_NUMBER':PhoneNumber,
                                 }));
-                            Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                            Alert(context, "Signed up successfully",
+                                "Press ok to complete the verification",
+                                message2: "");
                           }
                         }
                       }
