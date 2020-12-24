@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Models/Alerts.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 class ManagerSignup extends StatefulWidget {
   @override
   _ManagerSignupState createState() => _ManagerSignupState();
@@ -20,11 +23,12 @@ class _ManagerSignupState extends State<ManagerSignup> {
   String password ='';
   String repassword ='';
   String manageType ='';
+  String manageArea ='';
   ////////////////////////////////////
   bool policy_check = false;
 
   Color btn_color = Colors.grey;
-  List<String> managementType = ["Store Management" , "Delivery Management"];
+  List<String> managementType = ["Store" , "Delivery"];
  
   @override
   Widget build(BuildContext context) {
@@ -87,7 +91,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                           return _validator.validate_name(val) ? "Please Enter Your FirstName" : null;
+                           return _validator.validate_name(val)==false ? "Please Enter Your FirstName" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -100,7 +104,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                          return _validator.validate_name(val) ? "Please Enter Your LastName" : null;
+                          return _validator.validate_name(val)==false ? "Please Enter Your LastName" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -127,7 +131,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         },
                         validator: (val)
                         {
-                          return _validator.validate_password(val) ? "Password must be more than 6 characters" : null;
+                          return _validator.validate_password(val)==false ? "Password must be more than 6 characters" : null;
                         },
                       ),
                       SizedBox(height: 20),
@@ -172,7 +176,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                               decoration: authDecoration("Area"),
                               onChanged: (val){
                                 setState(() {
-                                  repassword = val;
+                                  manageArea = val;
                                 });
                               },
                               validator: (val)
@@ -223,14 +227,41 @@ class _ManagerSignupState extends State<ManagerSignup> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap:policy_check ? (){
+                    onTap:policy_check ? ()async {
                       //if condition to check if the all inputs are valid
                       if(_formKey.currentState.validate())
                         {
-                          //For Testing only
-                          //backend code should be written here
                           
-                          print("Done");
+                          final email_response = await http.post('http://10.0.2.2:5000/manager_email_validation',
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: json.encode({
+                              'email': email,
+                            }),
+                          );
+                          String ValidationEmail = email_response.body;
+                          if (ValidationEmail == "0")
+                          {
+                            Alert(context, "Invalid Email", "This Email is currently in use");
+                          }else
+                            {
+                              final response = http.post('http://10.0.2.2:5000/manager_signup',
+                                headers: <String, String>{
+                                  'Content-Type': 'application/json; charset=UTF-8',
+                                },
+
+                                body:  json.encode({
+                                  'MANAGER_Fname' : firstName ,
+                                  'MANAGER_Lname' : lastName ,
+                                  'MANAGER_EMAIL' : email ,
+                                  'MANAGER_PASSWORD' : password ,
+                                  'MANAGEMENT_TYPE' : manageType ,
+                                  'AREA_OF_MANAGEMENT' : manageArea
+                                })
+                              );
+                              Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                            }
                         }
                     }:null,
                     child: drawButton("Register", btn_color),
