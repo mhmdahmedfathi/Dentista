@@ -2,3 +2,4 @@ Flask>=1.0,<=1.1.2
 pyodbc==4.0.30
 mysql-connector-python==8.0.22
 numpy==1.19.2
+validate_email==1.3
