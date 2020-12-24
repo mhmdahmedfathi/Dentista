@@ -27,7 +27,7 @@ def Delivery_insertion():
     ManagerIDColumn = ['MANAGER_ID']
     #ManagerIDColumn = ['*']
     condition ="MANAGEMENT_TYPE = 'Delivery' and AREA_OF_MANAGEMENT = '"+values[5]+"'"
-    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn)
+    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn,sql_condition=condition)
 
     columns.append('MANAGER_ID')
     values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
