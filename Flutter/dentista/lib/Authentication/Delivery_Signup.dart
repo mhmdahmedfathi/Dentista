@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Models/Alerts.dart';
+import 'package:credit_card_number_validator/credit_card_number_validator.dart';
 
 class DeliverySignUp extends StatefulWidget {
   @override
@@ -11,16 +16,24 @@ class DeliverySignUp extends StatefulWidget {
 
 class _DeliverySignUpState extends State<DeliverySignUp> {
   final _formKey = GlobalKey<FormState>(); // Used to validating the form
+  Validator _validator =
+      new Validator(); //Use this to validate Name, Credit card, Password
   //Variables to be sent to the backend
   String FirstName = "";
   String LastName = "";
   String Area = "";
   String CreditCardNumber = "";
+  int ExpirationMonth;
+  int ExpirationYear;
+  int CVV;
   String VehicleLicence = "";
   String VehicleModel = "";
   String Email = "";
   String Password = "";
   String RePassword = "";
+  bool valid_email = true;
+  bool policy_check = false;
+  Color btn_color = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +60,9 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   Text(
                     "Delivery",
                     style: TextStyle(
-                      fontSize: 60.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Montserrat"),
                   ),
                   Text(
                     ".",
@@ -81,7 +94,9 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     validator: (val) {
                       return val.isEmpty
                           ? "Please Enter Your First Name"
-                          : null;
+                          : _validator.validate_name(val)
+                              ? null
+                              : "Enter a valid name";
                     },
                   ),
                   SizedBox(height: 20.0),
@@ -93,36 +108,11 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                      return val.isEmpty ? "Please Enter Your Last Name" : null;
-                    },
-                  ),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: authDecoration("Credit Card Number"),
-                    onChanged: (val) {
-                      setState(() {
-                        CreditCardNumber = val;
-                      });
-                    },
-                    validator: (val) {
-                      if (val.isEmpty)
-                        return "Please Enter Your Credit Card Number";
-                      else if (val.length < 8)
-                        return "Enter a Valid Credit Card Number";
-                      else
-                        return null;
-                    },
-                  ),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: authDecoration("Area"),
-                    onChanged: (val) {
-                      setState(() {
-                        Area = val;
-                      });
-                    },
-                    validator: (val) {
-                      return val.isEmpty ? "Please Enter Your Area" : null;
+                      return val.isEmpty
+                          ? "Please Enter Your Last Name"
+                          : _validator.validate_name(val)
+                              ? null
+                              : "Enter a valid name";
                     },
                   ),
                   SizedBox(height: 20),
@@ -137,7 +127,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       return val.isEmpty ? "Please Enter Your Email" : null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.0),
                   TextFormField(
                     obscureText: true,
                     decoration: authDecoration("Password"),
@@ -147,9 +137,11 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                      return val.length < 6
-                          ? "Password must be more than 6 characters"
-                          : null;
+                      return val.isEmpty
+                          ? "Please Enter Your Password"
+                          : _validator.validate_password(val)
+                              ? null
+                              : "Enter a valid Password";
                     },
                   ),
                   SizedBox(height: 20),
@@ -162,10 +154,82 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                      if(val.length <6) return "Password must be more than 6 characters" ;
                       return val != Password
                           ? "The Password doesn't match"
                           : null;
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    decoration: authDecoration("Credit Card Number"),
+                    onChanged: (val) {
+                      setState(() {
+                        CreditCardNumber = val;
+                      });
+                    },
+                    validator: (val) {
+                      return val.isEmpty
+                          ? "Please Enter Your Credit Card Number"
+                          : _validator.credit_card_valid(val)
+                              ? null
+                              : "Enter a valid Credit Card Number";
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: TextFormField(
+                        decoration: authDecoration("Expiration Month"),
+                        onChanged: (val) {
+                          setState(() {
+                            ExpirationMonth = int.parse(val);
+                          });
+                        },
+                        validator: (val) {
+                          return val.isEmpty ? "*required" : null;
+                        },
+                      )),
+                      Expanded(
+                          child: TextFormField(
+                        decoration: authDecoration("Expiration Year"),
+                        onChanged: (val) {
+                          setState(() {
+                            ExpirationYear = int.parse(val);
+                          });
+                        },
+                        validator: (val) {
+                          return val.isEmpty ? "*required" : null;
+                        },
+                      )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: authDecoration("CVV"),
+                    onChanged: (val) {
+                      setState(() {
+                        CVV = int.parse(val);
+                      });
+                    },
+                    validator: (val) {
+                      return val.isEmpty ? "*required" : null;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: authDecoration("Area"),
+                    onChanged: (val) {
+                      setState(() {
+                        Area = val;
+                      });
+                    },
+                    validator: (val) {
+                      return val.isEmpty ? "Please Enter Your Area" : null;
                     },
                   ),
                   SizedBox(height: 20),
@@ -201,7 +265,6 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                               },
                             ),
                           ),
-                          SizedBox(width: 10),
                           Expanded(
                               child: TextFormField(
                             decoration: authDecoration("Vehicle Model"),
@@ -217,56 +280,128 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                             },
                           ))
                         ],
-                      )
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Checkbox(
+                              value: policy_check,
+                              onChanged: (val) {
+                                setState(() {
+                                  policy_check = val;
+                                  if (policy_check)
+                                    btn_color = Colors.green;
+                                  else
+                                    btn_color = Colors.grey;
+                                });
+                              },
+                            ),
+                          ),
+                          Text(
+                            "    I confirm that I have read Dentista \n User of Agreement and Privacy Policy",
+                            style: TextStyle(
+                                fontSize: 13, fontFamily: "Montserrat"),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
                     ],
                   ),
-                  SizedBox(height: 20)
                 ],
               ),
             ),
           ),
-        )
-        ),
+        )),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               Expanded(
                   child: GestureDetector(
-                onTap: () {
-                  //if condition to check if the all inputs are valid
-                  if (_formKey.currentState.validate())
-                    {
-                      //For Testing only
-                      //backend code should be written here
+                onTap: policy_check
+                    ? () async {
+                        //if condition to check if the all inputs are valid
+                        if (_formKey.currentState.validate()) {
+                          print("Here");
 
-                      print("Done");
-                    }
-                },
-                    child: drawButton(
-                      "Register",
-                      Colors.green
-                    ),
-              )
-              ),
+                          //////////////////////////////////////////////////
+                          final email_response = await http.post(
+                              'http://127.0.0.1:39920//Delivery_email_validation',
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'email': Email,
+                              }));
+                          //////////////////////////////////////////////////
+                          final creditcard_validator = await http.post(
+                              'http://127.0.0.1:39920//Delivery_CreditCard_validation',
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'CardNumber': CreditCardNumber,
+                                'CardEMonth': ExpirationMonth,
+                                'CardEYear': ExpirationYear,
+                                'CardCVV': CVV
+                              }));
+                          //////////////////////////////////////////////////
+                          String ValidationEmail = email_response.body;
+                          String ValidationCreditCard =
+                              creditcard_validator.body;
+                          if (ValidationEmail == "0") {
+                            valid_email = false;
+                            Alert(context, "Invalid Email",
+                                "This Email is currently in use");
+                          } else if (ValidationCreditCard == "0") {
+                            Alert(context, "Invalid Credit Card",
+                                "This Credit Card doesn't exist",
+                                message2: "Enter a Valid One");
+                          } else {
+                            valid_email = true;
+                            // Sending to Database
+                            final response = await http.post(
+                                'http://127.0.0.1:39920//Delivery_signup',
+                                headers: <String, String>{
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: json.encode({
+                                  'DELIVERY_Fname': FirstName,
+                                  'DELIVERY_Lname': LastName,
+                                  'DELIVERY_EMAIL': Email,
+                                  'DELIVERY_PASSWORD': Password,
+                                  'DELIVERY_CREDIT_CARD_NUMBER VARCHAR':
+                                      CreditCardNumber,
+                                  'AREA': Area,
+                                  'VECHILE_LICENCE': VehicleLicence,
+                                  'VECHILE_MODEL': VehicleModel
+                                }));
+                            Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                          }
+                        }
+                      }
+                    : null,
+                child: drawButton("Register", btn_color),
+              )),
               SizedBox(width: 2.0),
               Expanded(
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context)=>Home()));
+                        .push(MaterialPageRoute(builder: (context) => Home()));
                   },
-                  child: drawButton(
-                      "Back to sign in",
-                      Colors.grey
-                  ),
+                  child: drawButton("Back to sign in", Colors.grey),
                 ),
               )
             ],
           ),
         )
       ],
-    )
-    );
+    ));
   }
 }
