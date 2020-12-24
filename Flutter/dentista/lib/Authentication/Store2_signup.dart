@@ -17,10 +17,10 @@ class Store2signup extends StatefulWidget {
 
 class _Store2signupState extends State<Store2signup> {
   final _formKey = GlobalKey<FormState>(); // Used to validating the form
-  List<String> zip= [];
-  List<String> City= [];
-  List<String> Region= [];
-  List<String> Address= [];
+  String zip= "";
+  String City= "";
+  String Region= "";
+  String Address= "";
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _Store2signupState extends State<Store2signup> {
           decoration: authDecoration("City"),
           onChanged: (val) {
             setState(() {
-              City.add(val);
+              City=(val);
             });
           },
           validator: (val) {
@@ -91,7 +91,7 @@ class _Store2signupState extends State<Store2signup> {
           decoration: authDecoration("Region"),
           onChanged: (val) {
             setState(() {
-              Region.add(val);
+              Region=(val);
             });
           },
           validator: (val) {
@@ -103,7 +103,7 @@ class _Store2signupState extends State<Store2signup> {
           decoration: authDecoration("ZIP Number"),
           onChanged: (val) {
             setState(() {
-              zip.add(val) ;
+              zip=(val) ;
             });
           },
           validator: (val) {
@@ -118,7 +118,7 @@ class _Store2signupState extends State<Store2signup> {
           decoration: authDecoration("Address"),
           onChanged: (val) {
             setState(() {
-              Address.add(val);
+              Address=(val);
             });
           },
           validator: (val) {
@@ -143,6 +143,7 @@ class _Store2signupState extends State<Store2signup> {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context)=>Store2signup()  ));
+
 
                         //if condition to check if the all inputs are valid
                         if (_formKey.currentState.validate())
