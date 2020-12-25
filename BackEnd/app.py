@@ -24,6 +24,7 @@ database = "DENTISTA"
 # Login
 
 app.add_url_rule('/LogIn', view_func=Login_Auth.LogIn, methods = ['POST'])
+app.add_url_rule('/GetData', view_func=Login_Auth.GetName, methods = ['GET', 'POST'])
 
 #------------------------------------------------------------------------------------------------------------------------------
 

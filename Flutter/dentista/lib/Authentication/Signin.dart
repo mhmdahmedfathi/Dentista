@@ -145,7 +145,30 @@ class _SignInState extends State<SignIn> {
                         if(AccountType == "Dentist")
                           {
                             setSharedpref();
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome())));
+
+                            final getdata = await http.post(
+                              'http://10.0.2.2:5000/GetData',
+                              headers: <String, String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'email': email,
+                                'AccountType': 'Dentist'
+                              }),
+                            );
+                            print(getdata.body);
+
+
+                            final result = json.decode(getdata.body);;
+
+                            String fname = result['fname'];
+                            String lname = result['lname'];
+
+
+
+
+
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome(fname, lname, email))));
                           }
                         else if (AccountType == "Delivery")
                           {
