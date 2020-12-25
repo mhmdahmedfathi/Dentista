@@ -10,10 +10,6 @@ import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 
 String StoreName="";
-void main() => runApp(MaterialApp(
-
-home:Store2signup("")
-));
 
 class Store2signup extends StatefulWidget {
   @override
