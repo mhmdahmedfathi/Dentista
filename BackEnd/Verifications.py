@@ -102,7 +102,7 @@ class Validator:
         CardEYear = request.json['CardEYear']
         CardCVV = request.json['CardCVV']
 
-        Query = "SELECT  CARD_NUMBER FROM VIRTUAL_BANK WHERE CARD_NUMBER = '{}', EXPIRATION_MONTH = {}, EXPIRATION_YEAR = {}, SECURITY_CODE = {} ;".format(CardNumber, CardEMonth, CardEYear, CardCVV)
+        Query = "SELECT  CARD_NUMBER FROM VIRTUAL_BANK WHERE CARD_NUMBER = '{}' and EXPIRATION_MONTH = {} and EXPIRATION_YEAR = {} and SECURITY_CODE = {} ;".format(CardNumber, CardEMonth, CardEYear, CardCVV)
         query_result = self.connector.exectute_query(Query)
         self.connector.close_connection()
         print(query_result)

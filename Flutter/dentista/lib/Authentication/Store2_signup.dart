@@ -4,15 +4,26 @@ import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Authentication/Store_Signup.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Models/Alerts.dart';
 
+String StoreName="";
 void main() => runApp(MaterialApp(
 
-home:Store2signup(),
+home:Store2signup("")
 ));
 
 class Store2signup extends StatefulWidget {
   @override
   _Store2signupState createState() => _Store2signupState();
+  Store2signup(String StoreName2)
+  {
+    StoreName = StoreName2;
+  }
+
+
 }
 
 class _Store2signupState extends State<Store2signup> {
@@ -21,6 +32,7 @@ class _Store2signupState extends State<Store2signup> {
   String City= "";
   String Region= "";
   String Address= "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +154,7 @@ class _Store2signupState extends State<Store2signup> {
                 child:GestureDetector(
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context)=>Store2signup()  ));
+                            .push(MaterialPageRoute(builder: (context)=>Store2signup(StoreName)  ));
 
 
                         //if condition to check if the all inputs are valid
@@ -184,22 +196,105 @@ class _Store2signupState extends State<Store2signup> {
                 Expanded(
                 child:GestureDetector(
 
-                  onTap: () {
+                onTap:() async {
+                  //if condition to check if the all inputs are valid
+                  if (_formKey.currentState.validate()) {
+                    final City_response = await http.post(
+                      'http://10.0.2.2:5000/Store_CITY_validation',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
 
-                    //if condition to check if the all inputs are valid
-                    if (_formKey.currentState.validate())
-                    {
-                      //For Testing only
-                      //backend code should be written here
 
-                      print("Done");
+                        'CITY': City,
+
+                      }),
+                    );
+
+                    final Address_response = await http.post(
+                      'http://10.0.2.2:5000/Store_ADDRESS_Validation',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+
+
+                        'ADDRESS': Address,
+
+                      }),
+                    );
+
+
+                    final ZIP_response = await http.post(
+                      'http://10.0.2.2:5000/Store_ZIP_validation',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+
+
+                        'ZIP': zip,
+
+                      }),
+                    );
+
+                    final Region_validator = await http.post(
+                      'http://10.0.2.2:5000/Store_Region_validation',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'REGION': Region
+                      }),
+                    );
+
+
+                    String ValidationRegion = Region_validator.body;
+                    String ValidationZIP = ZIP_response.body;
+                    String ValidationAddress = Address_response.body;
+                    String ValidationCity = City_response.body;
+
+                    if (ValidationRegion == "0") {
+                      //EmailAlert(context);
+                      Alert(context, "Invalid Region",
+                          "Please make sure you type it correctly");
                     }
-                  },
-                  child: drawButton(
-                      "Sign up",
-                      Colors.green
-                  ),
-                ),
+                    else if (ValidationZIP == "0") {
+                      Alert(context, "Invalid ZIP number",
+                          "Please make sure you type it correctly");
+                    }
+                    else if (ValidationAddress == "0") {
+                      Alert(context, "Invalid Address",
+                          "Please make sure you type it correctly");
+                    }
+                    else if (ValidationCity == "0") {
+                      Alert(context, "Invalid City",
+                          "Please make sure you type it correctly");
+                    }
+                    else {
+                      // Sending to Database
+                      final response = await http.post(
+                        'http://10.0.2.2:5000/Store2_signup',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode({
+
+                          'Store_Name': StoreName,
+                          'ADDRESS': Address,
+                          'REGION': Region,
+                          'CITY': City,
+                          'ZIP_CODE': zip
+                        }),
+                      );
+                      Alert(context, "Signed up successfully",
+                          "Press next to continue the verification",
+                          message2: "");
+                    }
+                  }
+                }
+    ),
     )
 
 
