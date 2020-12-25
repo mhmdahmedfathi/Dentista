@@ -84,7 +84,6 @@ class Validator:
 
         query_result = self.connector.select_query(table=self.table, columns=[phone_attribute], sql_condition= condition)    # getting the result of the query
         self.connector.close_connection()
-        print(query_result)
 
         if query_result[phone_attribute] == [] :  # Checking that phone_number isn't exist in the database
             return '1'  # this phone is valid

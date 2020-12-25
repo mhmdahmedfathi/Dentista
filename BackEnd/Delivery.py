@@ -33,7 +33,7 @@ def Delivery_insertion():
     values.append(0)
 
 
-    #connector.insert_query(table = 'DELIVERY', attributes=columns, values=values)
+    connector.insert_query(table = 'DELIVERY', attributes=columns, values=values)
     connector.close_connection()
     return "1"
 
@@ -42,22 +42,18 @@ def Delivery_insertion():
 # Validations of the Dentist
 def Delivery_email_validation():
     validator = Validator(connection_details, 'DELIVERY')
-    print('email: '+validator.email_validation('DELIVERY_EMAIL'))
     return validator.email_validation('DELIVERY_EMAIL')
 
 def Delivery_CreditCard_validation():
     validator = Validator(connection_details, 'DELIVERY')
-    print('credit: '+validator.CreditCard_validation('DELIVERY_CREDIT_CARD_NUMBER'))
     return validator.CreditCard_validation('DELIVERY_CREDIT_CARD_NUMBER')
 
 def Delivery_PhoneNumber_validator():
     validator = Validator(connection_details, 'DELIVERY')
-    print('phone: '+validator.phone_validation('Delivery_PHONE_NUMBER'))
     return validator.phone_validation('Delivery_PHONE_NUMBER')
 
 def Delivery_VehicleLicense_validator():
     validator = Validator(connection_details, 'DELIVERY')
-    print('license: '+validator.VehicleLicense_validation('VECHILE_LICENCE'))
     return validator.VehicleLicense_validation('VECHILE_LICENCE')
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
