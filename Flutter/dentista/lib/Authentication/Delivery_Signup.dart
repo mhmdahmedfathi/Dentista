@@ -185,11 +185,11 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       });
                     },
                     validator: (val) {
-                       return val.isEmpty
-                           ? "Please Enter Your Credit Card Number"
-                           : _validator.credit_card_valid(val)
-                               ? null
-                               : "Enter a valid Credit Card Number";
+                      return val.isEmpty
+                          ? "Please Enter Your Credit Card Number"
+                          : _validator.credit_card_valid(val)
+                              ? null
+                              : "Enter a valid Credit Card Number";
                     },
                   ),
                   SizedBox(
@@ -375,16 +375,32 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                 'CardCVV': CVV
                               }));
                           ////////////////////////////////////////////////
+                          final license_validation = await http.post(
+                              'http://10.0.2.2:5000/delivery_license_validation',
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({'license': VehicleLicence}));
+                          ////////////////////////////////////////////////
                           String ValidationEmail = email_response.body;
                           String ValidationCreditCard =
                               creditcard_validator.body;
                           String validationPhoneNumber =
                               phonenumber_validator.body;
+                          String validationVehicleLicense =
+                              license_validation.body;
+                          print(validationPhoneNumber);
                           if (ValidationEmail == "0") {
                             valid_email = false;
                             Alert(context, "Invalid Email",
                                 "This Email is currently in use");
-                          } else if (validationPhoneNumber == "0") {
+                          }
+                          else if (validationVehicleLicense == "0") {
+                            Alert(context, "Invalid License number",
+                                "This License number is currently in use");
+                          }
+                          else if (validationPhoneNumber == "0") {
                             Alert(context, "Invalid Phone number",
                                 "This Phone number is currently in use");
                           } else if (ValidationCreditCard == "0") {
@@ -410,7 +426,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                   'AREA': Area,
                                   'VECHILE_LICENCE': VehicleLicence,
                                   'VECHILE_MODEL': VehicleModel,
-                                  'Delivery_PHONE_NUMBER':PhoneNumber,
+                                  'Delivery_PHONE_NUMBER': PhoneNumber,
                                 }));
                             Alert(context, "Signed up successfully",
                                 "Press ok to complete the verification",
