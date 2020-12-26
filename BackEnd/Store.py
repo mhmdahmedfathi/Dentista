@@ -18,7 +18,7 @@ def Store_insertion():
     for key in columns:
         values.append(request.json[key])
     connector = SQL(host=server_name, user=server_admin)
-    connector.insert_query(table = 'store', attributes=columns, values=values)
+    connector.insert_query(table = 'STORE', attributes=columns, values=values)
     connector.close_connection()
     return "1"
 
@@ -27,11 +27,11 @@ def Store_insertion():
 # Validations of the Store
 
 def Store_email_validation():
-    validator = Validator(connection_details, 'store')
+    validator = Validator(connection_details, 'STORE')
     return validator.email_validation('EMAIL')
 
 def Store_phone_validation():
-    validator = Validator(connection_details, 'store')
+    validator = Validator(connection_details, 'STORE')
     return validator.phone_validation('PHONE_NUMBER')
 
 # -----------------------------------------------------------------------------------------------------------------------------------------

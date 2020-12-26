@@ -183,7 +183,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     {
 
     final email_response = await http.post(
-    'http://10.0.2.2:5000/Store_email_validation',
+    'http://10.0.2.4:5000/Store_email_validation',
     headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -196,7 +196,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     );
 
     final phone_response = await http.post(
-    'http://10.0.2.2:5000/Store_phone_validation',
+    'http://10.0.2.4:5000/Store_phone_validation',
     headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -224,7 +224,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     valid_email = true;
     // Sending to Database
     final response = await http.post(
-    'http://10.0.2.2:5000/Store_signup',
+    'http://10.0.2.4:5000/Store_signup',
     headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     },
