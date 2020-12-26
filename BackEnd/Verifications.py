@@ -41,6 +41,7 @@ def phone_validate():
         
     return valid_state
 
+
 class Validator:
 
     def __init__(self, connection_details, table): #Constructor

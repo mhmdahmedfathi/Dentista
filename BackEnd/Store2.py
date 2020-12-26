@@ -18,30 +18,11 @@ def Store_insertion():
     for key in columns:
         values.append(request.json[key])
     connector = SQL(host=server_name, user=server_admin)
-    values[0]=connector.select_query('STORE','Store_ID','Store_Name' == values[0])
+    Query = "SELECT  STORE_ID FROM STORE WHERE STORE_NAME = '" + values[0]+"'"
+    values[0] = connector.exectute_query(Query)
     connector.insert_query(table = 'STORE_BRANCH', attributes=columns, values=values)
     connector.close_connection()
     return "1"
-
-# --------------------------------------------------------------------------------------------------------------------------------
-
-# Validations of the Store
-def ADDRESS_validation():
-    validator = Validator(connection_details, 'STORE_BRANCH')
-    return validator.email_validation('ADDRESS')
-
-def REGION_validation():
-    validator = Validator(connection_details, 'STORE_BRANCH')
-    return validator.email_validation('REGION')
-
-
-def CITY_validation():
-    validator = Validator(connection_details, 'STORE_BRANCH')
-    return validator.email_validation('CITY')
-
-def ZIP_CODE_validation():
-    validator = Validator(connection_details, 'STORE_BRANCH')
-    return validator.phone_validation('ZIP_CODE')
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
