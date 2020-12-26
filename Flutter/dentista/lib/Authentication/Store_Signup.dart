@@ -202,26 +202,12 @@ class _StoreSignUpState extends State<StoreSignUp> {
     },
     body: json.encode({
 
-
-    'phone': PhoneNumber,
+      'phone': PhoneNumber,
 
     }),
     );
-
-    final creditcard_validator = await http.post(
-    'http://10.0.2.2:5000/Store_creditcard_validation',
-    headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: json.encode({
-    'CardNumber': CreditCardNumber
-    }),
-    );
-
-
     String ValidationEmail = email_response.body;
     String ValidationPhone = phone_response.body;
-    String ValidationCreditCard = creditcard_validator.body;
 
     if (ValidationEmail == "0")
     {
@@ -232,10 +218,6 @@ class _StoreSignUpState extends State<StoreSignUp> {
     else if (ValidationPhone == "0")
     {
     Alert(context, "Invalid Phone number", "This Phone number is currently in use");
-    }
-    else if (ValidationCreditCard == "0")
-    {
-    Alert(context, "Invalid Credit Card", "This Credit Card doesn't exist", message2: "Enter a Valid One");
     }
     else
     {
@@ -248,11 +230,11 @@ class _StoreSignUpState extends State<StoreSignUp> {
     },
     body: json.encode({
 
-    'Store_Name': StoreName,
-    'Store_PhoneNumber': PhoneNumber,
-    'Store_EMAIL': Email,
-    'Store_PASSWORD': Password,
-    'Store_CREDIT_CARD_NUMBER': CreditCardNumber
+    'STORE_NAME': StoreName,
+     'EMAIL': Email,
+      'PASSWORD': Password,
+      'PHONE_NUMBER': PhoneNumber,
+    'CREDIT_CARD_NUMBER': CreditCardNumber
     }),
     );
     Alert(context, "Signed up successfully", "Press ok to continue the verification", message2: "");
@@ -262,8 +244,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context)=>Store2signup(StoreName)));
 
-                          //   if (_formKey.currentState.validate())
-                        },
+                       },
                         child: drawButton(
                             "Next",
                             Colors.green

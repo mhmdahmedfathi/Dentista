@@ -19,7 +19,10 @@ class Store2signup extends StatefulWidget {
 }
 
 class _Store2signupState extends State<Store2signup> {
-  TextEditingController _formsController = TextEditingController();
+  TextEditingController _formsController1 = TextEditingController();
+  TextEditingController _formsController2 = TextEditingController();
+  TextEditingController _formsController3 = TextEditingController();
+  TextEditingController _formsController4 = TextEditingController();
   final _formKey = GlobalKey<FormState>(); // Used to validating the form
   String zip = "";
   String City = "";
@@ -74,8 +77,8 @@ class _Store2signupState extends State<Store2signup> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller:  _formsController,
+                     TextFormField(
+                      controller:  _formsController1,
                       decoration: authDecoration("City"),
                       onChanged: (val) {
                         setState(() {
@@ -86,20 +89,9 @@ class _Store2signupState extends State<Store2signup> {
                         return val.isEmpty ? "Please Enter Your City" : null;
                       },
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: authDecoration("Region"),
-                      onChanged: (val) {
-                        setState(() {
-                          Region = (val);
-                        });
-                      },
-                      validator: (val) {
-                        return val.isEmpty ? "Please Enter Region" : null;
-                      },
-                    ),
                     SizedBox(height: 20),
                     TextFormField(
+                      controller:  _formsController3,
                       decoration: authDecoration("ZIP Number"),
                       onChanged: (val) {
                         setState(() {
@@ -115,6 +107,20 @@ class _Store2signupState extends State<Store2signup> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      controller:  _formsController2,
+                      decoration: authDecoration("Region"),
+                      onChanged: (val) {
+                        setState(() {
+                          Region = (val);
+                        });
+                      },
+                      validator: (val) {
+                        return val.isEmpty ? "Please Enter Region" : null;
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                      controller:  _formsController4,
                       decoration: authDecoration("Address"),
                       onChanged: (val) {
                         setState(() {
@@ -129,18 +135,40 @@ class _Store2signupState extends State<Store2signup> {
                 ))),
       )),
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(6.0),
         child: Row(
           children: [
             Expanded(
               child: GestureDetector(
                 onTap: () async {
-                  _formsController.clear();
+                  if (_formKey.currentState.validate()) {
+                    // Sending to Database
+                    final response = await http.post(
+                      'http://10.0.2.2:5000/Store2_signup',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'Store_ID': widget.StoreName,
+                        'ADDRESS': Address,
+                        'REGION': Region,
+                        'CITY': City,
+                        'ZIP_CODE': zip
+                      }),
+                    );
+                    Alert(context, "Bransh has been Signed up successfully",
+                        "Press ok ",
+                        message2: "");
+
+                  }
+                  _formsController1.clear();
+                  _formsController2.clear();
+                  _formsController3.clear();
+                  _formsController4.clear();
                 },
-                child: drawButton("Add new bransh", Colors.green),
+                child: drawButton("Add another bransh", Colors.green),
               ),
             ),
-            SizedBox(width: 2.0),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -148,72 +176,14 @@ class _Store2signupState extends State<Store2signup> {
               },
               child: drawButton("Back to Prev page", Colors.grey),
             ),
-            SizedBox(width: 2.0),
           ],
         ),
       ),
       Padding(
-        padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
+        padding: EdgeInsets.only(left: 5, right: 5, bottom: 5),
         child: GestureDetector(
           onTap: () async {
             if (_formKey.currentState.validate()) {
-              final City_response = await http.post(
-                'http://10.0.2.2:5000/Store_CITY_validation',
-                headers: <String, String>{
-                  'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: json.encode({
-                  'CITY': City,
-                }),
-              );
-
-              final Address_response = await http.post(
-                'http://10.0.2.2:5000/Store_ADDRESS_Validation',
-                headers: <String, String>{
-                  'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: json.encode({
-                  'ADDRESS': Address,
-                }),
-              );
-
-              final ZIP_response = await http.post(
-                'http://10.0.2.2:5000/Store_ZIP_validation',
-                headers: <String, String>{
-                  'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: json.encode({
-                  'ZIP': zip,
-                }),
-              );
-
-              final Region_validator = await http.post(
-                'http://10.0.2.2:5000/Store_Region_validation',
-                headers: <String, String>{
-                  'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: json.encode({'REGION': Region}),
-              );
-
-              String ValidationRegion = Region_validator.body;
-              String ValidationZIP = ZIP_response.body;
-              String ValidationAddress = Address_response.body;
-              String ValidationCity = City_response.body;
-
-              if (ValidationRegion == "0") {
-                //EmailAlert(context);
-                Alert(context, "Invalid Region",
-                    "Please make sure you type it correctly");
-              } else if (ValidationZIP == "0") {
-                Alert(context, "Invalid ZIP number",
-                    "Please make sure you type it correctly");
-              } else if (ValidationAddress == "0") {
-                Alert(context, "Invalid Address",
-                    "Please make sure you type it correctly");
-              } else if (ValidationCity == "0") {
-                Alert(context, "Invalid City",
-                    "Please make sure you type it correctly");
-              } else {
                 // Sending to Database
                 final response = await http.post(
                   'http://10.0.2.2:5000/Store2_signup',
@@ -221,7 +191,7 @@ class _Store2signupState extends State<Store2signup> {
                     'Content-Type': 'application/json; charset=UTF-8',
                   },
                   body: json.encode({
-                    'Store_Name': widget.StoreName,
+                    'Store_ID': widget.StoreName,
                     'ADDRESS': Address,
                     'REGION': Region,
                     'CITY': City,
@@ -229,9 +199,9 @@ class _Store2signupState extends State<Store2signup> {
                   }),
                 );
                 Alert(context, "Signed up successfully",
-                    "Press next to continue the verification",
+                    "Press ok ",
                     message2: "");
-              }
+
             }
           },
           child: drawButton("Sign Up", Colors.green),
