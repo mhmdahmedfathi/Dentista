@@ -1,5 +1,6 @@
 from SQLAPI import SQL
 from flask import request
+import json
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # Connection Arguments of the database
@@ -20,3 +21,19 @@ def LogIn():
     if result['AccountType'] == {}:
         return 'None'
     return result['AccountType'][0]
+
+def GetName():
+    email = request.json['email']
+    AccountType = request.json['AccountType']
+    sql = SQL(server_name,server_admin, server_password)
+    if AccountType == 'Dentist':
+        condition = "DENTIST_EMAIL = '" +email +  "'"
+        result = sql.select_query(table = 'DENTIST', columns=['DENTIST_Fname', 'DENTIST_LNAME'], sql_condition=condition)
+        result = {'fname': result['DENTIST_Fname'][0], 'lname': result['DENTIST_LNAME'][0]}
+        return json.dumps(result)
+    
+
+        
+
+
+

@@ -5,12 +5,8 @@ from SQLAPI import SQL
 # Connection Arguments of the database
 server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
-server_password = "Itachionly#1"
+server_password = "@dentist1"
 database = "DENTISTA"
-#server_name = "127.0.0.1"
-#server_admin = "root"
-#server_password = "Itachionly#1"
-#database = "dantista"
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -27,7 +23,7 @@ def Delivery_insertion():
     ManagerIDColumn = ['MANAGER_ID']
     #ManagerIDColumn = ['*']
     condition ="MANAGEMENT_TYPE = 'Delivery' and AREA_OF_MANAGEMENT = '"+values[5]+"'"
-    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn)
+    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn,sql_condition=condition)
 
     columns.append('MANAGER_ID')
     values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
@@ -53,8 +49,11 @@ def Delivery_CreditCard_validation():
     return validator.CreditCard_validation('DELIVERY_CREDIT_CARD_NUMBER')
 
 def Delivery_PhoneNumber_validator():
-    validator = Validator(connection_details,'DELIVERY')
+    validator = Validator(connection_details, 'DELIVERY')
     return validator.phone_validation('Delivery_PHONE_NUMBER')
 
+def Delivery_VehicleLicense_validator():
+    validator = Validator(connection_details, 'DELIVERY')
+    return validator.VehicleLicense_validation('VECHILE_LICENCE')
 # -----------------------------------------------------------------------------------------------------------------------------------------
 

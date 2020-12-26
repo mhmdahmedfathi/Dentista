@@ -1,25 +1,167 @@
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 class DentistHome extends StatefulWidget {
+  final String fname;
+  final String lname;
+  final String email;
+  DentistHome(this.fname, this.lname, this.email);
   @override
-  _DentistHomeState createState() => _DentistHomeState();
+  _DentistHomeState createState() => _DentistHomeState(fname, lname, email);
 }
 
+
 class _DentistHomeState extends State<DentistHome> {
+  int products = 20;
+  int present = 20;
+  int perPage = 20;
+  List<bool> fav = List<bool>.generate(20, (index) => false);
+
+
+  String email;
+  String fname = "";
+  String lname = "";
+  _DentistHomeState(this.fname, this.lname, this.email);
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      for (int i = 0; i<20; i++)
+        {
+         fav.add(false);
+        }
+      present = present + perPage;
+    });
+  }
+
+  void loadMore() {
+    setState(() {
+      for (int i = 0; i<20; i++)
+      {
+        fav.add(false);
+      }
+      present = present + perPage;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text('Dentista',
           style: TextStyle(
-              fontSize: 40,
+              fontSize: 30,
               fontFamily: "Montserrat"
           ),
           textAlign: TextAlign.left,
         ),
+        actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: (){}, color: Colors.white,),
+          IconButton(icon: Icon(Icons.add_shopping_cart_outlined), onPressed: (){},color: Colors.white)
+        ],
         backgroundColor: Colors.deepPurpleAccent,
       ),
-      body: Text('Hello Dentist'),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification ScrollInfo){
+          if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
+            {
+              loadMore();
+            }
+          return true;
+        }
+        ,child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20.0,
+          mainAxisSpacing: 20.0,
+          shrinkWrap: true,
+          children: List.generate(present, (index) {
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: (){},
+                child: Card(
+                  child: Column(
+                    children: [
+                      Text('Product Name',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.deepPurpleAccent,
+                            fontFamily: "Montserrat"
+                        ),
+
+                      )
+                      ,
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(20.0),),
+                          ),
+                        ),
+
+                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text('15EGP',
+                                  style: TextStyle(
+
+                                      fontSize: 15,
+                                      fontFamily: "Montserrat"
+                                  ),
+                                  textAlign: TextAlign.left,
+
+                                ),
+                              ),
+                              SizedBox(width: 60,),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  alignment: Alignment.centerRight,
+                                  icon: Icon(Icons.star, color: !fav[index] ? Colors.grey: Colors.amber, ),
+
+                                  onPressed: (){setState(() {
+                                    fav[index] = !fav[index];
+                                  });},
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Offer',
+                            style: TextStyle(
+
+                                fontSize: 15,
+                                fontFamily: "Montserrat"
+                            ),
+                            textAlign: TextAlign.left,
+
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+
+                ),
+              )
+            );
+          },
+          ),
+
+        ),
+      ),
       drawer: Drawer(
 
         child: ListView(
@@ -50,7 +192,7 @@ class _DentistHomeState extends State<DentistHome> {
                       ),
                     ),
                   ),
-                  Text('Dentist Name',
+                  Text(fname + " " + lname,
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -117,6 +259,19 @@ class _DentistHomeState extends State<DentistHome> {
             ListTile(
               leading: Icon(Icons.schedule),
               title: Text('scheduled Orders',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat"
+                ),
+              ),
+              onTap: (){
+                // To Move to About Dentista Page
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('Favorites',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

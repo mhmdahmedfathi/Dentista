@@ -5,6 +5,8 @@ import json
 import Dentist
 import Manager
 import Delivery
+import Store2
+import Store
 from validate_email import validate_email
 import Login_Auth
 from Verifications import Validator
@@ -24,6 +26,7 @@ database = "DENTISTA"
 # Login
 
 app.add_url_rule('/LogIn', view_func=Login_Auth.LogIn, methods = ['POST'])
+app.add_url_rule('/GetData', view_func=Login_Auth.GetName, methods = ['GET', 'POST'])
 
 #------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,7 +57,15 @@ app.add_url_rule('/delivery_signup', view_func=Delivery.Delivery_insertion,metho
 app.add_url_rule('/delivery_email_validation',view_func=Delivery.Delivery_email_validation,methods=['POST'])
 app.add_url_rule('/delivery_phone_validation',view_func=Delivery.Delivery_PhoneNumber_validator,methods=['POST'])
 app.add_url_rule('/delivery_creditcard_validation',view_func=Delivery.Delivery_CreditCard_validation,methods=['POST'])
-# ----------------------------------------------------------------------------------------------------------------------------------
+app.add_url_rule('/delivery_license_validation',view_func=Delivery.Delivery_VehicleLicense_validator,methods=['POST'])
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------------
+#For Store
+app.add_url_rule('/Store_signup', view_func=Store.Store_insertion,methods=['POST'])
+app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validation,methods=['POST'])
+app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
+app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 
 def run_server(debug=False):
     app.run(debug=debug)

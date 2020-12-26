@@ -15,10 +15,8 @@ def email_validate():
 
     email = request.json['email']
     connector = SQL(host=server_name, user=server_admin)
-    print(email)
     condition = "DENTIST_EMAIL = '" + email + "'"
     output = connector.select_query(table='DENTIST', columns=['DENTIST_ID'], sql_condition= condition)
-    print(output)
     connector.close_connection()
     valid_state = '0'
     if output['DENTIST_ID'] == [] and validate_email(email):
@@ -40,6 +38,7 @@ def phone_validate():
         valid_state = '1'
         
     return valid_state
+
 
 class Validator:
 
@@ -86,12 +85,24 @@ class Validator:
 
         query_result = self.connector.select_query(table=self.table, columns=[phone_attribute], sql_condition= condition)    # getting the result of the query
         self.connector.close_connection()
-        
 
         if query_result[phone_attribute] == [] :  # Checking that phone_number isn't exist in the database
             return '1'  # this phone is valid
         return '0'
 
+    def VehicleLicense_validation(self, license_attribute):
+        # license_attribute: is the attribute name of the VECHILE_LICENCE in the database table
+
+        license = request.json['license']   # Getting the License from flutter app
+
+        condition = license_attribute + " = '" +license + "'" # the condtion of the SQL Query
+        # This is done to check that this license doesn't exsists in the database
+
+        query_result = self.connector.select_query(table=self.table,columns=[license_attribute],sql_condition=condition)
+
+        if query_result[license_attribute] == [] :   # Checking that Vehicle license isn't exist in the database
+            return '1'  # this license is valid
+        return '0'
 
     
     def CreditCard_validation(self, CreditCard_attribute):
@@ -102,10 +113,9 @@ class Validator:
         CardEYear = request.json['CardEYear']
         CardCVV = request.json['CardCVV']
 
-        Query = "SELECT  CARD_NUMBER FROM VIRTUAL_BANK WHERE CARD_NUMBER = '{}', EXPIRATION_MONTH = {}, EXPIRATION_YEAR = {}, SECURITY_CODE = {} ;".format(CardNumber, CardEMonth, CardEYear, CardCVV)
+        Query = "SELECT  CARD_NUMBER FROM VIRTUAL_BANK WHERE CARD_NUMBER = '{}' and EXPIRATION_MONTH = {} and EXPIRATION_YEAR = {} and SECURITY_CODE = {} ;".format(CardNumber, CardEMonth, CardEYear, CardCVV)
         query_result = self.connector.exectute_query(Query)
         self.connector.close_connection()
-        print(query_result)
         results = []
         if query_result == None:
             return '0'
