@@ -12,7 +12,7 @@ connection_details = [server_name, server_admin, server_password, database]
 
 # Insertion of the Store
 
-def Store_insertion():
+def Store2_insertion():
     columns = ['Store_ID', 'ADDRESS', 'REGION', 'CITY', 'ZIP_CODE']
     values = []
     for key in columns:

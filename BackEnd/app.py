@@ -65,14 +65,7 @@ app.add_url_rule('/delivery_license_validation',view_func=Delivery.Delivery_Vehi
 app.add_url_rule('/Store_signup', view_func=Store.Store_insertion,methods=['POST'])
 app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validation,methods=['POST'])
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
-app.add_url_rule('/Store_creditcard_validation',view_func=Store.Store_CreditCard_validation,methods=['POST'])
-app.add_url_rule('/Store_Name_validation',view_func=Store.Store_Name_validation,methods=['POST'])
-
-app.add_url_rule('/Store2_signup', view_func=Store2.Store_insertion,methods=['POST'])
-app.add_url_rule('/Store_ADDRESS_Validation',view_func=Store2.ADDRESS_validation ,methods=['POST'])
-app.add_url_rule('/Store_CITY_validation',view_func=Store2.CITY_validation ,methods=['POST'])
-app.add_url_rule('/Store_Region_validation',view_func=Store2.REGION_validation,methods=['POST'])
-app.add_url_rule('/Store_ZIP_validation',view_func=Store2.ZIP_validation ,methods=['POST'])
+app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 
 def run_server(debug=False):
     app.run(debug=debug)

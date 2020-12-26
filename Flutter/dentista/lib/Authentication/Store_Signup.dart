@@ -26,8 +26,6 @@ class _StoreSignUpState extends State<StoreSignUp> {
   String RePassword = "";
   bool valid_email = true;
 
-  bool policy_check = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,7 +176,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                 children: [
                   Expanded(
                       child: GestureDetector(
-                        onTap: policy_check ? () async{
+                        onTap: () async{
 
     //if condition to check if the all inputs are valid
     if(_formKey.currentState.validate())
@@ -257,7 +255,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     'Store_CREDIT_CARD_NUMBER': CreditCardNumber
     }),
     );
-    Alert(context, "Signed up successfully", "Press next to continue the verification", message2: "");
+    Alert(context, "Signed up successfully", "Press ok to continue the verification", message2: "");
     }
     }
 
@@ -265,7 +263,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
         .push(MaterialPageRoute(builder: (context)=>Store2signup(StoreName)));
 
                           //   if (_formKey.currentState.validate())
-                        }:null,
+                        },
                         child: drawButton(
                             "Next",
                             Colors.green
