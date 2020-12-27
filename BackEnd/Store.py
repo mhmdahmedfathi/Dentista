@@ -13,7 +13,7 @@ connection_details = [server_name, server_admin, server_password, database]
 # Insertion of the Store
 
 def Store_insertion():
-    columns = [ 'Store_Name', 'Email', 'Password', 'Phone_Number', 'Credit_Card_Number']
+    columns = [ 'STORE_NAME', 'EMAIL', 'PASSWORD', 'PHONE_NUMBER', 'CREDIT_CARD_NUMBER']
     values = []
     for key in columns:
         values.append(request.json[key])
@@ -26,16 +26,13 @@ def Store_insertion():
 
 # Validations of the Store
 
-
-
-
 def Store_email_validation():
     validator = Validator(connection_details, 'STORE')
-    return validator.email_validation('Email')
+    return validator.email_validation('EMAIL')
 
 def Store_phone_validation():
     validator = Validator(connection_details, 'STORE')
-    return validator.phone_validation('Phone_Number')
+    return validator.phone_validation('PHONE_NUMBER')
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
