@@ -149,7 +149,7 @@ class _Store2signupState extends State<Store2signup> {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
                       body: json.encode({
-                        'Store_ID': widget.StoreName,
+                        'STORE_ID': widget.StoreName,
                         'ADDRESS': Address,
                         'REGION': Region,
                         'CITY': City,
@@ -191,7 +191,7 @@ class _Store2signupState extends State<Store2signup> {
                     'Content-Type': 'application/json; charset=UTF-8',
                   },
                   body: json.encode({
-                    'Store_ID': widget.StoreName,
+                    'STORE_ID': widget.StoreName,
                     'ADDRESS': Address,
                     'REGION': Region,
                     'CITY': City,
