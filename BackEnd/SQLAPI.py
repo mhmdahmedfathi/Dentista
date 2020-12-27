@@ -136,8 +136,11 @@ class SQL:
             Logs = "ERROR in Update table [ " + table + " ] at " + current_time + "\n"
             self.logs_file.write(Logs)
 
-    def select_query(self, table, columns, sql_condition = ""):
-        Query = "SELECT "
+    def select_query(self, table, columns, sql_condition = "",DISTINCTdetector=False):
+        if DISTINCTdetector == True:
+            Query = "SELECT DISTINCT "
+        else:
+            Query = "SELECT "
         if columns == "*":
             Query = Query + " * "
             Q = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "' ;"
