@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:credit_card_number_validator/credit_card_number_validator.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 
 class DeliverySignUp extends StatefulWidget {
   @override
@@ -441,8 +442,8 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Home()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => MainScreen()));
                   },
                   child: drawButton("Back to sign in", Colors.grey),
                 ),

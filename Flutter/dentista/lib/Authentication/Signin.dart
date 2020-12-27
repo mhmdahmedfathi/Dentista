@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
+import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:dentista/Models/Alerts.dart';
 class SignIn extends StatefulWidget {
   @override
@@ -85,7 +87,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: 20),
                       TextFormField(
-                        decoration: authDecoration("Last Name"),
+                        decoration: authDecoration("Password"),
                         onChanged: (val){
                           setState(() {
                             password = val;
@@ -172,7 +174,25 @@ class _SignInState extends State<SignIn> {
                           }
                         else if (AccountType == "Delivery")
                           {
+                              setSharedpref();
+                              final getdata = await http.post(
+                                'http://10.0.2.2:5000/GetData',
+                                    headers: <String,String>{
+                                      'Content-Type': 'application/json; charset=UTF-8',
+                                    },
+                                body: json.encode({
+                                  'email':email,
+                                  'AccountType':'Delivery'
+                                }),
+                              );
 
+                              final AcountData = json.decode(getdata.body);
+
+                              String fname = AcountData['fname'];
+                              String lname= AcountData['lname'];
+                              String area = AcountData['area'];
+                              String id = AcountData['id'].toString();
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
                           }
                         else if (AccountType == "Store")
                           {
