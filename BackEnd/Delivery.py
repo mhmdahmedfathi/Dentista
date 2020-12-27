@@ -1,6 +1,7 @@
 from Verifications import Validator
 from flask import request
 from SQLAPI import SQL
+import json
 # ------------------------------------------------------------------------------------------------------------------------------
 # Connection Arguments of the database
 server_name = "dentista1.mysql.database.azure.com"
@@ -56,4 +57,13 @@ def Delivery_VehicleLicense_validator():
     validator = Validator(connection_details, 'DELIVERY')
     return validator.VehicleLicense_validation('VECHILE_LICENCE')
 # -----------------------------------------------------------------------------------------------------------------------------------------
-
+def OrdersToBeDelivered():
+    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME']
+    area = request.json['area']
+    connector = SQL(host=server_name, user=server_admin)
+    condition = " SHIPMENT_STATUS = 'Not Delivered' and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
+    availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
+    condition = " d.DENTIST_ID = o.DENTIST_ID and d.DENTIST_CITY= '" + area + "'"
+    result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
+    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)']}
+    return json.dumps(result)
