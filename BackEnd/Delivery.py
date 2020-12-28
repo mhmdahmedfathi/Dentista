@@ -8,6 +8,7 @@ server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
+
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -58,12 +59,23 @@ def Delivery_VehicleLicense_validator():
     return validator.VehicleLicense_validation('VECHILE_LICENCE')
 # -----------------------------------------------------------------------------------------------------------------------------------------
 def OrdersToBeDelivered():
-    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME']
+    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
     condition = " SHIPMENT_STATUS = 'Not Delivered' and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     condition = " d.DENTIST_ID = o.DENTIST_ID and d.DENTIST_CITY= '" + area + "'"
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
-    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)']}
+    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER']}
+    return json.dumps(result)
+
+def ProductsofOrder():
+    orderid = request.json['orderid']
+    connector = SQL(host=server_name, user=server_admin)
+    condition = " op.PRODUCT_ID = p.PRODUCT_ID and op.ORDER_ID = '"+orderid+ "'"
+    columns = ['count(*)']
+    numberofproducts = connector.select_query(table='order_product as op, product as p ',columns=columns,sql_condition=condition)
+    columns = ['op.PRODUCT_ID', 'p.PRODUCT_NAME', 'p.SELLING_PRICE', 'op.NUMBER_OF_UNITS']
+    result = connector.select_query(table='order_product as op, product as p ',columns=columns, sql_condition=condition)
+    result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
     return json.dumps(result)
