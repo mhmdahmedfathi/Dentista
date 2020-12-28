@@ -8,4 +8,5 @@ CODE VARCHAR(500) NOT NULL #must updated with a random code yb2a 7d y3mlha,
 PRIMARY KEY (EMAIL_ID)
 );
 
+alter table orders modify DELIVERY_ID INT;
   
