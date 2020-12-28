@@ -68,6 +68,12 @@ app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validatio
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------------
+#For Code
+app.add_url_rule('/Email_Confirmation', view_func=Validator.Code_Confirmation,methods=['POST'])
+
 def run_server(debug=False):
     app.run(debug=debug)
 
