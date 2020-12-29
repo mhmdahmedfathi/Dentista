@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:http/http.dart' as http;
-import 'package:dentista/Delivery_Screens/Order.dart';
+import 'package:dentista/utility_class/Order.dart';
+import 'package:dentista/Delivery_Screens/OrderScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryHome extends StatefulWidget {
@@ -28,7 +29,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   String lname = "";
   String email = "";
   String area = "";
-  String ID ="";
+  String ID = "";
 
   _DeliveryHomeState(this.fname, this.lname, this.email, this.area, this.ID);
 
@@ -38,13 +39,13 @@ class _DeliveryHomeState extends State<DeliveryHome> {
     asyncmethod();
   }
 
-  void asyncmethod() async{
-    final OrderData = await http.post(
-        'http://10.0.2.2:5000/delivery_getavailableorder',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode({'area': area}));
+  void asyncmethod() async {
+    final OrderData =
+        await http.post('http://10.0.2.2:5000/delivery_getavailableorder',
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: json.encode({'area': area}));
 
     final data = json.decode(OrderData.body);
 
@@ -55,9 +56,10 @@ class _DeliveryHomeState extends State<DeliveryHome> {
         Orders[i].DentistLName = data['dentistlname'][i];
         Orders[i].OrderID = data['orderid'][i].toString();
         Orders[i].TotalCost = data['ordertotal'][i].toString();
+        Orders[i].DentistAddress = data['address'][i];
+        Orders[i].Dentistphonenumber = data['phone'][i];
       }
     });
-    present = present + perPage;
   }
 
   void loadmore() {
@@ -84,7 +86,6 @@ class _DeliveryHomeState extends State<DeliveryHome> {
               icon: Icon(Icons.refresh),
               color: Colors.white,
               onPressed: () async {
-
                 final OrderData = await http.post(
                     'http://10.0.2.2:5000/delivery_getavailableorder',
                     headers: <String, String>{
@@ -101,6 +102,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     Orders[i].DentistLName = data['dentistlname'][i];
                     Orders[i].OrderID = data['orderid'][i].toString();
                     Orders[i].TotalCost = data['ordertotal'][i].toString();
+                    Orders[i].DentistAddress = data['address'][i];
+                    Orders[i].Dentistphonenumber = data['phone'][i];
                   }
                 });
                 present = present + perPage;
@@ -113,45 +116,74 @@ class _DeliveryHomeState extends State<DeliveryHome> {
             loadmore();
           return true;
         },
-        child: GridView.count(
-            crossAxisCount: 1,
-            crossAxisSpacing: 20.0,
-            mainAxisSpacing: 20.0,
+        child: ListView(
             shrinkWrap: true,
             children:
                 List.generate(OrdersNumber == 0 ? 1 : OrdersNumber, (index) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OrderScreen(
+                            Orders[index].DentistFName,
+                            Orders[index].DentistLName,
+                            Orders[index].Dentistphonenumber,
+                            Orders[index].DentistAddress,
+                            Orders[index].TotalCost,
+                            Orders[index].OrderID)));
+                  },
                   child: Card(
-                    child: Column(
+                    child: Row(
                       children: [
-                        Text(
-                          Orders[index].OrderID==""?"":'Order Number',
-                          style:
-                              TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                          textAlign: TextAlign.start,
+                        Column(
+                          children: [
+                            Text(
+                              Orders[index].OrderID == ""
+                                  ? ""
+                                  : 'Order Number: ' + Orders[index].OrderID,
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Montserrat"),
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              Orders[index].DentistFName == "" &&
+                                      Orders[index].DentistLName == ""
+                                  ? ""
+                                  : 'Dr. ' +
+                                      Orders[index].DentistFName +
+                                      " " +
+                                      Orders[index].DentistLName,
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Montserrat"),
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              Orders[index].DentistAddress,
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Montserrat"),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
                         ),
-                        Text(
-                          Orders[index].OrderID,
-                          style:
-                              TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                          textAlign: TextAlign.end,
-                        ),
-                        SizedBox(height: 20.0),
-                        Text(
-                            Orders[index].DentistFName == "" && Orders[index].DentistLName =="" ? "":
-                            'Dr. ' + Orders[index].DentistFName + " " + Orders[index].DentistLName,
-                            style: TextStyle(
-                                fontSize: 15, fontFamily: "Montserrat")),
-                        SizedBox(height: 20.0),
-                        Text(
-                          Orders[index].TotalCost == "" ? "": Orders[index].TotalCost + 'EGP',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.deepPurpleAccent,
-                              fontFamily: "Montserrat"),
+                        // SizedBox(width: 50.0),
+                        Expanded(
+                          child: Align(
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                Orders[index].TotalCost == ""
+                                    ? ""
+                                    : Orders[index].TotalCost + 'EGP',
+                                style: TextStyle(
+                                    fontSize: 40,
+                                    color: Colors.deepPurpleAccent,
+                                    fontFamily: "Montserrat"),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -165,19 +197,16 @@ class _DeliveryHomeState extends State<DeliveryHome> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent
-              ),
+              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
               child: Column(
                 children: [
                   Text(
-                      'Welcome to Dentista',
+                    'Welcome to Dentista',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Montserrat",
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -187,20 +216,17 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: NetworkImage(''),
-                            fit: BoxFit.fill
-                        ),
+                            image: NetworkImage(''), fit: BoxFit.fill),
                       ),
                     ),
                   ),
                   Text(
-                      fname+ ' '+lname,
+                    fname + ' ' + lname,
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Montserrat",
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
                 ],
               ),
