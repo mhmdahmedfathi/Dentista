@@ -73,19 +73,6 @@ class Validator:
             return '1'
         return '0'
 
-    def Code_Confirmation(self):
-        # email_attribute: is the attribute name of the email in the database table
-
-        outputCode = request.json['Code']   # Getting the Codeinput from flutter app
-        EMAIL = request.json['EMAIL']   # Getting the email from flutter app
-
-        # This is done to check that this email doesn't exsists in the database and get its code
-        Query = "SELECT CODE FROM EMAIL_CONFIRMATION WHERE EMAIL = '"+EMAIL+"'" 
-        inputCode=self.connector.exectute_query(Query)
-        if inputCode["CODE"] == outputCode :  # Checking for the format of the email, and that it isn't exist in the database
-            return '1'
-        return '0'
-
     
     def phone_validation(self, phone_attribute):
         # phone_attribute: is the attribute name of the phone_number in the database table

@@ -23,7 +23,7 @@ def Store2_insertion():
     StoreID= connector.select_query(table='STORE',columns=StoreIDColumn,sql_condition=condition)
     values[0]=(",".join(repr(e) for e in StoreID['STORE_ID']))
     ManagerIDColumn = ['MANAGER_ID']
-    condition = "MANAGEMENT_TYPE = 'store' and AREA_OF_MANAGEMENT = '" + values[2]+"'"
+    condition = "MANAGEMENT_TYPE = 'store' and AREA_OF_MANAGEMENT = '" + values[4]+"'"
     ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn,sql_condition=condition)
     values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
     columns.append('MANAGER_ID')

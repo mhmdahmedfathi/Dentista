@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
+import 'package:dentista/Authentication/EmailConfirmation.dart';
 
 class StoreSignUp extends StatefulWidget {
   @override
@@ -242,7 +243,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
     }
 
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context)=>Store2signup(StoreName)));
+        .push(MaterialPageRoute(builder: (context)=>EmailConfirmation("signup", Email) ));
 
                        },
                         child: drawButton(
