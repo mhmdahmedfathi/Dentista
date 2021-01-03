@@ -89,7 +89,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Dentista',
           style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
