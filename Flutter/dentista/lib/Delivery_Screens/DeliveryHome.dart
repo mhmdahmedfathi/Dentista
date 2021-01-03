@@ -23,7 +23,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   int OrdersNumber = 0;
   int present = 20;
   int perPage = 20;
-  List<Order> Orders = List<Order>.generate(20, (index) => Order());
+  List<Order> Orders;
 
   String fname = "";
   String lname = "";
@@ -50,6 +50,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
     final data = json.decode(OrderData.body);
 
     OrdersNumber = data['no.orders'][0];
+    Orders = List<Order>.generate(OrdersNumber, (index) => Order());
     setState(() {
       for (int i = 0; i < OrdersNumber; i++) {
         Orders[i].DentistFName = data['dentistfname'][i];
@@ -74,7 +75,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Dentista',
           style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
@@ -96,6 +97,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                 final data = json.decode(OrderData.body);
 
                 OrdersNumber = data['no.orders'][0];
+                Orders = List<Order>.generate(OrdersNumber, (index) => Order());
                 setState(() {
                   for (int i = 0; i < OrdersNumber; i++) {
                     Orders[i].DentistFName = data['dentistfname'][i];
@@ -131,7 +133,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                             Orders[index].Dentistphonenumber,
                             Orders[index].DentistAddress,
                             Orders[index].TotalCost,
-                            Orders[index].OrderID)));
+                            Orders[index].OrderID,
+                        this.ID)));
                   },
                   child: Card(
                     child: Row(
@@ -139,22 +142,22 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                         Column(
                           children: [
                             Text(
-                              Orders[index].OrderID == ""
+                              Orders[index].DentistFName == "" &&
+                                  Orders[index].DentistLName == ""
                                   ? ""
-                                  : 'Order Number: ' + Orders[index].OrderID,
+                                  : 'Dr. ' +
+                                  Orders[index].DentistFName +
+                                  " " +
+                                  Orders[index].DentistLName,
                               style: TextStyle(
-                                  fontSize: 15, fontFamily: "Montserrat"),
+                                  fontSize: 15, fontFamily: "Montserrat",fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
                             ),
                             SizedBox(height: 10.0),
                             Text(
-                              Orders[index].DentistFName == "" &&
-                                      Orders[index].DentistLName == ""
+                              Orders[index].OrderID == ""
                                   ? ""
-                                  : 'Dr. ' +
-                                      Orders[index].DentistFName +
-                                      " " +
-                                      Orders[index].DentistLName,
+                                  : 'Order Number: ' + Orders[index].OrderID,
                               style: TextStyle(
                                   fontSize: 15, fontFamily: "Montserrat"),
                               textAlign: TextAlign.start,
@@ -179,7 +182,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                                     : Orders[index].TotalCost + 'EGP',
                                 style: TextStyle(
                                     fontSize: 40,
-                                    color: Colors.deepPurpleAccent,
+                                    color: Colors.blueGrey[800],
                                     fontFamily: "Montserrat"),
                               ),
                             ),
@@ -197,7 +200,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+              decoration: BoxDecoration(color: Colors.blueGrey[800]),
               child: Column(
                 children: [
                   Text(
@@ -210,15 +213,15 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage(''), fit: BoxFit.fill),
-                      ),
-                    ),
+                    // child: Container(
+                    //   width: 70,
+                    //   height: 70,
+                    //   decoration: BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     image: DecorationImage(
+                    //         image: NetworkImage(''), fit: BoxFit.fill),
+                    //   ),
+                    // ),
                   ),
                   Text(
                     fname + ' ' + lname,

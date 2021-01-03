@@ -48,23 +48,23 @@ class _StoreSignUpState extends State<StoreSignUp> {
                             fontFamily: "Montserrat"),
                       ),
                       Row(
-                      children: [
-                        Text(
-                          "Store Owner",
-                          style: TextStyle(
-                            fontSize: 60.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          ".",
-                          style: TextStyle(
+                        children: [
+                          Text(
+                            "Store Owner",
+                            style: TextStyle(
                               fontSize: 60.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.green),
-                        ),
-                      ],
-                    )
+                            ),
+                          ),
+                          Text(
+                            ".",
+                            style: TextStyle(
+                                fontSize: 60.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                        ],
+                      )
 
                     ],
                   ),
@@ -156,7 +156,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                               });
                             },
                             validator: (val) {
-                      if(val.length <6) return "Password must be more than 6 characters" ;
+                              if(val.length <6) return "Password must be more than 6 characters" ;
 
                               return val != Password
                                   ? "The Password doesn't match"
@@ -179,73 +179,73 @@ class _StoreSignUpState extends State<StoreSignUp> {
                       child: GestureDetector(
                         onTap: () async{
 
-    //if condition to check if the all inputs are valid
-    if(_formKey.currentState.validate())
-    {
+                          //if condition to check if the all inputs are valid
+                          if(_formKey.currentState.validate())
+                          {
 
-    final email_response = await http.post(
-    'http://10.0.2.2:5000/Store_email_validation',
-    headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: json.encode({
+                            final email_response = await http.post(
+                              'http://10.0.2.2:5000/Store_email_validation',
+                              headers: <String, String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
 
 
-    'email': Email,
+                                'email': Email,
 
-    }),
-    );
+                              }),
+                            );
 
-    final phone_response = await http.post(
-    'http://10.0.2.2:5000/Store_phone_validation',
-    headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: json.encode({
+                            final phone_response = await http.post(
+                              'http://10.0.2.2:5000/Store_phone_validation',
+                              headers: <String, String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
 
-      'phone': PhoneNumber,
+                                'phone': PhoneNumber,
 
-    }),
-    );
-    String ValidationEmail = email_response.body;
-    String ValidationPhone = phone_response.body;
+                              }),
+                            );
+                            String ValidationEmail = email_response.body;
+                            String ValidationPhone = phone_response.body;
 
-    if (ValidationEmail == "0")
-    {
-    valid_email = false;
-    //EmailAlert(context);
-    Alert(context, "Invalid Email", "This Email is currently in use");
-    }
-    else if (ValidationPhone == "0")
-    {
-    Alert(context, "Invalid Phone number", "This Phone number is currently in use");
-    }
-    else
-    {
-    valid_email = true;
-    // Sending to Database
-    final response = await http.post(
-    'http://10.0.2.2:5000/Store_signup',
-    headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: json.encode({
+                            if (ValidationEmail == "0")
+                            {
+                              valid_email = false;
+                              //EmailAlert(context);
+                              Alert(context, "Invalid Email", "This Email is currently in use");
+                            }
+                            else if (ValidationPhone == "0")
+                            {
+                              Alert(context, "Invalid Phone number", "This Phone number is currently in use");
+                            }
+                            else
+                            {
+                              valid_email = true;
+                              // Sending to Database
+                              final response = await http.post(
+                                'http://10.0.2.2:5000/Store_signup',
+                                headers: <String, String>{
+                                  'Content-Type': 'application/json; charset=UTF-8',
+                                },
+                                body: json.encode({
 
-    'STORE_NAME': StoreName,
-     'EMAIL': Email,
-      'PASSWORD': Password,
-      'PHONE_NUMBER': PhoneNumber,
-    'CREDIT_CARD_NUMBER': CreditCardNumber
-    }),
-    );
-    Alert(context, "Signed up successfully", "Press ok to continue the verification", message2: "");
-    }
-    }
+                                  'STORE_NAME': StoreName,
+                                  'EMAIL': Email,
+                                  'PASSWORD': Password,
+                                  'PHONE_NUMBER': PhoneNumber,
+                                  'CREDIT_CARD_NUMBER': CreditCardNumber
+                                }),
+                              );
+                              Alert(context, "Signed up successfully", "Press ok to continue the verification", message2: "");
+                            }
+                          }
 
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context)=>EmailConfirmation("signup", Email) ));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context)=>EmailConfirmation("signup", Email) ));
 
-                       },
+                        },
                         child: drawButton(
                             "Next",
                             Colors.green

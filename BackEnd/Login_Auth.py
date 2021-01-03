@@ -33,8 +33,13 @@ def GetName():
         return json.dumps(result)
     elif AccountType == 'Delivery':
         condition = "DELIVERY_EMAIL = '" + email + "'"
-        result = sql.select_query(table='DELIVERY', columns=['DELIVERY_Fname', 'DELIVERY_Lname', 'AREA', 'DELIVERY_ID' ] ,sql_condition= condition)
-        result ={'fname': result['DELIVERY_Fname'][0], 'lname': result['DELIVERY_Lname'][0], 'area': result['AREA'][0], 'id': result['DELIVERY_ID'][0]}
+        result = sql.select_query(table='DELIVERY', columns=['DELIVERY_Fname', 'DELIVERY_Lname', 'AREA', 'DELIVERY_ID', 'Delivery_PHONE_NUMBER', 'NUMBER_OF_DORDERS' ] ,sql_condition= condition)
+        result ={'fname': result['DELIVERY_Fname'][0], 'lname': result['DELIVERY_Lname'][0], 'area': result['AREA'][0], 'id': result['DELIVERY_ID'][0], 'phone': result['Delivery_PHONE_NUMBER'][0],'ordersnumber': result['NUMBER_OF_DORDERS'][0]}
+        return json.dumps(result)
+    elif AccountType == 'Manager':
+        condition = "MANAGER_EMAIL = '" + email + "'"
+        result = sql.select_query(table='MANAGER' , columns=['MANAGER_Fname', 'MANAGER_Lname'] , sql_condition=condition)
+        result = {'fname' : result['MANAGER_Fname'][0] , 'lname': result['MANAGER_Lname'][0]}
         return json.dumps(result)
         
 

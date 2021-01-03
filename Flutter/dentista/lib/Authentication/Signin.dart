@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
+import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
@@ -200,7 +201,21 @@ class _SignInState extends State<SignIn> {
                           }
                         else if (AccountType == "Manager")
                           {
-
+                            setSharedpref();
+                            final getdata = await http.post(
+                              'http://10.0.2.2:5000/GetData',
+                              headers: <String,String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'email':email,
+                                'AccountType':'Manager'
+                              }),
+                            );
+                            final accountData = json.decode(getdata.body);
+                            String fname = accountData['fname'];
+                            String lname= accountData['lname'];
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome(Fname: fname,Lname: lname,Email:email)));
                           }
                         else
                           {
