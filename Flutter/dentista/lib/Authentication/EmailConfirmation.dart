@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:ui';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/main.dart';
@@ -8,18 +10,48 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
 
 class EmailConfirmation extends StatefulWidget {
   final String FieldName;
-  EmailConfirmation(this.FieldName);
+  final String Email;
+  EmailConfirmation(this.FieldName,this.Email);
   @override
   _EmailConfirmationState createState() => _EmailConfirmationState();
+
 }
 
 class _EmailConfirmationState extends State<EmailConfirmation> {
   final _formKey = GlobalKey<FormState>(); // Used to validating the form
-  String CODEinput = "";
-  String CODEoutput = "";
+  final random =new Random();
+  int CODEoutput ;
+  int _counter = 60;
+  bool count = false;
+  bool start = true;
+
+  Timer _timer;
+  int inputcode;
+  void Randomizor()
+  {
+    inputcode(int min, int max) => 100000 + random.nextInt(899999);
+  _counter =60;
+  }
+  void starttimer(){
+   _counter = 60;
+   _timer =new Timer.periodic(Duration(seconds: 1), (timer) {
+     if(_counter>0) {
+       setState(() {
+         _counter--;
+       });
+     }else{
+        _timer.cancel();
+        count=true;
+     }
+   });
+
+ }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,25 +65,25 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hello",
+                    "Let's",
                     style: TextStyle(
-                        fontSize: 60.0,
+                        fontSize: 50.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Montserrat"),
                   ),
                   Row(
                     children: [
                       Text(
-                        "Verifying email",
+                        "Verify email",
                         style: TextStyle(
-                          fontSize: 60.0,
+                          fontSize: 50.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         ".",
                         style: TextStyle(
-                            fontSize: 60.0,
+                            fontSize: 40.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.green),
                       ),
@@ -60,6 +92,20 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                 ],
               ),
             )),
+        Center(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+             new Text('$_counter',
+              style:TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 48,
+
+              )
+              )
+            ],
+          )
+        ),
         Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 30, right: 30, top: 20),
@@ -69,10 +115,10 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                       child: Column(
                         children: [
                           TextFormField(
-                            decoration: authDecoration("City"),
+                            decoration: authDecoration("Code"),
                             onChanged: (val) {
                               setState(() {
-                                CODEoutput = (val);
+                                CODEoutput = int.parse(val);
                               });
                             },
                             validator: (val) {
@@ -89,8 +135,18 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
             children: [
               Expanded(
                 child: GestureDetector(
+                  onTap:start? () async {
+                   Randomizor();
+                   starttimer();
+                   start=false;
+                  }:null,
+                  child: drawButton("Send Code", Colors.green),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
                   onTap: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (inputcode == CODEoutput) {
                       // Sending to Database
                       final response = await http.post(
                         'http://10.0.2.2:5000/Email_Confirmation',
@@ -103,16 +159,16 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                       Alert(context, "Email has been Signed up successfully",
                           "Press ok ",
                           message2: "");
-                      }
-                    },
+                    }
+                  },
                   child: drawButton("Submit Code", Colors.green),
                 ),
-    ),
-    GestureDetector(
-                  onTap: () {
+              ),
+              GestureDetector(
+                  onTap: count? () {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => StoreSignUp()));
-                  },
+                  }:null,
                   child: drawButton("Resend Code", Colors.grey),
                 ),
             ],

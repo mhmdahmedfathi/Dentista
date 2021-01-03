@@ -362,6 +362,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                               body: json.encode({
                                 'phone': PhoneNumber,
                               }));
+
                           ////////////////////////////////////////////////
                           final creditcard_validator = await http.post(
                               'http://10.0.2.2:5000/delivery_creditcard_validation',
