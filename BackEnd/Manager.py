@@ -5,7 +5,7 @@ from SQLAPI import SQL
 #Setting Connection Up
 server_name = 'localhost'
 server_admin= 'root'
-server_password = 'test123'
+server_password = '@dentista1'
 database = 'dentista'
 connection_details = [server_name , server_admin , server_password , database]
 # ------------------------------------------------------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ def Manager_Insertion():
     values =[]
     for key in cloumns:
         values.append(request.json[key])
-    connector = SQL(server_name,server_name,server_password)
+    connector = SQL(server_name,server_admin,server_password)
     connector.insert_query(table='Manager' ,attributes=cloumns, values=values)
     connector.close_connection()
     return "1"
