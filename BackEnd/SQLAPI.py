@@ -39,7 +39,7 @@ STEPS of Using this API
 
 
 class SQL:
-    def __init__(self, host, user, password = "Itachionly#1", database = 'DANTISTA'):
+    def __init__(self, host, user, password = "@dentist1", database = 'DENTISTA'):
         self.Config = {
             'host': host,
             'user': user,
