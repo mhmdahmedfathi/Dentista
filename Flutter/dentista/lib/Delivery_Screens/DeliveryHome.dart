@@ -23,7 +23,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   int OrdersNumber = 0;
   int present = 20;
   int perPage = 20;
-  List<Order> Orders = List<Order>.generate(20, (index) => Order());
+  List<Order> Orders;
 
   String fname = "";
   String lname = "";
@@ -50,6 +50,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
     final data = json.decode(OrderData.body);
 
     OrdersNumber = data['no.orders'][0];
+    Orders = List<Order>.generate(OrdersNumber, (index) => Order());
     setState(() {
       for (int i = 0; i < OrdersNumber; i++) {
         Orders[i].DentistFName = data['dentistfname'][i];
@@ -96,6 +97,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                 final data = json.decode(OrderData.body);
 
                 OrdersNumber = data['no.orders'][0];
+                Orders = List<Order>.generate(OrdersNumber, (index) => Order());
                 setState(() {
                   for (int i = 0; i < OrdersNumber; i++) {
                     Orders[i].DentistFName = data['dentistfname'][i];
@@ -131,7 +133,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                             Orders[index].Dentistphonenumber,
                             Orders[index].DentistAddress,
                             Orders[index].TotalCost,
-                            Orders[index].OrderID)));
+                            Orders[index].OrderID,
+                        this.ID)));
                   },
                   child: Card(
                     child: Row(
@@ -210,15 +213,15 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage(''), fit: BoxFit.fill),
-                      ),
-                    ),
+                    // child: Container(
+                    //   width: 70,
+                    //   height: 70,
+                    //   decoration: BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     image: DecorationImage(
+                    //         image: NetworkImage(''), fit: BoxFit.fill),
+                    //   ),
+                    // ),
                   ),
                   Text(
                     fname + ' ' + lname,

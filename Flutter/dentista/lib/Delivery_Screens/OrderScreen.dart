@@ -5,6 +5,7 @@ import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/utility_class/Product.dart';
 import 'package:dentista/Models/AuthButtons.dart';
+import 'package:dentista/Models/Alerts.dart';
 
 class OrderScreen extends StatefulWidget {
   final String dentistfname;
@@ -13,11 +14,18 @@ class OrderScreen extends StatefulWidget {
   final String dentistaddress;
   final String ordertotal;
   final String orderid;
+  final String deliveryid;
   OrderScreen(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid);
+      this.dentistaddress, this.ordertotal, this.orderid, this.deliveryid);
   @override
-  _OrderScreenState createState() => _OrderScreenState(dentistfname,
-      dentistlname, dentistphone, dentistaddress, ordertotal, orderid);
+  _OrderScreenState createState() => _OrderScreenState(
+      dentistfname,
+      dentistlname,
+      dentistphone,
+      dentistaddress,
+      ordertotal,
+      orderid,
+      deliveryid);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
@@ -30,12 +38,13 @@ class _OrderScreenState extends State<OrderScreen> {
   String dentistaddress;
   String ordertotal;
   String orderid;
+  String deliveryid;
   int totalproductsnumber = 0;
 
   List<Product> Products;
 
   _OrderScreenState(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid);
+      this.dentistaddress, this.ordertotal, this.orderid, this.deliveryid);
 
   @override
   void initState() {
@@ -44,6 +53,8 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void asyncmethod() async {
+    print(orderid);
+
     final OrderData =
         await http.post('http://10.0.2.2:5000/delivery_getordersproducts',
             headers: <String, String>{
@@ -70,7 +81,6 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() {
       for (int i = 0; i < 20; i++) {
         present = present + perPage;
-        print('heeeeeeeeeere');
       }
     });
   }
@@ -136,44 +146,44 @@ class _OrderScreenState extends State<OrderScreen> {
                   height: 470,
                   child: Card(
                       child: ListView(
-                        shrinkWrap: true,
-                        children: List.generate(totalproductsnumber, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  Products[index].productnumber,
-                                  style:
-                                      TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(width: 20.0),
-                                Text(
-                                  Products[index].productname,
-                                  style:
-                                      TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(width: 10.0),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      child: Text(
-                                        Products[index].productprice,
-                                        style: TextStyle(
-                                            fontSize: 15, fontFamily: "Montserrat"),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
+                    shrinkWrap: true,
+                    children: List.generate(totalproductsnumber, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              Products[index].productnumber,
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Montserrat"),
+                              textAlign: TextAlign.start,
                             ),
-                          );
-                        }),
-                      )),
+                            SizedBox(width: 20.0),
+                            Text(
+                              Products[index].productname,
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Montserrat"),
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(width: 10.0),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  child: Text(
+                                    Products[index].productprice,
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: "Montserrat"),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+                  )),
                 ),
               ),
             ),
@@ -182,7 +192,27 @@ class _OrderScreenState extends State<OrderScreen> {
               child: Container(
                 width: 500,
                 child: GestureDetector(
-                  onTap: (){},
+                  onTap: () async {
+                    final result = await http.post('http://10.0.2.2:5000/delivery_assignorder',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode(
+                            {'DELIVERYID': deliveryid, 'ORDERID': orderid}));
+                    String assigningresult= result.body;
+                    print(result.body);
+                    print(assigningresult);
+                    if(assigningresult=="0")
+                      {
+                        Alert(context, "This order is already assigned",
+                            "",message2: "");
+                      }
+                    else
+                      {
+                        Alert(context, "This order is assigned to you",
+                            "You can't assign order untill you deliver this order",message2: "");
+                      }
+                  },
                   child: drawButton('Deliver', Colors.green),
                 ),
               ),
