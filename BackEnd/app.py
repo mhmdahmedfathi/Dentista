@@ -10,14 +10,12 @@ import Store
 from validate_email import validate_email
 import Login_Auth
 from Verifications import Validator
-
+import Add_Item
 app = Flask(__name__)
 
 
 
 #------------------------------------------------------------------------------------------------------------------------------
-server_name = "dentista1.mysql.database.azure.com"
-server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
 
@@ -71,6 +69,13 @@ app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validatio
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------------
+#For Product
+app.add_url_rule('/Product_signup', view_func=Add_Item.Product_Insertion ,methods=['POST'])
+app.add_url_rule('/Product_validation',view_func=Add_Item.Product_ID_validator ,methods=['POST'])
+app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['POST'])
 
 def run_server(debug=False):
     app.run(debug=debug)

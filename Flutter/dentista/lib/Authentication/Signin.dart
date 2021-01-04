@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
+import 'package:dentista/Store Screens/Store_Home.dart';
 import 'package:dentista/Models/Alerts.dart';
 class SignIn extends StatefulWidget {
   @override
@@ -195,8 +196,25 @@ class _SignInState extends State<SignIn> {
                               String id = AcountData['id'].toString();
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
                           }
-                        else if (AccountType == "Store")
+                        else if (AccountType == "store")
                           {
+                            setSharedpref();
+                            final getdata = await http.post(
+                              'http://10.0.2.2:5000/GetData',
+                              headers: <String,String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'email':email,
+                                'AccountType':'store'
+                              }),
+                            );
+
+                            final AcountData = json.decode(getdata.body);
+
+                            String store_name= AcountData['Store_Name'];
+                            String id = AcountData['STORE_ID'].toString();
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
 
                           }
                         else if (AccountType == "Manager")
