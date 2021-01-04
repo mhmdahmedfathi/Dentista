@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Manager%20Screens/DeliveriesPage.dart';
 import 'package:dentista/Manager%20Screens/PendingRequests.dart';
+import 'package:dentista/Manager%20Screens/StoresPage.dart';
 import 'package:flutter/material.dart';
 
 class ManagerHome extends StatefulWidget {
@@ -68,14 +70,14 @@ class _ManagerHomeState extends State<ManagerHome> {
       appBar: AppBar(
         centerTitle: false,
         title: Text("DENTISTA" , style: TextStyle(
-
+fontFamily: 'montserrat',
           fontWeight: FontWeight.bold,
-          letterSpacing: 1.2,
+          letterSpacing: 1.5,
         ),
         ),
         backgroundColor:Colors.blueGrey[800],
       ),
-      body:  _page ==0 ? PendingRequests():SizedBox,
+      body:  _page ==0 ? PendingRequests(): _page==1 ? StoresPage() : _page==2 ? DeliveriesPage():Container(),
     );
   }
 }

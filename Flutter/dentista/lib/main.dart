@@ -1,21 +1,29 @@
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Authentication/Delivery_Signup.dart';
 import 'package:dentista/Authentication/Dentist_Signup.dart';
 import 'package:dentista/Authentication/Manager_Signup.dart';
 import 'package:dentista/Authentication/Signin.dart';
 import 'package:dentista/Authentication/Store_Signup.dart';
+import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
+import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
+import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:get/get.dart';
 
 void main ()
 async{
+  await GetStorage.init();   //initializting Get Storage
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var isLoggedin = prefs.getBool('loggedin');
-  print(isLoggedin);
-  runApp(MaterialApp(
+  final authController = Get.put(AuthController());
+  bool isLogged = authController.State;
+  String accountType = authController.GetType;
+  print(isLogged);
+  print(accountType);
+  runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       appBarTheme: AppBarTheme(
@@ -37,7 +45,11 @@ async{
         )
       ),
     ),
-    home: isLoggedin !=null ? TempHome() : MainScreen() ,
+    home: isLogged==true ? accountType=='Manager' ? ManagerHome()
+    :accountType=='Dentist' ? DentistHome("", "", "")
+        :accountType=='Delivery' ? DeliveryHome("", "", "", "", "")
+        :accountType=='Store' ? Container() : MainScreen() : MainScreen()
+    ,
   ),
   );
 }
