@@ -15,7 +15,6 @@ def LogIn():
     email = request.json['email']
     password = request.json['password']
     sql = SQL(server_name,server_admin, server_password)
-    sql = SQL('localhost','root', "Itachionly#1")
     condition = "email = '" +email + "' and password = '" + password + "'"
     result = sql.select_query(table = 'LOGIN_DATA', columns=['AccountType'], sql_condition=condition)
     sql.close_connection()
@@ -27,7 +26,6 @@ def GetName():
     email = request.json['email']
     AccountType = request.json['AccountType']
     sql = SQL(server_name,server_admin, server_password)
-    sql = SQL('localhost','root', 'Itachionly#1')
     if AccountType == 'Dentist':
         condition = "DENTIST_EMAIL = '" +email +  "'"
         result = sql.select_query(table = 'DENTIST', columns=['DENTIST_Fname', 'DENTIST_LNAME'], sql_condition=condition)
