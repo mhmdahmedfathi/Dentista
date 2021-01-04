@@ -10,14 +10,12 @@ import Store
 from validate_email import validate_email
 import Login_Auth
 from Verifications import Validator
-
+import Add_Item
 app = Flask(__name__)
 
 
 
 #------------------------------------------------------------------------------------------------------------------------------
-server_name = "dentista1.mysql.database.azure.com"
-server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
 
@@ -61,6 +59,8 @@ app.add_url_rule('/delivery_creditcard_validation',view_func=Delivery.Delivery_C
 app.add_url_rule('/delivery_license_validation',view_func=Delivery.Delivery_VehicleLicense_validator,methods=['POST'])
 app.add_url_rule('/delivery_getavailableorder', view_func=Delivery.OrdersToBeDelivered, methods=['POST'])
 app.add_url_rule('/delivery_getordersproducts', view_func=Delivery.ProductsofOrder, methods=['POST'])
+app.add_url_rule('/delivery_assignorder', view_func=Delivery.DeliverOrder, methods=['POST'])
+app.add_url_rule('/delivery_Profile', view_func=Delivery.DeliveryProfile, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -71,6 +71,13 @@ app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validatio
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------------
+#For Product
+app.add_url_rule('/Product_signup', view_func=Add_Item.Product_Insertion ,methods=['POST'])
+app.add_url_rule('/Product_validation',view_func=Add_Item.Product_ID_validator ,methods=['POST'])
+app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['POST'])
 
 def run_server(debug=False):
     app.run(debug=debug)

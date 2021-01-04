@@ -123,18 +123,19 @@ class SQL:
         Query = Query[:-2]
         Query = Query + " WHERE " + sql_condition + ";"
 
-
         try:
             self.cursor.execute(Query)
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
             Logs = "Update table [ " + table + " ] at " + current_time + " is done correctly\n"
             self.logs_file.write(Logs)
+            return 1
         except :
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
             Logs = "ERROR in Update table [ " + table + " ] at " + current_time + "\n"
             self.logs_file.write(Logs)
+            return 0
 
     def select_query(self, table, columns, sql_condition = "",DISTINCTdetector=False):
         if DISTINCTdetector == True:

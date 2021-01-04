@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
+import 'package:dentista/Store Screens/Store_Home.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:get/get.dart';
 class SignIn extends StatefulWidget {
@@ -136,7 +137,6 @@ class _SignInState extends State<SignIn> {
                   child: GestureDetector(
                     onTap:()async
                     {
-
                       final account = await http.post(
                         'http://10.0.2.2:5000/LogIn',
                         headers: <String, String>{
@@ -211,6 +211,22 @@ class _SignInState extends State<SignIn> {
                       }
                       else if (AccountType == "Store")
                       {
+                      final getdata = await http.post(
+                      'http://10.0.2.2:5000/GetData',
+                      headers: <String,String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                      'email':email,
+                      'AccountType':'store'
+                      }),
+                      );
+
+                      final AcountData = json.decode(getdata.body);
+
+                      String store_name= AcountData['Store_Name'];
+                      String id = AcountData['STORE_ID'].toString();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
 
                       }
                       else if (AccountType == "Manager")
@@ -226,6 +242,7 @@ class _SignInState extends State<SignIn> {
                             'AccountType':'Manager'
                           }),
                         );
+
                         final accountData = json.decode(getdata.body);
                         String fname = accountData['fname'];
                         String lname= accountData['lname'];
@@ -238,6 +255,7 @@ class _SignInState extends State<SignIn> {
                       //setSharedpref();
                       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
                     },
+
                     child: drawButton("Sign in", Colors.green),
                   )),
                 SizedBox(width: 2),

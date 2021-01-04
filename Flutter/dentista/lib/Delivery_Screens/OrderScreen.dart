@@ -5,19 +5,36 @@ import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/utility_class/Product.dart';
 import 'package:dentista/Models/AuthButtons.dart';
+import 'package:dentista/Models/Alerts.dart';
 
 class OrderScreen extends StatefulWidget {
   final String dentistfname;
   final String dentistlname;
   final String dentistphone;
+  final String dentisemail;
   final String dentistaddress;
   final String ordertotal;
   final String orderid;
-  OrderScreen(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid);
+  final String deliveryid;
+  OrderScreen(
+      this.dentistfname,
+      this.dentistlname,
+      this.dentistphone,
+      this.dentistaddress,
+      this.ordertotal,
+      this.orderid,
+      this.deliveryid,
+      this.dentisemail);
   @override
-  _OrderScreenState createState() => _OrderScreenState(dentistfname,
-      dentistlname, dentistphone, dentistaddress, ordertotal, orderid);
+  _OrderScreenState createState() => _OrderScreenState(
+      dentistfname,
+      dentistlname,
+      dentistphone,
+      dentistaddress,
+      ordertotal,
+      orderid,
+      deliveryid,
+      dentisemail);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
@@ -27,15 +44,24 @@ class _OrderScreenState extends State<OrderScreen> {
   String dentistfname;
   String dentistlname;
   String dentistphone;
+  String dentistemail;
   String dentistaddress;
   String ordertotal;
   String orderid;
+  String deliveryid;
   int totalproductsnumber = 0;
 
   List<Product> Products;
 
-  _OrderScreenState(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid);
+  _OrderScreenState(
+      this.dentistfname,
+      this.dentistlname,
+      this.dentistphone,
+      this.dentistaddress,
+      this.ordertotal,
+      this.orderid,
+      this.deliveryid,
+      this.dentistemail);
 
   @override
   void initState() {
@@ -70,7 +96,6 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() {
       for (int i = 0; i < 20; i++) {
         present = present + perPage;
-        print('heeeeeeeeeere');
       }
     });
   }
@@ -79,7 +104,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Dentista',
           style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
@@ -90,6 +115,16 @@ class _OrderScreenState extends State<OrderScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              color: Colors.grey[300],
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: CircleAvatar(
+                  backgroundColor: Colors.blueGrey,
+                  radius: 85,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -100,25 +135,46 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Dr. ' + dentistfname + ' ' + dentistlname,
+                            'Name:  Dr. ' + dentistfname + ' ' + dentistlname,
                             style: TextStyle(
-                                fontSize: 15, fontFamily: "Montserrat"),
+                                fontSize: 18,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.3),
                             textAlign: TextAlign.start,
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            dentistphone,
+                            "Phone Number: " + dentistphone,
                             style: TextStyle(
-                                fontSize: 15, fontFamily: "Montserrat"),
+                                fontSize: 18,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.3),
                             textAlign: TextAlign.start,
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            dentistaddress,
+                            "Email: " + dentistemail,
                             style: TextStyle(
-                                fontSize: 15, fontFamily: "Montserrat"),
+                                fontSize: 18,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.3),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(height: 10.0),
+                          Text(
+                            "Address: " + dentistaddress,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.3),
                             textAlign: TextAlign.end,
                           ),
                         ],
@@ -128,52 +184,74 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 500,
-                  height: 470,
-                  child: Card(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: List.generate(totalproductsnumber, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  Products[index].productnumber,
-                                  style:
-                                      TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(width: 20.0),
-                                Text(
-                                  Products[index].productname,
-                                  style:
-                                      TextStyle(fontSize: 15, fontFamily: "Montserrat"),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(width: 10.0),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      child: Text(
-                                        Products[index].productprice,
-                                        style: TextStyle(
-                                            fontSize: 15, fontFamily: "Montserrat"),
-                                        textAlign: TextAlign.start,
-                                      ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Purchase List",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.3),
+                      textAlign: TextAlign.end,
+                    ),
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 500,
+                          height: 470,
+                          child: Card(
+                              child: ListView(
+                            shrinkWrap: true,
+                            children: List.generate(totalproductsnumber, (index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      Products[index].productnumber,
+                                      style: TextStyle(
+                                          fontSize: 15, fontFamily: "Montserrat"),
+                                      textAlign: TextAlign.start,
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        }),
-                      )),
+                                    SizedBox(width: 20.0),
+                                    Text(
+                                      Products[index].productname,
+                                      style: TextStyle(
+                                          fontSize: 15, fontFamily: "Montserrat"),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(width: 10.0),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Container(
+                                          child: Text(
+                                            Products[index].productprice,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: "Montserrat"),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                          )),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -182,8 +260,25 @@ class _OrderScreenState extends State<OrderScreen> {
               child: Container(
                 width: 500,
                 child: GestureDetector(
-                  onTap: (){},
-                  child: drawButton('Deliver', Colors.green),
+                  onTap: () async {
+                    final result = await http.post(
+                        'http://10.0.2.2:5000/delivery_assignorder',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode(
+                            {'DELIVERYID': deliveryid, 'ORDERID': orderid}));
+                    String assigningresult = result.body;
+                    if (assigningresult == "0") {
+                      Alert(context, "This order is already assigned", "",
+                          message2: "");
+                    } else {
+                      Alert(context, "This order is assigned to you",
+                          "You can't assign order untill you deliver this order",
+                          message2: "");
+                    }
+                  },
+                  child: drawButton('Deliver', Colors.blueGrey[800]),
                 ),
               ),
             )
