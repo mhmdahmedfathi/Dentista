@@ -15,9 +15,10 @@ class PendingTile extends StatelessWidget {
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestInfo()));
         },
-        title: Text(Name , style: TextStyle(fontWeight: FontWeight.w700),),
-        subtitle: Text(Type),
+        title: Text(Name , style: TextStyle(fontWeight: FontWeight.w700 , fontFamily: 'montserrat'),),
+        subtitle: Text(Type,style: TextStyle(fontWeight: FontWeight.w500 , fontFamily: 'montserrat')),
         leading: CircleAvatar(
+          radius: 25,
           backgroundColor: Colors.blueGrey,
         ),
         
