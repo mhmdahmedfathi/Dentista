@@ -64,13 +64,13 @@ def Delivery_VehicleLicense_validator():
 
 # Showing data in app functions
 def OrdersToBeDelivered():
-    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER']
+    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
     condition = " SHIPMENT_STATUS = 'Not Delivered' and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
-    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER']}
+    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -85,6 +85,17 @@ def ProductsofOrder():
     result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
     connector.close_connection()
     return json.dumps(result)
+
+def DeliveryProfile():
+    columns = ['DELIVERY_ID', 'VECHILE_LICENCE', 'VECHILE_MODEL', 'RATE', 'Delivery_PHONE_NUMBER']
+    email = request.json['email']
+    condition = "DELIVERY_EMAIL = '"+ email + "'"
+    connector = SQL(host=server_name, user=server_admin)
+    result = connector.select_query(table='DELIVERY', columns=columns, sql_condition=condition)
+    connector.close_connection()
+    result = {'ID': result['DELIVERY_ID'][0], 'VLicense': result['VECHILE_LICENCE'][0], 'VModel': result['VECHILE_MODEL'][0], 'rate': result['RATE'][0], 'phone': result['Delivery_PHONE_NUMBER'][0]}
+    return json.dumps(result)
+
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
 # Delivery functionalities
