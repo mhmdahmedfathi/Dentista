@@ -72,7 +72,22 @@ class Validator:
         if query_result[email_attribute] == [] and validate_email(email) :  # Checking for the format of the email, and that it isn't exist in the database
             return '1'
         return '0'
+    
+    def Product_validation(self, Product_attribute):
+        # email_attribute: is the attribute name of the email in the database table
 
+        name = request.json['name']   # Getting the email from flutter app
+
+        condition = Product_attribute + " = '" + name + "'"  # the condtion of the SQL Query
+        # This is done to check that this email doesn't exsists in the database
+
+        query_result = self.connector.select_query(table=self.table, columns=[Product_attribute], sql_condition= condition)    # getting the result of the query
+
+
+        if query_result[Product_attribute] == [] :  # Checking for the format of the email, and that it isn't exist in the database
+            return '0'
+        return '1'
+    
     
     def phone_validation(self, phone_attribute):
         # phone_attribute: is the attribute name of the phone_number in the database table

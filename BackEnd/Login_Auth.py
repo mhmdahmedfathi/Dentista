@@ -8,6 +8,7 @@ server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
+
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ def LogIn():
     email = request.json['email']
     password = request.json['password']
     sql = SQL(server_name,server_admin, server_password)
-    condition = "email = '" +email + "' and password = '" + password + "'"
+    condition = "email = '" +email + "' and Password = '" + password + "'"
     result = sql.select_query(table = 'LOGIN_DATA', columns=['AccountType'], sql_condition=condition)
     sql.close_connection()
     if result['AccountType'] == {}:
@@ -41,7 +42,12 @@ def GetName():
         result = sql.select_query(table='MANAGER' , columns=['MANAGER_Fname', 'MANAGER_Lname'] , sql_condition=condition)
         result = {'fname' : result['MANAGER_Fname'][0] , 'lname': result['MANAGER_Lname'][0]}
         return json.dumps(result)
-        
+    elif AccountType == 'store':
+        condition = "EMAIL = '" + email + "'"
+        result = sql.select_query(table='store' , columns=['STORE_NAME','STORE_ID'] , sql_condition=condition)
+        result = {'Store_Name' : result['STORE_NAME'][0],'STORE_ID' : result['STORE_ID'][0]}
+        return json.dumps(result)
+    
 
 
 

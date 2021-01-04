@@ -5,6 +5,7 @@ class Order {
   String DentistLName;
   String DentistAddress;
   String Dentistphonenumber;
+  String Dentistemail;
 
   Order() {
     OrderID = "";
@@ -13,5 +14,6 @@ class Order {
     DentistLName = "";
     DentistAddress = "";
     Dentistphonenumber="";
+    Dentistemail="";
   }
 }
