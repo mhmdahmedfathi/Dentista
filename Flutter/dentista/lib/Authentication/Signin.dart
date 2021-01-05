@@ -243,10 +243,8 @@ class _SignInState extends State<SignIn> {
                           }),
                         );
 
-                        final accountData = json.decode(getdata.body);
-                        String fname = accountData['fname'];
-                        String lname= accountData['lname'];
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome(Fname: fname,Lname: lname,Email:email)));
+
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
                       }
                       else
                       {
