@@ -1,38 +1,36 @@
-//import 'dart:html';
+import 'package:flutter/material.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'dart:convert';
-import 'package:dentista/main.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/cupertino.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:credit_card_number_validator/credit_card_number_validator.dart';
+import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
-
-
-
-
-
-
+import'package:dentista/Store Screens/Store_Home.dart';
 class AddItem extends StatefulWidget {
+  final String Store_name;
   final String ID;
-  AddItem(this.ID);
+  final String email;
+  AddItem(this.Store_name, this.email, this.ID);
   @override
-  _AddItemState createState() => _AddItemState(ID);
+  _AddItemState createState() => _AddItemState(Store_name, email, ID);
 }
 
 
-
-
 class _AddItemState extends State<AddItem> {
-
+  String email;
+  String Store_name = "";
+  String ID = "";
+  _AddItemState(this.Store_name, this.email, this.ID);
   final _formKey = GlobalKey<FormState>();  // Used to validating the form
-  Validator _validator = new Validator();   // Creating Instance of the validator
   String Product_Name="";
   String No_Of_Units="";
-  String ID = "";
-  _AddItemState( this.ID);
+  String Price="";
+  String Sell_Price="";
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +46,7 @@ class _AddItemState extends State<AddItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Add Item",
@@ -86,7 +85,6 @@ class _AddItemState extends State<AddItem> {
                               Product_Name = val;
                             });
                           },
-                          validator: (val){ return _validator.validate_name(val) == false ? "Please Enter Product Name ": null;},
                         ),
                         SizedBox(height: 20,),
                         TextFormField(
@@ -99,15 +97,36 @@ class _AddItemState extends State<AddItem> {
                           validator: (val){
                             return val.isEmpty ? "Enter a valid number" : null;
                           },
-                        )
-                        ,
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          decoration: authDecoration("Actual Price"),
+                          onChanged: (val){
+                            setState(() {
+                              Price = val;
+                            });
+                          },
+                        ),
                         SizedBox(height: 20,),
+                        TextFormField(
+                          decoration: authDecoration("Selling Price"),
+                          onChanged: (val) {
+                            setState(() {
+                              Sell_Price = val;
+                            });
+                          },
+                          validator: (val){
+                            return val.isEmpty ? "Enter a valid number" : null;
+                          },
+                        ),
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+    
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -115,42 +134,26 @@ class _AddItemState extends State<AddItem> {
                   Expanded(
                     child: GestureDetector(
                       onTap:  () async{
-                        if(_formKey.currentState.validate())
                         {
-
-                          final email_response = await http.post(
-                            'http://10.0.2.2:5000/dentist_email_validation',
-                            headers: <String, String>{
-                              'Content-Type': 'application/json; charset=UTF-8',
-                            },
-                            body: json.encode({
-
-
-                              'email': Product_Name,
-
-                            }),
-                          );
-
-                          String ValidationEmail = email_response.body;
 
                             // Sending to Database
                             final response = await http.post(
-                              'http://10.0.2.2:5000/dentist_signup',
+                              'http://10.0.2.2:5000/Product_ADD',
                               headers: <String, String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                               },
                               body: json.encode({
 
-                                'DENTIST_Fname': ID,
-                                'DENTIST_LNAME': Product_Name,
-                                'DENTIST_EMAIL': No_Of_Units,
+                                'NUMBER_OF_UNITS': No_Of_Units,
+                                'STORE_ID': ID,
+                                'PRODUCT_ID': Product_Name,
                               }),
                             );
-                            Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                            Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
                           }
 
                       },
-                      child: drawButton("Register", Colors.grey),
+                      child: drawButton("Add Item", Colors.green),
                     ),
                   ),
                   SizedBox(width: 2),
@@ -158,9 +161,9 @@ class _AddItemState extends State<AddItem> {
                     child: GestureDetector(
                       onTap: (){
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context)=>Home()));
+                            .push(MaterialPageRoute(builder: (context)=>StoreHome(Store_name, email, ID) ));
                       },
-                      child: drawButton("Back to Store Home", Colors.grey),
+                      child: drawButton("Back to Home", Colors.green),
                     ),
                   ),
 

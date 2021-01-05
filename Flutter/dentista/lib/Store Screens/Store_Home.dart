@@ -69,7 +69,7 @@ class _StoreHomeState extends State<StoreHome> {
         ),
         actions: [
           IconButton(icon: Icon(Icons.search), onPressed: (){}, color: Colors.white,),
-          IconButton(icon: Icon(Icons.add), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddItem(ID)));}, color: Colors.white,),
+          IconButton(icon: Icon(Icons.add), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddItem(Store_name,email,ID)));}, color: Colors.white,),
         ],
         backgroundColor: Colors.deepPurpleAccent,
       ),

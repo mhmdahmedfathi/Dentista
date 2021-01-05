@@ -196,7 +196,7 @@ class _SignInState extends State<SignIn> {
                               String id = AcountData['id'].toString();
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
                           }
-                        else if (AccountType == "store")
+                        else if (AccountType == "Store")
                           {
                             setSharedpref();
                             final getdata = await http.post(
