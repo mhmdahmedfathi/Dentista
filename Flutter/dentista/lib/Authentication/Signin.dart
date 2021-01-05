@@ -1,31 +1,33 @@
 import 'dart:convert';
 
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:dentista/Store Screens/Store_Home.dart';
 import 'package:dentista/Models/Alerts.dart';
+import 'package:get/get.dart';
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  Future setSharedpref() async
+  final AuthController authController = Get.put(AuthController());
+  /*Future setSharedpref() async
   {
     //Shared Prefrences is used as a local database for each app user
     //we store boolen value indicates whether the user is logged in or not
     //to decide which screen that he should view
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('loggedin', true);
-  }
+  }*/
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
@@ -134,117 +136,126 @@ class _SignInState extends State<SignIn> {
                 Expanded(
                   child: GestureDetector(
                     onTap:()async
+                    {
+                      final account = await http.post(
+                        'http://10.0.2.2:5000/LogIn',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode({
+                          'email': email,
+                          'password': password
+                        }),
+                      );
+                      String AccountType = account.body;
+                      if(rememberme)
+                        {
+                          authController.ChangeState();
+                          authController.setEmail(email);
+                          authController.setAccountType(AccountType);
+                        }
+                      else
+                        {
+                          authController.setEmail(email);
+                          authController.setAccountType(AccountType);
+                        }
+                      if(AccountType == "Dentist")
                       {
-                        final account = await http.post(
-                          'http://10.0.2.2:5000/LogIn',
+
+
+                        final getdata = await http.post(
+                          'http://10.0.2.2:5000/GetData',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: json.encode({
                             'email': email,
-                            'password': password
+                            'AccountType': 'Dentist'
                           }),
                         );
-                        String AccountType = account.body;
-                        if(AccountType == "Dentist")
-                          {
-                            setSharedpref();
-
-                            final getdata = await http.post(
-                              'http://10.0.2.2:5000/GetData',
-                              headers: <String, String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                              },
-                              body: json.encode({
-                                'email': email,
-                                'AccountType': 'Dentist'
-                              }),
-                            );
-                            print(getdata.body);
+                        print(getdata.body);
 
 
-                            final result = json.decode(getdata.body);;
+                        final result = json.decode(getdata.body);;
 
-                            String fname = result['fname'];
-                            String lname = result['lname'];
+                        String fname = result['fname'];
+                        String lname = result['lname'];
 
 
 
 
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome(fname, lname, email))));
-                          }
-                        else if (AccountType == "Delivery")
-                          {
-                              setSharedpref();
-                              final getdata = await http.post(
-                                'http://10.0.2.2:5000/GetData',
-                                    headers: <String,String>{
-                                      'Content-Type': 'application/json; charset=UTF-8',
-                                    },
-                                body: json.encode({
-                                  'email':email,
-                                  'AccountType':'Delivery'
-                                }),
-                              );
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome(fname, lname, email))));
+                      }
+                      else if (AccountType == "Delivery")
+                      {
 
-                              final AcountData = json.decode(getdata.body);
+                        final getdata = await http.post(
+                          'http://10.0.2.2:5000/GetData',
+                          headers: <String,String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'email':email,
+                            'AccountType':'Delivery'
+                          }),
+                        );
 
-                              String fname = AcountData['fname'];
-                              String lname= AcountData['lname'];
-                              String area = AcountData['area'];
-                              String id = AcountData['id'].toString();
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
-                          }
-                        else if (AccountType == "Store")
-                          {
-                            setSharedpref();
-                            final getdata = await http.post(
-                              'http://10.0.2.2:5000/GetData',
-                              headers: <String,String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                              },
-                              body: json.encode({
-                                'email':email,
-                                'AccountType':'store'
-                              }),
-                            );
+                        final AcountData = json.decode(getdata.body);
 
-                            final AcountData = json.decode(getdata.body);
-
-                            String store_name= AcountData['Store_Name'];
-                            String id = AcountData['STORE_ID'].toString();
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
-
-                          }
-                        else if (AccountType == "Manager")
-                          {
-                            setSharedpref();
-                            final getdata = await http.post(
-                              'http://10.0.2.2:5000/GetData',
-                              headers: <String,String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                              },
-                              body: json.encode({
-                                'email':email,
-                                'AccountType':'Manager'
-                              }),
-                            );
-                            final accountData = json.decode(getdata.body);
-                            String fname = accountData['fname'];
-                            String lname= accountData['lname'];
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome(Fname: fname,Lname: lname,Email:email)));
-                          }
-                        else
-                          {
-                            Alert(context, "Log in Failed", "This is an invalid email or account", message2: "Please Try again");
-                          }
-                        //setSharedpref();
-                        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
+                        String fname = AcountData['fname'];
+                        String lname= AcountData['lname'];
+                        String area = AcountData['area'];
+                        String id = AcountData['id'].toString();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
+                      }
+                      else if (AccountType == "Store")
+                      {
+                      final getdata = await http.post(
+                      'http://10.0.2.2:5000/GetData',
+                      headers: <String,String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
                       },
+                      body: json.encode({
+                      'email':email,
+                      'AccountType':'store'
+                      }),
+                      );
+
+                      final AcountData = json.decode(getdata.body);
+
+                      String store_name= AcountData['Store_Name'];
+                      String id = AcountData['STORE_ID'].toString();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
+
+                      }
+                      else if (AccountType == "Manager")
+                      {
+
+                        final getdata = await http.post(
+                          'http://10.0.2.2:5000/GetData',
+                          headers: <String,String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'email':email,
+                            'AccountType':'Manager'
+                          }),
+                        );
+
+
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
+                      }
+                      else
+                      {
+                        Alert(context, "Log in Failed", "This is an invalid email or account", message2: "Please Try again");
+                      }
+                      //setSharedpref();
+                      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
+                    },
+
                     child: drawButton("Sign in", Colors.green),
-                  ),
-                ),
+                  )),
                 SizedBox(width: 2),
                 Expanded(
                   child: GestureDetector(

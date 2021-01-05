@@ -88,3 +88,109 @@ Connection is Closed
  
 Connection established 
 Retrive from table MANAGER at 18:18:11 is done correctly
+Connection established 
+Retrive from table Manager at 14:20:02 is done correctly
+Connection established 
+Insertion into table [ Manager ] at 14:20:02 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 14:22:24 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 14:22:24 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 14:52:59 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 14:52:59 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 15:01:07 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 15:01:07 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 15:11:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 15:11:50 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 15:46:25 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 15:46:25 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 18:48:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 18:48:35 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 21:23:33 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 21:23:33 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 21:25:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 21:25:35 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 21:29:03 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 21:29:04 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 21:30:49 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 21:30:50 is done correctly
+2005 (HY000): Unknown MySQL server host 'dentista1.mysql.database.azure.com' (2)
+ERROR in Retrive from table LOGIN_DATA at 00:36:44
+Something is wrong with the user name or password of server 
+ERROR in Retrive from table LOGIN_DATA at 00:41:09
+Something is wrong with the user name or password of server 
+ERROR in Retrive from table LOGIN_DATA at 00:42:47
+Connection established 
+Retrive from table LOGIN_DATA at 00:44:16 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:44:16 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:48:03 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:56:15 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 00:58:13 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:58:14 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:58:14 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 01:06:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 01:06:57 is done correctly
+Connection established 
+Retrive from table MANAGER at 01:06:58 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 01:11:23 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 01:11:23 is done correctly
+Connection established 
+Retrive from table MANAGER at 01:11:24 is done correctly

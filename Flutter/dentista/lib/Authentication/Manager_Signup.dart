@@ -221,66 +221,67 @@ class _ManagerSignupState extends State<ManagerSignup> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap:policy_check ? ()async {
-                      //if condition to check if the all inputs are valid
-                      if(_formKey.currentState.validate())
-                        {
-                          
-                          final email_response = await http.post('http://10.0.2.2:5000/manager_email_validation',
-                            headers: <String, String>{
-                              'Content-Type': 'application/json; charset=UTF-8',
-                            },
-                            body: json.encode({
-                              'email': email,
-                            }),
-                          );
-                          String ValidationEmail = email_response.body;
-                          if (ValidationEmail == "0")
-                          {
-                            Alert(context, "Invalid Email", "This Email is currently in use");
-                          }else
-                            {
-                              final response = http.post('http://10.0.2.2:5000/manager_signup',
-                                headers: <String, String>{
-                                  'Content-Type': 'application/json; charset=UTF-8',
-                                },
 
-                                body:  json.encode({
-                                  'MANAGER_Fname' : firstName ,
-                                  'MANAGER_Lname' : lastName ,
-                                  'MANAGER_EMAIL' : email ,
-                                  'MANAGER_PASSWORD' : password ,
-                                  'MANAGEMENT_TYPE' : manageType ,
-                                  'AREA_OF_MANAGEMENT' : manageArea
-                                })
-                              );
-                              Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
-                            }
-                        }
-                    }:null,
-                    child: drawButton("Register", btn_color),
-                  ),
-                ),
-                SizedBox(width: 2),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context)=>Home()));
-                    },
-                    child: drawButton("Back to sign in", Colors.grey),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar:Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap:policy_check ? ()async {
+                  //if condition to check if the all inputs are valid
+                  if(_formKey.currentState.validate())
+                  {
+
+                    final email_response = await http.post('http://10.0.2.2:5000/manager_email_validation',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'email': email,
+                      }),
+                    );
+                    String ValidationEmail = email_response.body;
+                    if (ValidationEmail == "0")
+                    {
+                      Alert(context, "Invalid Email", "This Email is currently in use");
+                    }else
+                    {
+                      final response = http.post('http://10.0.2.2:5000/manager_signup',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+
+                          body:  json.encode({
+                            'MANAGER_Fname' : firstName ,
+                            'MANAGER_Lname' : lastName ,
+                            'MANAGER_EMAIL' : email ,
+                            'MANAGER_PASSWORD' : password ,
+                            'MANAGEMENT_TYPE' : manageType ,
+                            'AREA_OF_MANAGEMENT' : manageArea
+                          })
+                      );
+                      Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                    }
+                  }
+                }:null,
+                child: drawButton("Register", btn_color),
+              ),
+            ),
+            SizedBox(width: 2),
+            Expanded(
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context)=>Home()));
+                },
+                child: drawButton("Back to sign in", Colors.grey),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Widget drawButton(String text,Color color)
 {
   return Container(
+    height: 50,
     padding: EdgeInsets.all(12),
     decoration: BoxDecoration(
         color: color,
