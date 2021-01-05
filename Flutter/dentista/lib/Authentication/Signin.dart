@@ -203,7 +203,7 @@ class _SignInState extends State<SignIn> {
 
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                       }
-                      else if (AccountType == "Store")
+                      else if (AccountType == "store")
                       {
                       final getdata = await http.post(
                       'http://10.0.2.2:5000/GetData',
