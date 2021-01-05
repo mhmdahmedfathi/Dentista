@@ -12,7 +12,7 @@ connection_details = [server_name , server_admin , server_password , database]
 # ------------------------------------------------------------------------------------------------------------------------------
 #Product Insertion
 def Product_Insertion():
-    cloumns = ['NUMBER_OF_UNITS','STORE_ID','PRODUCT_ID']
+    cloumns = ['NUMBER_OF_UNITS','STORE_ID','PRODUCT_ID','PRICE','SELLING_PRICE']
     values =[]
     for key in cloumns:
         values.append(request.json[key])
@@ -25,7 +25,8 @@ def Product_Insertion():
         connector.insert_query(table='store_product' ,attributes=['NUMBER_OF_UNITS','STORE_ID'], values=values)
         connector.close_connection()
         return "1"
-    connector.update_query(table='store_product',attributes='NUMBER_OF_UNITS',values=values[0])
+    valuestobeupdated=[values[0],values[3],values[4]]
+    connector.update_query(table='store_product',attributes=['NUMBER_OF_UNITS','PRICE','SELLING_PRICE'],values=valuestobeupdated)
     #connector.insert_query(table='store_product' ,attributes=cloumns, values=values)
     connector.close_connection()
     return "1"
