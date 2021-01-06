@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:dentista/utility_class/Product.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/Alerts.dart';
+import 'package:get/get.dart';
+import 'package:dentista/UsersControllers/DeliveryController.dart';
 
 class OrderScreen extends StatefulWidget {
   final String dentistfname;
@@ -15,16 +17,8 @@ class OrderScreen extends StatefulWidget {
   final String dentistaddress;
   final String ordertotal;
   final String orderid;
-  final String deliveryid;
-  OrderScreen(
-      this.dentistfname,
-      this.dentistlname,
-      this.dentistphone,
-      this.dentistaddress,
-      this.ordertotal,
-      this.orderid,
-      this.deliveryid,
-      this.dentisemail);
+  OrderScreen(this.dentistfname, this.dentistlname, this.dentistphone,
+      this.dentistaddress, this.ordertotal, this.orderid, this.dentisemail);
   @override
   _OrderScreenState createState() => _OrderScreenState(
       dentistfname,
@@ -33,11 +27,12 @@ class OrderScreen extends StatefulWidget {
       dentistaddress,
       ordertotal,
       orderid,
-      deliveryid,
       dentisemail);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  final DeliveryController deliveryController = Get.put(DeliveryController());
+
   int present = 20;
   int perPage = 20;
 
@@ -48,20 +43,12 @@ class _OrderScreenState extends State<OrderScreen> {
   String dentistaddress;
   String ordertotal;
   String orderid;
-  String deliveryid;
   int totalproductsnumber = 0;
 
   List<Product> Products;
 
-  _OrderScreenState(
-      this.dentistfname,
-      this.dentistlname,
-      this.dentistphone,
-      this.dentistaddress,
-      this.ordertotal,
-      this.orderid,
-      this.deliveryid,
-      this.dentistemail);
+  _OrderScreenState(this.dentistfname, this.dentistlname, this.dentistphone,
+      this.dentistaddress, this.ordertotal, this.orderid, this.dentistemail);
 
   @override
   void initState() {
@@ -210,7 +197,8 @@ class _OrderScreenState extends State<OrderScreen> {
                           child: Card(
                               child: ListView(
                             shrinkWrap: true,
-                            children: List.generate(totalproductsnumber, (index) {
+                            children:
+                                List.generate(totalproductsnumber, (index) {
                               return Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Row(
@@ -218,15 +206,19 @@ class _OrderScreenState extends State<OrderScreen> {
                                     Text(
                                       Products[index].productnumber,
                                       style: TextStyle(
-                                          fontSize: 15, fontFamily: "Montserrat"),
+                                          fontSize: 15,
+                                          fontFamily: "Montserrat"),
                                       textAlign: TextAlign.start,
                                     ),
                                     SizedBox(width: 20.0),
-                                    Text(
-                                      Products[index].productname,
-                                      style: TextStyle(
-                                          fontSize: 15, fontFamily: "Montserrat"),
-                                      textAlign: TextAlign.start,
+                                    Expanded(
+                                      child: Text(
+                                        Products[index].productname,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: "Montserrat"),
+                                        textAlign: TextAlign.start,
+                                      ),
                                     ),
                                     SizedBox(width: 10.0),
                                     Expanded(
@@ -256,18 +248,36 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 15),
               child: Container(
                 width: 500,
-                child: GestureDetector(
-                  onTap: () async {
+                height: 40,
+                child: RaisedButton(
+                  color: Colors.blueGrey[400],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.black87)),
+                  child: Text(
+                    "Deliver",
+                    style: TextStyle(
+                      fontFamily: 'montserrat',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: () async {
                     final result = await http.post(
                         'http://10.0.2.2:5000/delivery_assignorder',
                         headers: <String, String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                         },
-                        body: json.encode(
-                            {'DELIVERYID': deliveryid, 'ORDERID': orderid}));
+                        body: json.encode({
+                          'DELIVERYID': deliveryController.ID.value,
+                          'ORDERID': orderid,
+                          'no.Dorders': (int.parse(deliveryController
+                                      .NumberOfOrders.value) +
+                                  1)
+                              .toString()
+                        }));
                     String assigningresult = result.body;
                     if (assigningresult == "0") {
                       Alert(context, "This order is already assigned", "",
@@ -276,9 +286,9 @@ class _OrderScreenState extends State<OrderScreen> {
                       Alert(context, "This order is assigned to you",
                           "You can't assign order untill you deliver this order",
                           message2: "");
+                      deliveryController.IncDordersNumber();
                     }
                   },
-                  child: drawButton('Deliver', Colors.blueGrey[800]),
                 ),
               ),
             )
