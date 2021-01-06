@@ -145,7 +145,6 @@ class _AddItemState extends State<AddItem> {
                                 'Content-Type': 'application/json; charset=UTF-8',
                               },
                               body: json.encode({
-
                                 'NUMBER_OF_UNITS': No_Of_Units,
                                 'STORE_ID': ID,
                                 'PRODUCT_ID': Product_Name,
@@ -153,8 +152,11 @@ class _AddItemState extends State<AddItem> {
                                 'SELLING_PRICE': Sell_Price,
                               }),
                             );
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context)=>StoreHome(Store_name, email, ID) ));
                             Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
-                          }
+
+                        }
 
                       },
                       child: drawButton("Add Item", Colors.green),

@@ -220,6 +220,7 @@ class _SignInState extends State<SignIn> {
 
                       String store_name= AcountData['Store_Name'];
                       String id = AcountData['STORE_ID'].toString();
+                      authController.setStoreID(id);
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
 
                       }
