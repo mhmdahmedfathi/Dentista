@@ -76,7 +76,7 @@ app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['P
 # --------------------------------------------------------------------------------------------------------------------------------
 #For Product
 app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=['POST'])
-app.add_url_rule('/Product_validation',view_func=Add_Item.Product_ID_validator ,methods=['POST'])
+app.add_url_rule('/Product_Add_count',view_func=Add_Item.update_num_item ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
 
 def run_server(debug=False):
