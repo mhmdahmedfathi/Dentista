@@ -194,3 +194,259 @@ Connection established
 Retrive from table MANAGER at 01:11:23 is done correctly
 Connection established 
 Retrive from table MANAGER at 01:11:24 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 23:53:26 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 23:53:26 is done correctly
+Connection established 
+Retrive from table MANAGER at 23:53:27 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 00:38:33 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:38:33 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:38:33 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 00:40:27 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 00:40:44 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 00:40:54 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 00:40:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 00:41:36 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:41:36 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:41:37 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 00:46:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:46:10 is done correctly
+Connection established 
+Retrive from table MANAGER at 00:46:10 is done correctly
+Connection established 
+Update table [ Manager ] at 02:01:54 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:02:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 02:04:33 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:04:33 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:04:33 is done correctly
+Connection established 
+Update table [ Manager ] at 02:05:48 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:05:48 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:15:17 is done correctly
+Connection established 
+Update table [ Manager ] at 02:22:26 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:23:19 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:23:19 is done correctly
+Connection established 
+Update table [ Manager ] at 02:23:36 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:24:08 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:28:54 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:29:28 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 02:35:43 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:35:43 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:35:43 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 02:40:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:40:10 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:40:10 is done correctly
+Connection established 
+Update table [ Manager ] at 02:40:23 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 02:41:42 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 02:43:59 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:44:00 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:44:00 is done correctly
+Connection established 
+Update table [ Manager ] at 02:44:19 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:44:19 is done correctly
+Connection established 
+Update table [ Manager ] at 02:45:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 02:55:11 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 02:55:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 02:55:46 is done correctly
+Connection established 
+Retrive from table MANAGER at 02:55:46 is done correctly
+Connection established 
+Update table [ Manager ] at 02:56:01 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:04:00 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:04:00 is done correctly
+Connection established 
+Retrive from table MANAGER at 03:04:00 is done correctly
+Connection established 
+Update table [ Manager ] at 03:04:24 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:04:24 is done correctly
+Connection established 
+Update table [ Manager ] at 03:04:44 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 03:05:14 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:05:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:06:01 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:06:15 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:06:56 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:07:08 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:07:08 is done correctly
+Connection established 
+Retrive from table MANAGER at 03:07:08 is done correctly
+Connection established 
+Update table [ Manager ] at 03:07:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:07:18 is done correctly
+Connection established 
+Update table [ Manager ] at 03:09:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Update table [ Manager ] at 03:11:29 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 03:15:01 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:15:01 is done correctly
+Connection established 
+Retrive from table MANAGER at 03:15:02 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 03:22:40 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:22:40 is done correctly
+Connection established 
+Retrive from table MANAGER at 03:22:40 is done correctly
+Connection established 
+Update table [ Manager ] at 03:22:51 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 03:22:51 is done correctly
+Connection established 
+Update table [ Manager ] at 03:22:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 12:02:20 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:02:20 is done correctly
+Connection established 
+Retrive from table MANAGER at 12:02:21 is done correctly
+Connection established 
+Update table [ Manager ] at 12:02:47 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:02:47 is done correctly

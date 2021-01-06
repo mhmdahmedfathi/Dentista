@@ -15,7 +15,7 @@ InputDecoration authDecoration (String hintext)
       borderSide: BorderSide(color: Colors.grey[300], width: 2.0),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.lightGreen, width: 2.0),
+      borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0),
     ),
   );
 }

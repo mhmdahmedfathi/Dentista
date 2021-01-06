@@ -48,7 +48,7 @@ app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_Cre
 # Manager
 app.add_url_rule('/manager_signup' , view_func=Manager.Manager_Insertion, methods=['POST'])
 app.add_url_rule('/manager_email_validation' , view_func=Manager.Manager_email_validator , methods=['POST'])
-
+app.add_url_rule('/manager_update', view_func=Manager.Update_Manager_table, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
