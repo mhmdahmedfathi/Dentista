@@ -12,7 +12,7 @@ class ViewTile extends StatelessWidget {
       child: ListTile(
         onTap: (){},
         title: Text(storeDeliveryName,style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 18 ,fontFamily: 'montserrat'),),
-        subtitle: Text("Total "+ (type==0 ? "Products: " : "delivered ordrs: ")+productesDelivers,style: TextStyle(fontSize: 13,fontFamily: 'montserrat' , fontWeight: FontWeight.w500),),
+        subtitle: Text((type==0 ? "Store" : "Delivery")+" ID: "+productesDelivers,style: TextStyle(fontSize: 14,fontFamily: 'montserrat' , fontWeight: FontWeight.w600),),
         trailing: RaisedButton(
           onPressed: (){},
           color: Colors.blueGrey[400],

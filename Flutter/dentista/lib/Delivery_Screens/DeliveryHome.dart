@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:dentista/Delivery_Screens/Delivery_Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
@@ -321,8 +320,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => DeliverySettings()));
+
               },
             ),
             ListTile(

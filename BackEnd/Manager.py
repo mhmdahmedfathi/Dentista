@@ -1,6 +1,7 @@
 from Verifications import Validator
 from flask import request
 from SQLAPI import SQL
+import json
 # ------------------------------------------------------------------------------------------------------------------------------
 #Setting Connection Up
 server_name = 'localhost'
@@ -35,3 +36,73 @@ def Update_Manager_table():
     connector.update_query(table='Manager' ,columns_values_dict= columns_dic,sql_condition=condition)
     connector.close_connection()
     return "1"
+
+
+def Get_Pending_Requests():
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='(delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID)',columns=['DISTINCT( D.DELIVERY_ID)','DELIVERY_Fname' ,'DELIVERY_Lname'])
+    result = {'DID': result['DISTINCT( D.DELIVERY_ID)'] , 'fname':result['DELIVERY_Fname'], 'lname':result['DELIVERY_Lname']}
+    connector.close_connection()
+    return json.dumps(result)
+
+def Get_Request_Info_Delivery():
+    Delivery_ID = request.json['DID']
+    Condition = "DELIVERY_ID = '" +str(Delivery_ID) +  "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result= connector.select_query(table='Delivery' , columns=['DELIVERY_Fname','DELIVERY_Lname','DELIVERY_EMAIL','DELIVERY_CREDIT_CARD_NUMBER','AREA','VECHILE_LICENCE','VECHILE_MODEL'],sql_condition=Condition)
+    result = {'Fname' : result['DELIVERY_Fname'][0],'Lname' : result['DELIVERY_Lname'][0],'Email' : result['DELIVERY_EMAIL'][0],'CCN' : result['DELIVERY_CREDIT_CARD_NUMBER'][0],'Area' : result['AREA'][0],'License' : result['VECHILE_LICENCE'][0],'Model' : result['VECHILE_MODEL'][0]}
+    connector.close_connection()
+    return json.dumps(result)
+
+
+def Get_All_Stores():
+    ManagerArea = request.json['MArea']
+    Condition = "REGION = '"+ManagerArea+"'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='(STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID)' , columns=['S.STORE_ID','STORE_NAME'],sql_condition=Condition)
+    result = {'SID' : result['S.STORE_ID'] , 'SNAME' : result['STORE_NAME']}
+    connector.close_connection()
+    return json.dumps(result)
+
+
+def Get_All_Delivery():
+    ManagerArea = request.json['MArea']
+    Condition = "AREA = '"+ManagerArea+"'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='DELIVERY' , columns=['DELIVERY_ID' , 'DELIVERY_Fname','DELIVERY_Lname'],sql_condition=Condition)
+    result = {'DID':result['DELIVERY_ID'],'DFname':result['DELIVERY_Fname'] , 'DLname':result['DELIVERY_Lname']}
+    connector.close_connection()
+    return json.dumps(result)
+
+def Accept_Request():
+    reqType = request.json['type']
+    ManagerID = request.json['MID']
+    connector = SQL(server_name,server_admin,server_password)
+    if reqType == 'Delivery':
+        Deliver_id = request.json['DID']
+        Condition = "DELIVERY_ID = '" + str(Deliver_id) +"'"
+        connector.delete_query(table='delivery_verification' ,sql_condition=Condition)
+        connector.update_query(table='DELIVERY' ,columns_values_dict= {'MANAGER_ID' : str(ManagerID)} , sql_condition=Condition)
+    elif reqType == 'Store':
+        Store_id = request.json['SID']
+        Condition = "STORE_ID = '" + str(Store_id) +"'"
+        connector.delete_query(table='store_verification' ,sql_condition=Condition)
+        connector.update_query(table='Store' ,columns_values_dict= {'MANAGER_ID' : ManagerID} , sql_condition=Condition)
+    connector.close_connection()
+    return "1"
+
+def Reject_Request():
+    reqType = request.json['type']
+    ManagerID = request.json['MID']
+    connector = SQL(server_name,server_admin,server_password)
+    if reqType == 'Delivery':
+        Deliver_id = request.json['DID']
+        Condition = "DELIVERY_ID = '" + str(Deliver_id) +"'"
+        connector.delete_query(table='delivery_verification' ,sql_condition=Condition)
+    elif reqType == 'Store':
+        Store_id = request.json['SID']
+        Condition = "STORE_ID = '" + str(Store_id) +"'"
+        connector.delete_query(table='store_verification' ,sql_condition=Condition)
+    connector.close_connection()
+    return "1"
+

@@ -49,6 +49,13 @@ app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_Cre
 app.add_url_rule('/manager_signup' , view_func=Manager.Manager_Insertion, methods=['POST'])
 app.add_url_rule('/manager_email_validation' , view_func=Manager.Manager_email_validator , methods=['POST'])
 app.add_url_rule('/manager_update', view_func=Manager.Update_Manager_table, methods = ['POST'])
+app.add_url_rule('/pending_requests', view_func=Manager.Get_Pending_Requests, methods = ['GET'])
+app.add_url_rule('/get_Delivery_info', view_func=Manager.Get_Request_Info_Delivery, methods = ['POST'])
+app.add_url_rule('/get_all_stores', view_func=Manager.Get_All_Stores, methods = ['POST'])
+app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
+app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
+app.add_url_rule('/acctept_request', view_func=Manager.Accept_Request, methods = ['POST'])
+app.add_url_rule('/reject_request', view_func=Manager.Reject_Request, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
