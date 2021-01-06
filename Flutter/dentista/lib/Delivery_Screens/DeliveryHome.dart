@@ -1,39 +1,30 @@
 import 'dart:convert';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Delivery_Screens/Delivery_Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/utility_class/Order.dart';
 import 'package:dentista/Delivery_Screens/OrderScreen.dart';
-
+import 'package:get/get.dart';
 import 'package:dentista/Delivery_Screens/Delivery_Profile_Screen.dart';
-
+import 'package:dentista/UsersControllers/DeliveryController.dart';
 
 class DeliveryHome extends StatefulWidget {
-  final String fname;
-  final String lname;
-  final String email;
-  final String area;
-  final String ID;
-  DeliveryHome(this.fname, this.lname, this.email, this.area, this.ID);
   @override
-  _DeliveryHomeState createState() =>
-      _DeliveryHomeState(fname, lname, email, area, ID);
+  _DeliveryHomeState createState() => _DeliveryHomeState();
 }
 
 class _DeliveryHomeState extends State<DeliveryHome> {
+  final DeliveryController deliveryController = Get.put(DeliveryController());
+  int _page = 0;
   int OrdersNumber = 0;
   int present = 20;
   int perPage = 20;
   List<Order> Orders;
 
-  String fname = "";
-  String lname = "";
-  String email = "";
-  String area = "";
-  String ID = "";
-
-  _DeliveryHomeState(this.fname, this.lname, this.email, this.area, this.ID);
+  _DeliveryHomeState();
 
   @override
   void initState() {
@@ -47,8 +38,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: json.encode({'area': area}));
-
+            body: json.encode({'area': deliveryController.area.value}));
     final data = json.decode(OrderData.body);
 
     OrdersNumber = data['no.orders'][0];
@@ -77,6 +67,47 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+          index: 0,
+          buttonBackgroundColor: Colors.grey,
+          height: 50,
+          color: Colors.blueGrey[800],
+          backgroundColor: Colors.white,
+          items: [
+            Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.format_list_numbered,
+                        size: 30, color: Colors.white),
+                    Text("Orders",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: Colors.white))
+                  ],
+                )),
+            Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.bar_chart,
+                        size: 30, color: Colors.white),
+                    Text("statistics",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: Colors.white))
+                  ],
+                ))
+          ],
+          onTap: (val) {
+            setState(() {
+              _page =val;
+            });
+          }),
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[800],
         title: Text(
@@ -95,8 +126,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     headers: <String, String>{
                       'Content-Type': 'application/json; charset=UTF-8',
                     },
-                    body: json.encode({'area': area}));
-
+                    body: json.encode({'area': deliveryController.area.value}));
                 final data = json.decode(OrderData.body);
 
                 OrdersNumber = data['no.orders'][0];
@@ -116,105 +146,121 @@ class _DeliveryHomeState extends State<DeliveryHome> {
               })
         ],
       ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification scrollinfo) {
-          if (scrollinfo.metrics.pixels == scrollinfo.metrics.maxScrollExtent)
-            loadmore();
-          return true;
-        },
-        child: ListView(
-            shrinkWrap: true,
-            children:
-                List.generate(OrdersNumber == 0 ? 0 : OrdersNumber, (index) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => OrderScreen(
-                              Orders[index].DentistFName,
-                              Orders[index].DentistLName,
-                              Orders[index].Dentistphonenumber,
-                              Orders[index].DentistAddress,
-                              Orders[index].TotalCost,
-                              Orders[index].OrderID,
-                              this.ID,
-                              Orders[index].Dentistemail)));
-                    },
-                    title: Text(
-                        Orders[index].DentistFName == "" &&
-                                Orders[index].DentistLName == ""
-                            ? ""
-                            : 'Dr. ' +
-                                Orders[index].DentistFName +
-                                " " +
-                                Orders[index].DentistLName,
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700)),
-                    subtitle: Text(Orders[index].DentistAddress == ""
-                        ? ""
-                        : Orders[index].DentistAddress),
-                    leading: Text(Orders[index].OrderID == ""
-                        ? ""
-                        : 'no.' + Orders[index].OrderID),
-                    trailing: Text(
-                        Orders[index].TotalCost == ""
-                            ? ""
-                            : Orders[index].TotalCost + 'EGP',
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w800)),
+      //_page ==0 ? PendingRequests(): _page==1 ? StoresPage() : _page==2 ? DeliveriesPage():Container()
+      body: _page == 0
+          ? NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification scrollinfo) {
+                if (scrollinfo.metrics.pixels ==
+                    scrollinfo.metrics.maxScrollExtent) loadmore();
+                return true;
+              },
+              child: ListView(
+                  shrinkWrap: true,
+                  children: List.generate(OrdersNumber == 0 ? 0 : OrdersNumber,
+                      (index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => OrderScreen(
+                                    Orders[index].DentistFName,
+                                    Orders[index].DentistLName,
+                                    Orders[index].Dentistphonenumber,
+                                    Orders[index].DentistAddress,
+                                    Orders[index].TotalCost,
+                                    Orders[index].OrderID,
+                                    Orders[index].Dentistemail)));
+                          },
+                          title: Text(
+                              Orders[index].DentistFName == "" &&
+                                      Orders[index].DentistLName == ""
+                                  ? ""
+                                  : 'Dr. ' +
+                                      Orders[index].DentistFName +
+                                      " " +
+                                      Orders[index].DentistLName,
+                              style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700)),
+                          subtitle: Text(Orders[index].DentistAddress == ""
+                              ? ""
+                              : Orders[index].DentistAddress),
+                          leading: Text(Orders[index].OrderID == ""
+                              ? ""
+                              : 'no.' + Orders[index].OrderID),
+                          trailing: Text(
+                              Orders[index].TotalCost == ""
+                                  ? ""
+                                  : Orders[index].TotalCost + 'EGP',
+                              style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w800)),
+                        ),
+                        // child: Row(
+                        //   children: [
+                        //     Column(
+                        //       children: [
+                        //         Text(
+                        //           Orders[index].DentistFName == "" &&
+                        //               Orders[index].DentistLName == ""
+                        //               ? ""
+                        //               : 'Dr. ' +
+                        //               Orders[index].DentistFName +
+                        //               " " +
+                        //               Orders[index].DentistLName,
+                        //           style: TextStyle(
+                        //               fontSize: 15, fontFamily: "Montserrat",fontWeight: FontWeight.bold),
+                        //           textAlign: TextAlign.start,
+                        //         ),
+                        //         SizedBox(height: 10.0),
+                        //         Text(
+                        //           Orders[index].DentistAddress,
+                        //           style: TextStyle(
+                        //               fontSize: 15, fontFamily: "Montserrat"),
+                        //           textAlign: TextAlign.start,
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     // SizedBox(width: 50.0),
+                        //     Expanded(
+                        //       child: Align(
+                        //         child: Container(
+                        //           alignment: Alignment.centerRight,
+                        //           child: Text(
+                        //             Orders[index].TotalCost == ""
+                        //                 ? ""
+                        //                 : Orders[index].TotalCost + 'EGP',
+                        //             style: TextStyle(
+                        //                 fontSize: 40,
+                        //                 color: Colors.blueGrey[800],
+                        //                 fontFamily: "Montserrat"),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                      ),
+                    );
+                  })),
+            )
+          : _page == 1
+              ? NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollinfo) {
+                    if (scrollinfo.metrics.pixels ==
+                        scrollinfo.metrics.maxScrollExtent) loadmore();
+                    return true;
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+
+                    ),
                   ),
-                  // child: Row(
-                  //   children: [
-                  //     Column(
-                  //       children: [
-                  //         Text(
-                  //           Orders[index].DentistFName == "" &&
-                  //               Orders[index].DentistLName == ""
-                  //               ? ""
-                  //               : 'Dr. ' +
-                  //               Orders[index].DentistFName +
-                  //               " " +
-                  //               Orders[index].DentistLName,
-                  //           style: TextStyle(
-                  //               fontSize: 15, fontFamily: "Montserrat",fontWeight: FontWeight.bold),
-                  //           textAlign: TextAlign.start,
-                  //         ),
-                  //         SizedBox(height: 10.0),
-                  //         Text(
-                  //           Orders[index].DentistAddress,
-                  //           style: TextStyle(
-                  //               fontSize: 15, fontFamily: "Montserrat"),
-                  //           textAlign: TextAlign.start,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     // SizedBox(width: 50.0),
-                  //     Expanded(
-                  //       child: Align(
-                  //         child: Container(
-                  //           alignment: Alignment.centerRight,
-                  //           child: Text(
-                  //             Orders[index].TotalCost == ""
-                  //                 ? ""
-                  //                 : Orders[index].TotalCost + 'EGP',
-                  //             style: TextStyle(
-                  //                 fontSize: 40,
-                  //                 color: Colors.blueGrey[800],
-                  //                 fontFamily: "Montserrat"),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                ),
-              );
-            })),
-      ),
+                )
+              : Container(),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -237,13 +283,16 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                       backgroundColor: Colors.blueGrey,
                     ),
                   ),
-                  Text(
-                    fname + ' ' + lname,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Montserrat",
-                        color: Colors.white),
+                  Obx(()=> Text(
+                      deliveryController.fname.value +
+                          ' ' +
+                          deliveryController.lname.value,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
+                          color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -258,32 +307,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                final DeliveryProfileDataResponse =
-                    await http.post('http://10.0.2.2:5000/delivery_Profile',
-                        headers: <String, String>{
-                          'Content-Type': 'application/json; charset=UTF-8',
-                        },
-                        body: json.encode({'email': email}));
-
-                final DeliveryProfileData =
-                    json.decode(DeliveryProfileDataResponse.body);
-
-                String phone = DeliveryProfileData['phone'];
-                String vechilemodel = DeliveryProfileData['VModel'];
-                String vechilelicense = DeliveryProfileData['VLicense'];
-                String rate = DeliveryProfileData['rate'].toString();
-
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Delivery_Profile(
-                        this.fname,
-                        this.lname,
-                        this.email,
-                        this.area,
-                        phone,
-                        this.ID,
-                        vechilelicense,
-                        vechilemodel,
-                        rate)));
+                    builder: (context) => Delivery_Profile()));
               },
             ),
             ListTile(
@@ -295,7 +320,10 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DeliverySettings()));
+              },
             ),
             ListTile(
               leading: Icon(Icons.credit_card),

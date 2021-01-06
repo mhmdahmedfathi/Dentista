@@ -114,7 +114,7 @@ class _MyProductState extends State<MyProduct> {
 
             ProductCount = data['Count'][0];
             DeliveryCount = data['count_Delivery'][0];
-            Products = List<Product>.generate(ProductCount, (index) => Product());
+            Products = List<Product>.generate(present, (index) => Product());
             setState(() {
               for (int i = 0; i <= ProductCount; i++) {
                 Products[i].ProductNo = data['NUMBER_OF_UNITS'][i];
@@ -142,7 +142,7 @@ class _MyProductState extends State<MyProduct> {
     crossAxisSpacing: 0.0,
     mainAxisSpacing: 0.0,
     shrinkWrap: true,
-    children: List.generate(ProductCount == 0 ? 1 : ProductCount, (index) {
+    children: List.generate(present, (index) {
     return Padding(
     padding: const EdgeInsets.all(10.0),
     child: InkWell(

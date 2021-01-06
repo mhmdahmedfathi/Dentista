@@ -30,7 +30,7 @@ def Delivery_insertion():
     columns.append('MANAGER_ID')
     values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
     columns.append('AVAILABLE')
-    values.append(0)
+    values.append(1)
     columns.append('RATE')
     values.append(0)
     columns.append('NUMBER_OF_DORDERS')
@@ -86,15 +86,15 @@ def ProductsofOrder():
     connector.close_connection()
     return json.dumps(result)
 
-def DeliveryProfile():
-    columns = ['DELIVERY_ID', 'VECHILE_LICENCE', 'VECHILE_MODEL', 'RATE', 'Delivery_PHONE_NUMBER']
-    email = request.json['email']
-    condition = "DELIVERY_EMAIL = '"+ email + "'"
-    connector = SQL(host=server_name, user=server_admin)
-    result = connector.select_query(table='DELIVERY', columns=columns, sql_condition=condition)
-    connector.close_connection()
-    result = {'ID': result['DELIVERY_ID'][0], 'VLicense': result['VECHILE_LICENCE'][0], 'VModel': result['VECHILE_MODEL'][0], 'rate': result['RATE'][0], 'phone': result['Delivery_PHONE_NUMBER'][0]}
-    return json.dumps(result)
+#def DeliveryProfile():
+    #columns = ['DELIVERY_ID', 'VECHILE_LICENCE', 'VECHILE_MODEL', 'RATE', 'Delivery_PHONE_NUMBER']
+    #email = request.json['email']
+    #condition = "DELIVERY_EMAIL = '"+ email + "'"
+    #connector = SQL(host=server_name, user=server_admin)
+    #result = connector.select_query(table='DELIVERY', columns=columns, sql_condition=condition)
+    #connector.close_connection()
+    #result = {'ID': result['DELIVERY_ID'][0], 'VLicense': result['VECHILE_LICENCE'][0], 'VModel': result['VECHILE_MODEL'][0], 'rate': result['RATE'][0], 'phone': result['Delivery_PHONE_NUMBER'][0]}
+    #return json.dumps(result)
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -102,14 +102,59 @@ def DeliveryProfile():
 def DeliverOrder():
     deliveryid = request.json['DELIVERYID']
     orderid = request.json['ORDERID']
+    numberofDorders = request.json['no.Dorders']
     connector = SQL(host=server_name, user=server_admin)
     result = connector.select_query(table='ORDERS',columns=['SHIPMENT_STATUS'],sql_condition="ORDER_ID= "+orderid )
     if result['SHIPMENT_STATUS'][0] == 'ASSIGNED':
         return "0"
     else:
-        Query = {'DELIVERY_ID' : deliveryid, 'SHIPMENT_STATUS' : 'ASSIGNED'}
-        condition = "ORDER_ID = " + orderid
-        result = connector.update_query(table='ORDERS',columns_values_dict=Query,sql_condition=condition)
+        print(numberofDorders)
+        Query = {'O.DELIVERY_ID' : deliveryid, 'O.SHIPMENT_STATUS' : 'ASSIGNED', 'D.AVAILABLE': 0, 'D.NUMBER_OF_DORDERS': numberofDorders}
+        condition = "O.ORDER_ID = " + orderid +" and D.delivery_id = " + deliveryid
+        connector.update_query(table='ORDERS as O, DELIVERY as D',columns_values_dict=Query,sql_condition=condition)
         connector.close_connection()
-        return result
+        return "1"
+
+def UpdateData():
+    updatedattribute = request.json['Updateattribute']
+    print(updatedattribute)
+    if updatedattribute=='AREA':
+        newarea=request.json['Updatedvalue']
+        connector = SQL(host=server_name, user=server_admin)
+        Query = {"AREA": newarea}
+        condition = "DELIVERY_ID = " + request.json['ID']
+        print(condition)
+        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
+        print(newarea)
+        connector.close_connection()
+        return "1"
+    elif updatedattribute == 'VECHILE_LICENCE':
+        newlicense = request.json['Updatedvalue']
+        connector = SQL(host=server_name, user=server_admin)
+        Query = {"VECHILE_LICENCE": newlicense}
+        condition = "DELIVERY_ID = " + request.json['ID']
+        print(condition)
+        print(newlicense)
+        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
+        connector.close_connection()
+    elif updatedattribute == 'VECHILE_MODEL':
+        newlmodel = request.json['Updatedvalue']
+        connector = SQL(host=server_name, user=server_admin)
+        Query = {"VECHILE_LICENCE": newlmodel}
+        condition = "DELIVERY_ID = " + request.json['ID']
+        print(condition)
+        print(newlmodel)
+        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
+        connector.close_connection()
+    elif updatedattribute == 'Delivery_PHONE_NUMBER':
+        newlphone = request.json['Updatedvalue']
+        connector = SQL(host=server_name, user=server_admin)
+        Query = {"Delivery_PHONE_NUMBER": newlphone}
+        condition = "DELIVERY_ID = " + request.json['ID']
+        print(condition)
+        print(newlphone)
+        connector.update_query(table='DELIVERY', columns_values_dict=Query, sql_condition=condition)
+        connector.close_connection()
+
+    return "0"
 

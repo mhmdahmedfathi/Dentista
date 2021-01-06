@@ -126,7 +126,9 @@ class _AddItemState extends State<AddItem> {
                 ),
               ),
             ),
-    
+             Container(
+                child :  Text('''Please Note that if this item is with you already the values will be replaced by the new values''',maxLines: 20, style: TextStyle(fontSize: 16.0 ,fontWeight:FontWeight.bold,color: Colors.grey) , )
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -147,6 +149,8 @@ class _AddItemState extends State<AddItem> {
                                 'NUMBER_OF_UNITS': No_Of_Units,
                                 'STORE_ID': ID,
                                 'PRODUCT_ID': Product_Name,
+                                'PRICE': Price,
+                                'SELLING_PRICE': Sell_Price,
                               }),
                             );
                             Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
