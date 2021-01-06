@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dentista/Manager%20Screens/DeliveriesPage.dart';
+import 'package:dentista/Manager%20Screens/Manager_Account_Details.dart';
 import 'package:dentista/Manager%20Screens/PendingRequests.dart';
 import 'package:dentista/Manager%20Screens/StoresPage.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
@@ -126,7 +127,7 @@ fontFamily: 'montserrat',
                 ),
               ),
               onTap: (){
-                // To Move to About Dentista Page
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerAccountDetails()));
               },
             ),
             ListTile(

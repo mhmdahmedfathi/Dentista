@@ -25,3 +25,13 @@ def Manager_Insertion():
 def Manager_email_validator():
     validator = Validator(connection_details , 'Manager')
     return validator.email_validation('MANAGER_EMAIL')
+
+def Update_Manager_table():
+
+    columns_dic = request.json['dic']
+    ManagerID = request.json["MID"]
+    condition = "MANAGER_ID = '" +str(ManagerID) +  "'"
+    connector = SQL(server_name,server_admin,server_password)
+    connector.update_query(table='Manager' ,columns_values_dict= columns_dic,sql_condition=condition)
+    connector.close_connection()
+    return "1"

@@ -8,9 +8,10 @@ class ManagerController extends GetxController
   final AuthController authController = Get.put(AuthController());
   var MFname =''.obs;
   var MLname=''.obs;
-  var Manager_ID = ''.obs;
+  var Manager_ID = 0.obs;
   var M_Type = ''.obs;
   var M_Area = ''.obs;
+  var M_Email=''.obs;
   @override
   void onInit() async{
     // TODO: implement onInit
@@ -21,8 +22,8 @@ class ManagerController extends GetxController
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: json.encode({
-        'email':authController.GetEmail,
-        'AccountType':'Manager'
+        "email":authController.GetEmail,
+        "AccountType":'Manager'
       }),
     );
 
@@ -32,6 +33,7 @@ class ManagerController extends GetxController
     Manager_ID (accountData['M_ID']);
     M_Type (accountData['M_Type']);
     M_Area (accountData['M_Area']);
+    M_Email(authController.GetEmail);
 
   }
 
