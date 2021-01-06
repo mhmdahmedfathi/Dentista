@@ -16,6 +16,8 @@ app = Flask(__name__)
 
 
 #------------------------------------------------------------------------------------------------------------------------------
+server_name = "dentista1.mysql.database.azure.com"
+server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
 
@@ -60,7 +62,9 @@ app.add_url_rule('/delivery_license_validation',view_func=Delivery.Delivery_Vehi
 app.add_url_rule('/delivery_getavailableorder', view_func=Delivery.OrdersToBeDelivered, methods=['POST'])
 app.add_url_rule('/delivery_getordersproducts', view_func=Delivery.ProductsofOrder, methods=['POST'])
 app.add_url_rule('/delivery_assignorder', view_func=Delivery.DeliverOrder, methods=['POST'])
-app.add_url_rule('/delivery_Profile', view_func=Delivery.DeliveryProfile, methods=['POST'])
+app.add_url_rule('/delivery_UpdateData', view_func=Delivery.UpdateData, methods=['POST'])
+
+#app.add_url_rule('/delivery_Profile', view_func=Delivery.DeliveryProfile, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 

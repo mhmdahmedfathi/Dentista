@@ -201,13 +201,7 @@ class _SignInState extends State<SignIn> {
                           }),
                         );
 
-                        final AcountData = json.decode(getdata.body);
-
-                        String fname = AcountData['fname'];
-                        String lname= AcountData['lname'];
-                        String area = AcountData['area'];
-                        String id = AcountData['id'].toString();
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome(fname,lname,email,area,id))));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                       }
                       else if (AccountType == "store")
                       {
