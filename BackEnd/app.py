@@ -63,6 +63,9 @@ app.add_url_rule('/delivery_getavailableorder', view_func=Delivery.OrdersToBeDel
 app.add_url_rule('/delivery_getordersproducts', view_func=Delivery.ProductsofOrder, methods=['POST'])
 app.add_url_rule('/delivery_assignorder', view_func=Delivery.DeliverOrder, methods=['POST'])
 app.add_url_rule('/delivery_UpdateData', view_func=Delivery.UpdateData, methods=['POST'])
+app.add_url_rule('/delivery_ChangePassword', view_func=Delivery.UpdatePassword, methods=['POST'])
+app.add_url_rule('/delivery_totaldeliverdorders', view_func=Delivery.TotalDeliveredOrders, methods=['POST'])
+app.add_url_rule('/delivery_getmydeliveredorders', view_func=Delivery.DeliveredOrders, methods=['POST'])
 
 #app.add_url_rule('/delivery_Profile', view_func=Delivery.DeliveryProfile, methods=['POST'])
 

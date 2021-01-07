@@ -177,7 +177,7 @@ class SQL:
             for row in rows:
                 for index, column in enumerate(columns):
                     Result[column].append(row[index])
-            
+
         except :
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
