@@ -34,30 +34,24 @@ def Product_Insertion():
 # ------------------------------------------------------------------------------------------------------------------------------
 
 def Avaliable_Products():
-    columns = ['NUMBER_OF_UNITS','SELLING_PRICE' ,'IMAGE_URL', 'PRODUCT_NAME']
-    values =[]
-    for key in columns:
-        values.append(request.json[key])
+    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','PRICE' ,'IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
     ID = request.json['ID']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " STORE_ID ='" + ID+ "' and PRODUCT_NAME = " + values[3]+"'"
+    condition = " STORE_ID ='" + ID+ "' "
     Count_Product = connector.select_query(table='products ',columns= ['count(distinct PRODUCT_ID)'],sql_condition=condition)
     result = connector.select_query(table='products ',columns=columns,sql_condition=condition)
-    result = {'SELLING_PRICE': result['SELLING_PRICE'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
+    result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
     connector.close_connection()
     return json.dumps(result)
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------
 
-def update_num_item():
-    columns = ['NUMBER_OF_UNITS' 'PRODUCT_NAME']
-    values =[]
-    for key in columns:
-        values.append(request.json[key])
-    ID = request.json['ID']
+def Update_Item_table():
+    columns_dic = request.json['dic']
+    ID = request.json["ID"]
+    condition = "STORE_ID = '" +str(ID) +  "'"
     connector = SQL(host=server_name, user=server_admin)
-    Query="UPDATE products SET NUMBER_OF_UNITS ='"+ values[0] +"'WHERE STORE_ID ='"+ID+"' and PRODUCT_NAME = '"+values[1] +"'"
-    connector.exectute_query(Query)
+    connector.update_query(table='products' ,columns_values_dict= columns_dic,sql_condition=condition)
     connector.close_connection()
-    return'1'
+    return "1"

@@ -49,6 +49,13 @@ app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_Cre
 app.add_url_rule('/manager_signup' , view_func=Manager.Manager_Insertion, methods=['POST'])
 app.add_url_rule('/manager_email_validation' , view_func=Manager.Manager_email_validator , methods=['POST'])
 app.add_url_rule('/manager_update', view_func=Manager.Update_Manager_table, methods = ['POST'])
+app.add_url_rule('/pending_requests', view_func=Manager.Get_Pending_Requests, methods = ['GET'])
+app.add_url_rule('/get_Delivery_info', view_func=Manager.Get_Request_Info_Delivery, methods = ['POST'])
+app.add_url_rule('/get_all_stores', view_func=Manager.Get_All_Stores, methods = ['POST'])
+app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
+app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
+app.add_url_rule('/acctept_request', view_func=Manager.Accept_Request, methods = ['POST'])
+app.add_url_rule('/reject_request', view_func=Manager.Reject_Request, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -77,13 +84,15 @@ app.add_url_rule('/Store_signup', view_func=Store.Store_insertion,methods=['POST
 app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validation,methods=['POST'])
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
+app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
+app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
 #For Product
 app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=['POST'])
-app.add_url_rule('/Product_Add_count',view_func=Add_Item.update_num_item ,methods=['POST'])
+app.add_url_rule('/Product_Update',view_func=Add_Item.Update_Item_table ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
 
 def run_server(debug=False):

@@ -1,4 +1,7 @@
+import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
+import 'package:dentista/UsersControllers/StoreProductController.dart';
+import 'package:dentista/Views/StoreProductView.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/Store Screens/Add_Item.dart';
@@ -14,6 +17,8 @@ import'package:dentista/utility class/Product.dart';
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import'package:dentista/Store Screens/Store_Home.dart';
+import'package:get/get.dart';
+
 class MyProduct extends StatefulWidget {
   final String ID;
   final String Email;
@@ -28,61 +33,39 @@ class _MyProductState extends State<MyProduct> {
   int products = 20;
   int present = 20;
   int perPage = 20;
-  List<Product> Products;
   List<bool> fav = List<bool>.generate(20, (index) => false);
   String ID = "";
   String Store_name = "";
   String Email = "";
   _MyProductState(this.Store_name,this.Email,this.ID);
-  String URL="";
-  String No_Of_Products="";
-  String ProductCost="";
-  int ProductCount;
-  String DeliveryCount;
+
+  
+  final StoreProductController ProductController = Get.put(StoreProductController());
+
+
+  
 
   @override
   void initState() {
     super.initState();
-    asyncmethod();
     setState(() {
       for (int i = 0; i<20; i++)
       {
         fav.add(false);
       }
+      ProductController.onInit();
       present = present + perPage;
     });
   }
 
-  void asyncmethod() async {
-    final ProductData =
-    await http.post('http://10.0.2.2:5000/Product_getavailableProducts',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode({'ID': ID}));
-
-    final data = json.decode(ProductData.body);
-
-    ProductCount = data['Count'][0];
-    DeliveryCount = data['count_Delivery'][0];
-    Products = List<Product>.generate(ProductCount, (index) => Product());
-    setState(() {
-      for (int i = 0; i <= ProductCount; i++) {
-        Products[i].ProductNo = data['NUMBER_OF_UNITS'][i];
-        Products[i].ProductCost = data['SELLING_PRICE'][i];
-        Products[i].IMAGE_URL = data['IMAGE_URL'][i];
-        Products[i].Product_Name = data['PRODUCT_NAME'][i];
-        Products[i].AvaliableDelivery = data['No_Delivery'][i];
-      }
-    });
-  }
-
+  
   void loadMore() {
     setState(() {
       for (int i = 0; i<20; i++)
       {
         fav.add(false);
       }
+      ProductController.onInit();
       present = present + perPage;
     });
   }
@@ -103,46 +86,32 @@ class _MyProductState extends State<MyProduct> {
           icon: Icon(Icons.refresh),
           color: Colors.white,
           onPressed: () async {
-            final ProductData =
-            await http.post('http://10.0.2.2:5000/Product_getavailableProducts',
-                headers: <String, String>{
-                  'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: json.encode({'ID': ID}));
-
-            final data = json.decode(ProductData.body);
-
-            ProductCount = data['Count'][0];
-            DeliveryCount = data['count_Delivery'][0];
-            Products = List<Product>.generate(present, (index) => Product());
             setState(() {
-              for (int i = 0; i <= ProductCount; i++) {
-                Products[i].ProductNo = data['NUMBER_OF_UNITS'][i];
-                Products[i].ProductCost = data['SELLING_PRICE'][i];
-                Products[i].IMAGE_URL = data['IMAGE_URL'][i];
-                Products[i].Product_Name = data['PRODUCT_NAME'][i];
-                Products[i].AvaliableDelivery = data['No_Delivery'][i];
-              }
+              ProductController.onInit();
             });
-            present = present + perPage;
+
           })
     ],
+
     backgroundColor: Colors.deepPurpleAccent,
     ),
+
     body: NotificationListener<ScrollNotification>(
     onNotification: (ScrollNotification ScrollInfo){
     if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
     {
-    loadMore();
+      ProductController.onInit();
+      loadMore();
     }
+    ProductController.onInit();
     return true;
     }
-    ,child: GridView.count(
+    ,child:GridView.count(
     crossAxisCount: 2,
     crossAxisSpacing: 0.0,
     mainAxisSpacing: 0.0,
     shrinkWrap: true,
-    children: List.generate(present, (index) {
+    children: List.generate(ProductController.ProductCount.value , (index) {
     return Padding(
     padding: const EdgeInsets.all(10.0),
     child: InkWell(
@@ -150,15 +119,15 @@ class _MyProductState extends State<MyProduct> {
     child: Card(
     child: Column(
     children: [
-    Text('Product Name',
-    style: TextStyle(
-    fontSize: 20,
-    color: Colors.deepPurpleAccent,
-    fontFamily: "Montserrat"
+    Obx(()=>
+       Text(ProductController.Products[index].Product_Name,
+        style: TextStyle(
+        fontSize: 20,
+        color: Colors.deepPurpleAccent,
+        fontFamily: "Montserrat"
+        ),
+      ),
     ),
-
-    )
-    ,
     Expanded(
     child: Container(
     decoration: BoxDecoration(
@@ -178,17 +147,18 @@ class _MyProductState extends State<MyProduct> {
     children: [
     Align(
     alignment: Alignment.centerLeft,
-    child: Text('15EGP',
-    style: TextStyle(
+    child: Text(ProductController.Products[index].ProductCost.toString(),
 
-    fontSize: 15,
+      style: TextStyle(
+
+    fontSize: 20,
     fontFamily: "Montserrat"
     ),
     textAlign: TextAlign.left,
 
     ),
     ),
-    SizedBox(width: 60,),
+    SizedBox(width: 30,),
     Align(
     alignment: Alignment.centerRight,
     child: IconButton(
@@ -196,23 +166,19 @@ class _MyProductState extends State<MyProduct> {
     icon: Icon(Icons.star, color: !fav[index] ? Colors.grey: Colors.amber, ),
 
     onPressed: (){setState(() {
-    fav[index] = !fav[index];
+
+      fav[index] = !fav[index];
     });},
     ),
-    )
+    ),
+      Align(
+          child: IconButton(icon: Icon(Icons.more), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Product_Profile(index) ));}, color: Colors.grey)
+      )
+
     ],
     ),
     ),
 
-    Expanded(
-    child: GestureDetector(
-    onTap: () {
-    Navigator.pushReplacement(context,
-    MaterialPageRoute(builder: (context) => MainScreen()));
-    },
-    child: drawButton("add to store", Colors.green),
-    ),
-    )
 
     ],
     ),
