@@ -13,7 +13,8 @@ import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
-
+import'package:dentista/Store Screens/Store_Home.dart';
+import'Store Screens/Upload_Image.dart';
 void main ()
 async{
   await GetStorage.init();   //initializting Get Storage
@@ -48,7 +49,7 @@ async{
     home: isLogged==true ? accountType=='Manager' ? ManagerHome()
     :accountType=='Dentist' ? DentistHome("", "", "")
         :accountType=='Delivery' ? DeliveryHome()
-        :accountType=='Store' ? Container() : MainScreen() : MainScreen()
+        :accountType=='Store' ? StoreHome(authController.StoreName,authController.GetEmail,authController.StoreID) : MainScreen() : MainScreen()
     ,
   ),
   );
