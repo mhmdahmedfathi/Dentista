@@ -1,3 +1,4 @@
+import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/UsersControllers/StoreProductController.dart';
 import 'package:dentista/Views/StoreProductView.dart';
@@ -52,6 +53,7 @@ class _MyProductState extends State<MyProduct> {
       {
         fav.add(false);
       }
+      ProductController.onInit();
       present = present + perPage;
     });
   }
@@ -63,6 +65,7 @@ class _MyProductState extends State<MyProduct> {
       {
         fav.add(false);
       }
+      ProductController.onInit();
       present = present + perPage;
     });
   }
@@ -97,8 +100,10 @@ class _MyProductState extends State<MyProduct> {
     onNotification: (ScrollNotification ScrollInfo){
     if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
     {
-    loadMore();
+      ProductController.onInit();
+      loadMore();
     }
+    ProductController.onInit();
     return true;
     }
     ,child:GridView.count(
@@ -143,7 +148,8 @@ class _MyProductState extends State<MyProduct> {
     Align(
     alignment: Alignment.centerLeft,
     child: Text(ProductController.Products[index].ProductCost.toString(),
-    style: TextStyle(
+
+      style: TextStyle(
 
     fontSize: 20,
     fontFamily: "Montserrat"
@@ -152,7 +158,7 @@ class _MyProductState extends State<MyProduct> {
 
     ),
     ),
-    SizedBox(width: 60,),
+    SizedBox(width: 30,),
     Align(
     alignment: Alignment.centerRight,
     child: IconButton(
@@ -160,10 +166,15 @@ class _MyProductState extends State<MyProduct> {
     icon: Icon(Icons.star, color: !fav[index] ? Colors.grey: Colors.amber, ),
 
     onPressed: (){setState(() {
-    fav[index] = !fav[index];
+
+      fav[index] = !fav[index];
     });},
     ),
-    )
+    ),
+      Align(
+          child: IconButton(icon: Icon(Icons.more), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Product_Profile(index) ));}, color: Colors.grey)
+      )
+
     ],
     ),
     ),
