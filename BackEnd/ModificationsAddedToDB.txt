@@ -2,7 +2,7 @@ alter table delivery add Delivery_PHONE_NUMBER VARCHAR(15) NOT NULL;
 MANAGER_ID INT NOT NULL,
 FOREIGN KEY (MANAGER_ID) REFERENCES MANAGER(MANAGER_ID) ON DELETE RESTRICT ON UPDATE RESTRICT added to store_branch and delete them from store
 alter table orders modify DELIVERY_ID INT;
- 
+alter table delivery add NUMBER_OF_DORDERS INT;
 
 CREATE TABLE PRODUCTS
 (

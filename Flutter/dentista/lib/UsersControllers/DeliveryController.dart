@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dentista/Authentication/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +20,7 @@ class DeliveryController extends GetxController{
   @override
   void onInit() async {
     // TODO: implement onInit
+    super.onInit();
     final getdata = await http.post(
       'http://10.0.2.2:5000/GetData',
       headers: <String, String>{
@@ -31,6 +31,7 @@ class DeliveryController extends GetxController{
     );
 
     final AcountData = json.decode(getdata.body);
+
     fname (AcountData['fname']);
     lname (AcountData['lname']);
     email (AcountData['email']);
@@ -42,7 +43,11 @@ class DeliveryController extends GetxController{
     rate (AcountData['rate'].toString());
     NumberOfOrders (AcountData['ordersnumber'].toString());
     Availablity (AcountData['availablity'].toString());
+
+    authController.setdeliveryarea(area.value);
+    authController.setdeliveryID(ID.value);
   }
+
 
 
   IncDordersNumber(){

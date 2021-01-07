@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dentista/UsersControllers/OrderController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
@@ -10,45 +11,32 @@ import 'package:get/get.dart';
 import 'package:dentista/UsersControllers/DeliveryController.dart';
 
 class OrderScreen extends StatefulWidget {
-  final String dentistfname;
-  final String dentistlname;
-  final String dentistphone;
-  final String dentisemail;
-  final String dentistaddress;
-  final String ordertotal;
-  final String orderid;
-  OrderScreen(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid, this.dentisemail);
+  final indexorder;
+  OrderScreen(this.indexorder);
   @override
-  _OrderScreenState createState() => _OrderScreenState(
-      dentistfname,
-      dentistlname,
-      dentistphone,
-      dentistaddress,
-      ordertotal,
-      orderid,
-      dentisemail);
+  _OrderScreenState createState() => _OrderScreenState(indexorder);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
   final DeliveryController deliveryController = Get.put(DeliveryController());
+  final OrderController orderController =Get.put(OrderController());
 
+  int indexorder;
   int present = 20;
   int perPage = 20;
 
-  String dentistfname;
-  String dentistlname;
-  String dentistphone;
-  String dentistemail;
-  String dentistaddress;
-  String ordertotal;
-  String orderid;
-  int totalproductsnumber = 0;
+  // String dentistfname;
+  // String dentistlname;
+  // String dentistphone;
+  // String dentistemail;
+  // String dentistaddress;
+  // String ordertotal;
+  // String orderid;
+   int totalproductsnumber = 0;
+  //
+   List<Product> Products;
 
-  List<Product> Products;
-
-  _OrderScreenState(this.dentistfname, this.dentistlname, this.dentistphone,
-      this.dentistaddress, this.ordertotal, this.orderid, this.dentistemail);
+  _OrderScreenState(this.indexorder);
 
   @override
   void initState() {
@@ -57,12 +45,13 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void asyncmethod() async {
+    orderController.onInit();
     final OrderData =
         await http.post('http://10.0.2.2:5000/delivery_getordersproducts',
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: json.encode({'orderid': orderid}));
+            body: json.encode({'orderid': orderController.Orders[indexorder].OrderID}));
 
     final data = json.decode(OrderData.body);
 
@@ -126,7 +115,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Name:  Dr. ' + dentistfname + ' ' + dentistlname,
+                            'Name:  Dr. ' + orderController.Orders[indexorder].DentistFName + ' ' + orderController.Orders[indexorder].DentistLName,
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: "Montserrat",
@@ -136,7 +125,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            "Phone Number: " + dentistphone,
+                            "Phone Number: " + orderController.Orders[indexorder].Dentistphonenumber,
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: "Montserrat",
@@ -146,7 +135,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            "Email: " + dentistemail,
+                            "Email: " + orderController.Orders[indexorder].Dentistemail,
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: "Montserrat",
@@ -156,7 +145,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            "Address: " + dentistaddress,
+                            "Address: " + orderController.Orders[indexorder].DentistAddress,
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: "Montserrat",
@@ -272,7 +261,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         },
                         body: json.encode({
                           'DELIVERYID': deliveryController.ID.value,
-                          'ORDERID': orderid,
+                          'ORDERID': orderController.Orders[indexorder].OrderID,
                           'no.Dorders': (int.parse(deliveryController
                                       .NumberOfOrders.value) +
                                   1)
