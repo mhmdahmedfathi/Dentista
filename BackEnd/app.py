@@ -73,7 +73,7 @@ app.add_url_rule('/delivery_UpdateData', view_func=Delivery.UpdateData, methods=
 app.add_url_rule('/delivery_ChangePassword', view_func=Delivery.UpdatePassword, methods=['POST'])
 app.add_url_rule('/delivery_totaldeliverdorders', view_func=Delivery.TotalDeliveredOrders, methods=['POST'])
 app.add_url_rule('/delivery_getmydeliveredorders', view_func=Delivery.DeliveredOrders, methods=['POST'])
-
+app.add_url_rule('/delivery_getdeliverystatus', view_func=Delivery.DeliveryStatus, methods=['POST'])
 #app.add_url_rule('/delivery_Profile', view_func=Delivery.DeliveryProfile, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -84,8 +84,8 @@ app.add_url_rule('/Store_signup', view_func=Store.Store_insertion,methods=['POST
 app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validation,methods=['POST'])
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
-app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
-app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
+#app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
+#app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 

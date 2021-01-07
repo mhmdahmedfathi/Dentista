@@ -1017,3 +1017,203 @@ Connection established
 Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:43:51 is done correctly
 Connection is Closed 
  
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:39:45 is done correctly
+Retrive from table orders as O, dentist as d  at 13:39:45 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:39:45 is done correctly
+Connection established 
+Retrive from table DELIVERY at 13:39:45 is done correctly
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:39:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:39:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:40:08 is done correctly
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:40:08 is done correctly
+Retrive from table orders as O, dentist as d  at 13:40:08 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:40:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:40:09 is done correctly
+Retrive from table orders as O, dentist as d  at 13:40:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:40:09 is done correctly
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:40:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:40:38 is done correctly
+Retrive from table orders as O, dentist as d  at 13:40:38 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:40:38 is done correctly
+Retrive from table orders as O, dentist as d  at 13:40:38 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:40:38 is done correctly
+Connection established 
+Retrive from table DELIVERY at 13:40:38 is done correctly
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:40:39 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:40:39 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:53:59 is done correctly
+Retrive from table orders as O, dentist as d  at 13:53:59 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:53:59 is done correctly
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:53:59 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 13:54:33 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:54:34 is done correctly
+Connection established 
+Retrive from table DELIVERY at 13:54:34 is done correctly
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:54:34 is done correctly
+Retrive from table orders as O, dentist as d  at 13:54:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:54:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 13:54:37 is done correctly
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:54:37 is done correctly
+Retrive from table orders as O, dentist as d  at 13:54:37 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:54:37 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:54:50 is done correctly
+Retrive from table orders as O, dentist as d  at 13:54:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:54:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table order_product as op, product as p  at 13:54:50 is done correctly
+Retrive from table order_product as op, products as p  at 13:54:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:56:52 is done correctly
+Retrive from table orders as O, dentist as d  at 13:56:52 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table order_product as op, product as p  at 13:56:52 is done correctly
+Retrive from table order_product as op, products as p  at 13:56:52 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:56:52 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 13:58:46 is done correctly
+Retrive from table orders as O, dentist as d  at 13:58:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table order_product as op, product as p  at 13:58:47 is done correctly
+Retrive from table order_product as op, products as p  at 13:58:47 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 13:58:47 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table order_product as op, products as p  at 14:01:35 is done correctly
+Retrive from table order_product as op, products as p  at 14:01:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table orders as O, dentist as d  at 14:01:35 is done correctly
+Retrive from table orders as O, dentist as d  at 14:01:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table ORDERS as O , DENTIST as D at 14:01:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 14:04:31 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 14:04:31 is done correctly
+Connection established 
+Retrive from table MANAGER at 14:04:31 is done correctly
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 14:04:33 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 14:04:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 14:04:38 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 14:04:39 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 14:04:54 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 14:06:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 14:18:07 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 14:18:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 14:18:13 is done correctly
+Connection is Closed 
+ 

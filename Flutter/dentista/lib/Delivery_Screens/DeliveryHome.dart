@@ -215,42 +215,44 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                   child: Column(
                     children: [
                       Center(
-                        child: Text(
-                          'Number of Delivered Orders: ' + deliveryController.NumberOfOrders.value,
-                          style: requestInfoStyle(),
-                          textAlign: TextAlign.center,
+                        child: Obx(()=> Text(
+                            'Number of Delivered Orders: ' + deliveryController.NumberOfOrders.value,
+                            style: requestInfoStyle(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       Container(
                         child: Card(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: List.generate(orderController.DeliveredOrders.length, (index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Card(
-                                  child: ListTile(
-                                    title: Obx(()=> Text(
-                                        orderController.DeliveredOrders[index].DentistFName == "" &&
-                                            orderController.DeliveredOrders[index].DentistLName == ""
-                                            ? ""
-                                            : 'Dr. ' +
-                                            orderController.DeliveredOrders[index].DentistFName +
-                                            " " +
-                                            orderController.DeliveredOrders[index].DentistLName,
-                                        style: TextStyle(
-                                            fontFamily: "Montserrat",
-                                            fontWeight: FontWeight.w700)),
+                          child: Obx(()=> ListView(
+                              shrinkWrap: true,
+                              children: List.generate(orderController.DeliveredOrders.length, (index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Card(
+                                    child: ListTile(
+                                      title: Obx(()=> Text(
+                                          orderController.DeliveredOrders[index].DentistFName == "" &&
+                                              orderController.DeliveredOrders[index].DentistLName == ""
+                                              ? ""
+                                              : 'Dr. ' +
+                                              orderController.DeliveredOrders[index].DentistFName +
+                                              " " +
+                                              orderController.DeliveredOrders[index].DentistLName,
+                                          style: TextStyle(
+                                              fontFamily: "Montserrat",
+                                              fontWeight: FontWeight.w700)),
+                                      ),
+                                      leading: Obx(()=> Text(orderController.DeliveredOrders[index].OrderID == ""
+                                          ? ""
+                                          : 'no.' + orderController.DeliveredOrders[index].OrderID),
+                                      ),
+                                      ),
                                     ),
-                                    leading: Obx(()=> Text(orderController.DeliveredOrders[index].OrderID == ""
-                                        ? ""
-                                        : 'no.' + orderController.DeliveredOrders[index].OrderID),
-                                    ),
-                                    ),
-                                  ),
-                                );
-                            }),
+                                  );
+                              }),
                     ),
+                          ),
                         ),
                       ),
                     ]
@@ -280,15 +282,16 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                       backgroundColor: Colors.blueGrey,
                     ),
                   ),
-                  Text(
-                    deliveryController.fname.value +
-                        ' ' +
-                        deliveryController.lname.value,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Montserrat",
-                        color: Colors.white),
+                  Obx(()=> Text(
+                      deliveryController.fname.value +
+                          ' ' +
+                          deliveryController.lname.value,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
+                          color: Colors.white),
+                    ),
                   ),
                 ],
               ),

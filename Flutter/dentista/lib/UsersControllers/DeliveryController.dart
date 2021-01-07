@@ -46,6 +46,8 @@ class DeliveryController extends GetxController{
 
     authController.setdeliveryarea(area.value);
     authController.setdeliveryID(ID.value);
+
+
   }
 
 

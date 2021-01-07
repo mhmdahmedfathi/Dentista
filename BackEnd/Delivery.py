@@ -23,14 +23,6 @@ def Delivery_insertion():
     for key in columns:
         values.append(request.json[key])
 
-    #Searching for manager ID first who is managing Deliverues and the same area
-    ManagerIDColumn = ['MANAGER_ID']
-    #ManagerIDColumn = ['*']
-    condition ="MANAGEMENT_TYPE = 'Delivery' and AREA_OF_MANAGEMENT = '"+values[5]+"'"
-    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn,sql_condition=condition)
-
-    columns.append('MANAGER_ID')
-    values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
     columns.append('AVAILABLE')
     values.append(1)
     columns.append('RATE')
@@ -38,11 +30,40 @@ def Delivery_insertion():
     columns.append('NUMBER_OF_DORDERS')
     values.append(0)
 
-
-
     connector.insert_query(table = 'DELIVERY', attributes=columns, values=values)
+    condition ="DELIVERY_EMAIL = '"+ values[2] +"'"
+    print(condition)
+    DeliveryID = connector.select_query(table='DELIVERY',columns=['delivery_ID'],sql_condition=condition)
+    print(DeliveryID)
+    print(DeliveryID['delivery_ID'][0])
+    connector.insert_query(table='DELIVERY_VERIFICATION',attributes=['DELIVERY_ID'],values=DeliveryID['delivery_ID'])
     connector.close_connection()
     return "1"
+
+def DeliveryStatus():
+    deliveryemail = request.json['email']
+    condition = "DELIVERY_EMAIL = '"+deliveryemail+"'"
+    connector = SQL(host=server_name, user=server_admin)
+    #if manager ID has value -> Delivery is accepted
+    IDS = connector.select_query(table='DELIVERY', columns=['MANAGER_ID', 'DELIVERY_ID'], sql_condition=condition)
+    print(IDS)
+    if IDS['MANAGER_ID'] != [None]:
+        connector.close_connection()
+        return "Accepted"
+    #else there are 2 state waiting or rejected
+    else:
+        condition = "DELIVERY_ID = " + str(IDS['DELIVERY_ID'][0])
+        #if delivery verification id has value(existed) means delivery in pending
+        verificationid = connector.select_query(table='delivery_verification', columns=['DELIVERY_VERIFICATION_ID'],sql_condition=condition)
+        if verificationid['DELIVERY_VERIFICATION_ID'] != []:
+            connector.close_connection()
+            return "Pending"
+
+        #else delivery is rejected
+        else:
+            connector.close_connection()
+            return "Rejected"
+
 
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -81,11 +102,12 @@ def ProductsofOrder():
     connector = SQL(host=server_name, user=server_admin)
     condition = " op.PRODUCT_ID = p.PRODUCT_ID and op.ORDER_ID = '"+orderid+ "'"
     columns = ['count(*)']
-    numberofproducts = connector.select_query(table='order_product as op, product as p ',columns=columns,sql_condition=condition)
+    numberofproducts = connector.select_query(table='order_product as op, products as p ',columns=columns,sql_condition=condition)
     columns = ['op.PRODUCT_ID', 'p.PRODUCT_NAME', 'p.SELLING_PRICE', 'op.NUMBER_OF_UNITS']
     result = connector.select_query(table='order_product as op, products as p ',columns=columns, sql_condition=condition)
     result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
     connector.close_connection()
+    print(result)
     return json.dumps(result)
 
 def DeliveredOrders():

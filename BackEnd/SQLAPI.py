@@ -68,7 +68,6 @@ class SQL:
             self.cursor = self.conn.cursor()
 
     def insert_query(self, table, attributes, values):
-
         # Generate the Query
         x = 1
         y = "OK"
@@ -84,6 +83,7 @@ class SQL:
                 Query = Query + "'" + str(value) + "', "
         Query = Query[:-2]
         Query = Query + " );"
+
         # ---------------------------------------------
         try:
             self.cursor.execute(Query)
@@ -162,7 +162,6 @@ class SQL:
         Query = Query + ";"
 
         Result = {}
-
         try:
             self.cursor.execute(Query)
             now = datetime.now()
