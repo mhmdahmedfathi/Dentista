@@ -1,3 +1,4 @@
+import 'package:dentista/Manager%20Screens/GetRequestInfo.dart';
 import 'package:dentista/Manager%20Screens/RequestInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,12 @@ class PendingTile extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(8),
       child: ListTile(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestInfo()));
+        onTap: ()async{
+          Map result =await GetRequestInfo(int.parse(Type));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestInfo(result: result,reqID : Type)));
         },
         title: Text(Name , style: TextStyle(fontWeight: FontWeight.w700 , fontFamily: 'montserrat'),),
-        subtitle: Text(Type,style: TextStyle(fontWeight: FontWeight.w500 , fontFamily: 'montserrat')),
+        subtitle: Text("ID: "+Type,style: TextStyle(fontWeight: FontWeight.w600 , fontFamily: 'montserrat')),
         leading: CircleAvatar(
           radius: 25,
           backgroundColor: Colors.blueGrey,

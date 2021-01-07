@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:dentista/Store Screens/My_Products.dart';
+import'package:dentista/Store Screens/Store_Profile.dart';
 
 class StoreHome extends StatefulWidget {
   final String Store_name;
@@ -27,8 +28,6 @@ class _StoreHomeState extends State<StoreHome> {
   int present = 20;
   int perPage = 20;
   List<bool> fav = List<bool>.generate(20, (index) => false);
-
-
   String email;
   String Store_name = "";
   String ID = "";
@@ -213,7 +212,7 @@ class _StoreHomeState extends State<StoreHome> {
             ),
             ListTile(
               leading: Icon(Icons.whatshot_sharp),
-              title: Text('About Dentist',
+              title: Text('Profile',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -221,6 +220,9 @@ class _StoreHomeState extends State<StoreHome> {
                 ),
               ),
               onTap: (){
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>Store_Profile() ));
+
                 // To Move to About Dentista Page
               },
             ),

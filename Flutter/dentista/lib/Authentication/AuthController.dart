@@ -18,13 +18,29 @@ class AuthController extends GetxController
     box.write('Type', AccountType);
   }
 
+  void setdeliveryarea(String DArea){
+    box.write("area", DArea);
+  }
+
+  void setdeliveryID(String DID){
+    box.write("deliveryid", DID);
+  }
+
   void setStoreID(String ID)
   {
     box.write('Store_ID', ID);
   }
+  void setStoreName(String Name)
+  {
+    box.write('Store_Name', Name);
+  }
 
+  String get StoreName => box.read('Store_Name');
   String get StoreID => box.read('Store_ID');
   bool get State => box.read('isLoggedIn') ?? false;
   String get GetEmail => box.read('email');
   String get GetType => box.read('Type');
+  String get GetDeliveryArea => box.read('area');
+  String get GetDeliveryID => box.read("deliveryid");
+
 }

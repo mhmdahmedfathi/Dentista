@@ -19,6 +19,7 @@ class _ManagerHomeState extends State<ManagerHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+
         index: 0,
         buttonBackgroundColor: Colors.grey,
         height: 50,

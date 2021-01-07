@@ -2,6 +2,8 @@ from Verifications import Validator
 from flask import request
 from SQLAPI import SQL
 import json
+import datetime
+
 # ------------------------------------------------------------------------------------------------------------------------------
 # Connection Arguments of the database
 server_name = "dentista1.mysql.database.azure.com"
@@ -79,10 +81,30 @@ def ProductsofOrder():
     connector = SQL(host=server_name, user=server_admin)
     condition = " op.PRODUCT_ID = p.PRODUCT_ID and op.ORDER_ID = '"+orderid+ "'"
     columns = ['count(*)']
-    numberofproducts = connector.select_query(table='order_product as op, product as p ',columns=columns,sql_condition=condition)
+    numberofproducts = connector.select_query(table='order_product as op, products as p ',columns=columns,sql_condition=condition)
     columns = ['op.PRODUCT_ID', 'p.PRODUCT_NAME', 'p.SELLING_PRICE', 'op.NUMBER_OF_UNITS']
-    result = connector.select_query(table='order_product as op, product as p ',columns=columns, sql_condition=condition)
+    result = connector.select_query(table='order_product as op, products as p ',columns=columns, sql_condition=condition)
     result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
+    connector.close_connection()
+    return json.dumps(result)
+
+def DeliveredOrders():
+    deliverid = request.json['DELIVERYID']
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    columns = ['O.ORDER_ID', 'D.DENTIST_FNAME', 'D.DENTIST_LNAME']
+    condition = "O.DELIVERY_ID = " + deliverid + " and O.ORDER_DATE= '"+today+"' and O.DENTIST_ID=D.DENTIST_ID"
+    connector = SQL(host=server_name, user=server_admin)
+    result = connector.select_query(table='ORDERS as O , DENTIST as D',columns=columns,sql_condition=condition,DISTINCTdetector=True)
+    connector.close_connection()
+    result = {'orderids': result['O.ORDER_ID'], 'number': len(result['O.ORDER_ID']), 'dentistfname': result['D.DENTIST_FNAME'], 'dentistlname': result['D.DENTIST_LNAME']}
+    return json.dumps(result)
+
+
+def TotalDeliveredOrders():
+    deliverid = request.json['DELIVERYID']
+    condition = "DELIVERY_ID = "+ deliverid +" and SHIPMENT_STATUS = 'DELIVERED'"
+    connector = SQL(server_name, server_admin, server_password)
+    result = connector.select_query(table='ORDERS',columns=['count(*)'],sql_condition=condition)
     connector.close_connection()
     return json.dumps(result)
 
@@ -105,56 +127,36 @@ def DeliverOrder():
     numberofDorders = request.json['no.Dorders']
     connector = SQL(host=server_name, user=server_admin)
     result = connector.select_query(table='ORDERS',columns=['SHIPMENT_STATUS'],sql_condition="ORDER_ID= "+orderid )
+    today = datetime.date.today().strftime("%Y-%m-%d")
     if result['SHIPMENT_STATUS'][0] == 'ASSIGNED':
         return "0"
     else:
-        print(numberofDorders)
-        Query = {'O.DELIVERY_ID' : deliveryid, 'O.SHIPMENT_STATUS' : 'ASSIGNED', 'D.AVAILABLE': 0, 'D.NUMBER_OF_DORDERS': numberofDorders}
+        Query = {'O.DELIVERY_ID' : deliveryid, 'O.SHIPMENT_STATUS' : 'ASSIGNED', 'D.AVAILABLE': 0, 'D.NUMBER_OF_DORDERS': numberofDorders, 'O.ORDER_DATE': today}
         condition = "O.ORDER_ID = " + orderid +" and D.delivery_id = " + deliveryid
         connector.update_query(table='ORDERS as O, DELIVERY as D',columns_values_dict=Query,sql_condition=condition)
         connector.close_connection()
         return "1"
 
 def UpdateData():
-    updatedattribute = request.json['Updateattribute']
-    print(updatedattribute)
-    if updatedattribute=='AREA':
-        newarea=request.json['Updatedvalue']
-        connector = SQL(host=server_name, user=server_admin)
-        Query = {"AREA": newarea}
-        condition = "DELIVERY_ID = " + request.json['ID']
-        print(condition)
-        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
-        print(newarea)
-        connector.close_connection()
-        return "1"
-    elif updatedattribute == 'VECHILE_LICENCE':
-        newlicense = request.json['Updatedvalue']
-        connector = SQL(host=server_name, user=server_admin)
-        Query = {"VECHILE_LICENCE": newlicense}
-        condition = "DELIVERY_ID = " + request.json['ID']
-        print(condition)
-        print(newlicense)
-        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
-        connector.close_connection()
-    elif updatedattribute == 'VECHILE_MODEL':
-        newlmodel = request.json['Updatedvalue']
-        connector = SQL(host=server_name, user=server_admin)
-        Query = {"VECHILE_LICENCE": newlmodel}
-        condition = "DELIVERY_ID = " + request.json['ID']
-        print(condition)
-        print(newlmodel)
-        connector.update_query(table='DELIVERY',columns_values_dict=Query,sql_condition=condition)
-        connector.close_connection()
-    elif updatedattribute == 'Delivery_PHONE_NUMBER':
-        newlphone = request.json['Updatedvalue']
-        connector = SQL(host=server_name, user=server_admin)
-        Query = {"Delivery_PHONE_NUMBER": newlphone}
-        condition = "DELIVERY_ID = " + request.json['ID']
-        print(condition)
-        print(newlphone)
+    columns_dic = request.json['dic']
+    DeliveryID = request.json["MID"]
+    condition = "DELIVERY_ID = '" + str(DeliveryID) + "'"
+    connector = SQL(server_name, server_admin, server_password)
+    connector.update_query(table='DELIVERY', columns_values_dict=columns_dic, sql_condition=condition)
+    connector.close_connection()
+    return "1"
+
+def UpdatePassword():
+    newpassword=request.json["newpassword"]
+    oldpassword=request.json['oldpassword']
+    DeliveryID = request.json["DELIVERYID"]
+    condition = "DELIVERY_ID = '" + str(DeliveryID) + "'"
+    Query = {'DELIVERY_PASSWORD': newpassword}
+    connector = SQL(server_name, server_admin, server_password)
+    result = connector.select_query(table='DELIVERY',columns=['DELIVERY_PASSWORD'],sql_condition=condition)
+    if result['DELIVERY_PASSWORD'][0]==oldpassword:
         connector.update_query(table='DELIVERY', columns_values_dict=Query, sql_condition=condition)
         connector.close_connection()
-
-    return "0"
-
+        return "1"
+    else:
+        return "0"

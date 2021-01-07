@@ -39,6 +39,10 @@ void onInit() async{
     Products[i].Product_Name = (data['PRODUCT_NAME'][i]);
     Products[i].IMAGE_URL =(data['IMAGE_URL'][i]);
     Products[i].ProductCost =(data['SELLING_PRICE'][i]);
+    Products[i].ProductBoughtCost =(data['PRICE'][i]);
+    Products[i].ProductID=(data['PRODUCT_ID'][i]);
+    Products[i].ProductCount=(data['NUMBER_OF_UNITS'][i]);
+
   }
 
 

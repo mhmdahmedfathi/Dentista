@@ -450,3 +450,570 @@ Connection is Closed
  
 Connection established 
 Retrive from table MANAGER at 12:02:47 is done correctly
+Connection established 
+Update table [ Manager ] at 12:10:43 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:10:43 is done correctly
+Connection established 
+Update table [ Manager ] at 12:15:53 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:15:57 is done correctly
+Connection established 
+Update table [ Manager ] at 12:16:30 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:16:30 is done correctly
+Connection established 
+Update table [ Manager ] at 12:17:20 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:17:21 is done correctly
+Connection established 
+Update table [ Manager ] at 12:39:21 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:39:21 is done correctly
+Connection established 
+Update table [ Manager ] at 12:41:19 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 12:42:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 12:42:34 is done correctly
+Connection established 
+Update table [ Manager ] at 13:07:27 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 13:07:27 is done correctly
+Connection established 
+Retrive from table MANAGER at 13:10:14 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 14:42:45 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 14:42:46 is done correctly
+Connection established 
+Retrive from table MANAGER at 14:42:46 is done correctly
+Connection established 
+Retrive from table MANAGER at 16:54:04 is done correctly
+2005 (HY000): Unknown MySQL server host 'dentista1.mysql.database.azure.com' (2)
+ERROR in Retrive from table LOGIN_DATA at 18:51:36
+2005 (HY000): Unknown MySQL server host 'dentista1.mysql.database.azure.com' (2)
+ERROR in Retrive from table LOGIN_DATA at 18:52:15
+2005 (HY000): Unknown MySQL server host 'dentista1.mysql.database.azure.com' (2)
+ERROR in Retrive from table LOGIN_DATA at 18:55:16
+Connection established 
+Retrive from table LOGIN_DATA at 18:56:08 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 18:56:09 is done correctly
+Connection established 
+Retrive from table MANAGER at 18:56:09 is done correctly
+Connection established 
+Retrive from table MANAGER at 18:58:05 is done correctly
+Connection established 
+Retrive from table MANAGER at 18:59:36 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:00:49 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:02:02 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:03:22 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:03:22 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:04:13 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:04:13 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:04:54 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:04:54 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:07:00 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:07:00 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:08:22 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:09:39 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:10:00 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:10:42 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:11:30 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:11:30 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:27:47 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:27:57 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:28:15 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:28:33 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:28:33 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:28:59 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:29:49 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:29:49 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:30:05 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:30:08 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:32:18 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:32:18 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:32:28 is done correctly
+Connection established 
+Retrive from table MANAGER at 19:33:09 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:33:09 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:33:23 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:33:26 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:33:38 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 19:34:06 is done correctly
+Connection established 
+Retrive from table MANAGER at 20:03:15 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:03:15 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:03:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:05:26 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:05:26 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:05:27 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:06:55 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:06:55 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:06:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:07:25 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:07:25 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:07:27 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:13:49 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:13:49 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:13:51 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:14:35 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:14:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:14:37 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:15:35 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:15:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:15:38 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:16:53 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:16:53 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:17:00 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:24:57 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:24:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:25:01 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:25:32 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:25:32 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:25:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:31:44 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:31:44 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:31:47 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:32:35 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:33:12 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:33:16 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:33:22 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:33:29 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:36:23 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:36:55 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:37:00 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:37:06 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table LOGIN_DATA at 20:41:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 20:41:09 is done correctly
+Connection established 
+Retrive from table MANAGER at 20:41:10 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 20:41:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 20:41:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 21:08:23 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 21:08:26 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 21:38:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 21:38:37 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 21:50:34 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 23:52:46 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 23:52:46 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 23:52:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 23:56:03 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 23:56:04 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 23:59:13 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 23:59:14 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:12:13 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:12:13 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:12:16 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:12:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:12:19 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:12:20 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:12:20 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:13:08 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:13:08 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:13:12 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:14:14 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:14:14 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:14:17 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:16:22 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:19:49 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:21:06 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 00:21:07 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:31:37 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:31:39 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 00:31:51 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:33:13 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 00:33:14 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 00:42:23 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:42:23 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 00:42:40 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 00:42:44 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 00:42:45 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 00:43:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:15:53 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 01:15:53 is done correctly
+Connection established 
+Retrive from table Delivery at 01:15:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:16:15 is done correctly
+ERROR in Update table [ Delivery ] at 01:16:15
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 01:21:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:21:11 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:23:06 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:23:09 is done correctly
+ERROR in Update table [ Delivery ] at 01:23:09
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:26:05 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:26:08 is done correctly
+ERROR in Update table [ Delivery ] at 01:26:08
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:29:36 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:29:38 is done correctly
+Update table [ DELIVERY ] at 01:29:38 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 01:30:17 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:30:18 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:31:10 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:31:12 is done correctly
+Update table [ DELIVERY ] at 01:31:12 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table MANAGER at 01:36:57 is done correctly
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:36:57 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:37:06 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Deletion from table [ delivery_verification ] at 01:37:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:37:09 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table Delivery at 01:37:28 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 01:38:02 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:38:03 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 01:43:49 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 01:43:50 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 01:43:51 is done correctly
+Connection is Closed 
+ 
