@@ -95,6 +95,9 @@ app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=[
 app.add_url_rule('/Product_Update',view_func=Add_Item.Update_Item_table ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
 
+
+
+
 def run_server(debug=False):
     app.run(debug=debug)
 
