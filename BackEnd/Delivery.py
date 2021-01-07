@@ -32,10 +32,7 @@ def Delivery_insertion():
 
     connector.insert_query(table = 'DELIVERY', attributes=columns, values=values)
     condition ="DELIVERY_EMAIL = '"+ values[2] +"'"
-    print(condition)
     DeliveryID = connector.select_query(table='DELIVERY',columns=['delivery_ID'],sql_condition=condition)
-    print(DeliveryID)
-    print(DeliveryID['delivery_ID'][0])
     connector.insert_query(table='DELIVERY_VERIFICATION',attributes=['DELIVERY_ID'],values=DeliveryID['delivery_ID'])
     connector.close_connection()
     return "1"
@@ -46,7 +43,6 @@ def DeliveryStatus():
     connector = SQL(host=server_name, user=server_admin)
     #if manager ID has value -> Delivery is accepted
     IDS = connector.select_query(table='DELIVERY', columns=['MANAGER_ID', 'DELIVERY_ID'], sql_condition=condition)
-    print(IDS)
     if IDS['MANAGER_ID'] != [None]:
         connector.close_connection()
         return "Accepted"
@@ -107,7 +103,6 @@ def ProductsofOrder():
     result = connector.select_query(table='order_product as op, products as p ',columns=columns, sql_condition=condition)
     result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
     connector.close_connection()
-    print(result)
     return json.dumps(result)
 
 def DeliveredOrders():
