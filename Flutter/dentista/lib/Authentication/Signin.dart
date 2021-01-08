@@ -240,7 +240,7 @@ class _SignInState extends State<SignIn> {
                       authController.setEmail(email);
                       authController.setStoreName(store_name) ;
 
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome())));
 
                       }
                       else if (AccountType == "Manager")

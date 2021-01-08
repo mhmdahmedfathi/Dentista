@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 class StoreProductView {
 
   String Product_Name;
+  String DESCRIPTION;
+  String Category;
+  int RATE ;
   int ProductCost;
   int ProductID;
   int ProductBoughtCost;
@@ -9,9 +12,12 @@ class StoreProductView {
   int Count;
   String IMAGE_URL;
   StoreProductView() {
+    RATE=0;
   Product_Name = "";
   ProductBoughtCost=0;
   ProductID=0;
+  Category="";
+  DESCRIPTION="";
   ProductCost = 0;
   IMAGE_URL = "";
   int Count=0;
