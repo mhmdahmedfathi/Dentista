@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'dart:convert';
@@ -11,26 +12,23 @@ import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import'package:dentista/Store Screens/Store_Home.dart';
+import'package:get/get.dart';
+
 class AddItem extends StatefulWidget {
-  final String Store_name;
-  final String ID;
-  final String email;
-  AddItem(this.Store_name, this.email, this.ID);
   @override
-  _AddItemState createState() => _AddItemState(Store_name, email, ID);
+  _AddItemState createState() => _AddItemState();
 }
 
 
 class _AddItemState extends State<AddItem> {
-  String email;
-  String Store_name = "";
-  String ID = "";
-  _AddItemState(this.Store_name, this.email, this.ID);
+  _AddItemState();
   final _formKey = GlobalKey<FormState>();  // Used to validating the form
   String Product_Name="";
   String No_Of_Units="";
   String Price="";
   String Sell_Price="";
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -146,14 +144,14 @@ class _AddItemState extends State<AddItem> {
                               },
                               body: json.encode({
                                 'NUMBER_OF_UNITS': No_Of_Units,
-                                'STORE_ID': ID,
+                                'STORE_ID': authController.StoreID,
                                 'PRODUCT_ID': Product_Name,
                                 'PRICE': Price,
                                 'SELLING_PRICE': Sell_Price,
                               }),
                             );
                             Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context)=>StoreHome(Store_name, email, ID) ));
+                                .push(MaterialPageRoute(builder: (context)=>StoreHome() ));
                             Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
 
                         }
@@ -167,7 +165,7 @@ class _AddItemState extends State<AddItem> {
                     child: GestureDetector(
                       onTap: (){
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context)=>StoreHome(Store_name, email, ID) ));
+                            .push(MaterialPageRoute(builder: (context)=>StoreHome() ));
                       },
                       child: drawButton("Back to Home", Colors.green),
                     ),

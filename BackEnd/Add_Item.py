@@ -34,13 +34,28 @@ def Product_Insertion():
 # ------------------------------------------------------------------------------------------------------------------------------
 
 def Avaliable_Products():
-    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','PRICE' ,'IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
+    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','RATE' ,'PRICE' ,'Category','DESCRIPTION','IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
     ID = request.json['ID']
     connector = SQL(host=server_name, user=server_admin)
     condition = " STORE_ID ='" + ID+ "' "
     Count_Product = connector.select_query(table='products ',columns= ['count(distinct PRODUCT_ID)'],sql_condition=condition)
     result = connector.select_query(table='products ',columns=columns,sql_condition=condition)
+    result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'RATE': result['RATE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'],'Category': result['Category'],'DESCRIPTION': result['DESCRIPTION'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
+    connector.close_connection()
+    return json.dumps(result)
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
+def Avaliable_total_Products():
+    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','PRICE' ,'IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
+    connector = SQL(host=server_name, user=server_admin)
+    Count_Product = connector.select_query(table='products ',columns= ['count(distinct PRODUCT_ID)'])
+    print(Count_Product)
+    result = connector.select_query(table='products',columns=columns)
+    print(result)
     result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
+    print(result)
     connector.close_connection()
     return json.dumps(result)
 

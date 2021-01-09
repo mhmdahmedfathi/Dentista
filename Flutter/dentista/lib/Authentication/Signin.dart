@@ -13,6 +13,7 @@ import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
 import 'package:dentista/Store Screens/Store_Home.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:get/get.dart';
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -173,7 +174,6 @@ class _SignInState extends State<SignIn> {
                             'AccountType': 'Dentist'
                           }),
                         );
-                        print(getdata.body);
 
 
                         final result = json.decode(getdata.body);;
@@ -190,18 +190,34 @@ class _SignInState extends State<SignIn> {
                       else if (AccountType == "Delivery")
                       {
 
-                        final getdata = await http.post(
-                          'http://10.0.2.2:5000/GetData',
-                          headers: <String,String>{
+                        final statusresponse = await http.post(
+                          'http://10.0.2.2:5000/delivery_getdeliverystatus',
+                          headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
-                          body: json.encode({
-                            'email':email,
-                            'AccountType':'Delivery'
-                          }),
+                          body: json.encode(
+                              {'email': email}),
                         );
+                        String status = statusresponse.body;
+                        if (status=="Accepted")
+                          {
+                            final getdata = await http.post(
+                              'http://10.0.2.2:5000/GetData',
+                              headers: <String,String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: json.encode({
+                                'email':email,
+                                'AccountType':'Delivery'
+                              }),
+                            );
 
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
+                          }
+                        else{
+                          Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
+                        }
+
                       }
                       else if (AccountType == "store")
                       {
@@ -224,7 +240,7 @@ class _SignInState extends State<SignIn> {
                       authController.setEmail(email);
                       authController.setStoreName(store_name) ;
 
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome(store_name,email,id))));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome())));
 
                       }
                       else if (AccountType == "Manager")

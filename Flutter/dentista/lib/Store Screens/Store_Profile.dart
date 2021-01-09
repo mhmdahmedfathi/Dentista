@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dentista/Store%20Screens/Add_bransh.dart';
 import'package:dentista/UsersControllers/StoreController.dart';
 import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Models/AuthButtons.dart';
@@ -104,10 +105,6 @@ class _Store_ProfileState extends State<Store_Profile> {
           letterSpacing: 1.2,
         ),
         ),
-        actions: [
-          IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> StoreHome(authController.StoreName, authController.GetEmail, authController.StoreID)));}, color: Colors.white,),
-        ],
-
         backgroundColor:Colors.blueGrey[800],
       ),
 
@@ -236,7 +233,7 @@ class _Store_ProfileState extends State<Store_Profile> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.credit_card),
+                            Icon(Icons.store),
                             SizedBox(width: 16),
                             Expanded(child:Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -249,7 +246,7 @@ class _Store_ProfileState extends State<Store_Profile> {
                             )),
                             Spacer(),
                             IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              return displayBottomSheet(context,'CREDIT_CARD_NUMBER',"");
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_bransh()));
                             })
                           ],
                         ),

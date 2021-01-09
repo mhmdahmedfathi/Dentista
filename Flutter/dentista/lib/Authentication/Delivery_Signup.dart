@@ -10,12 +10,15 @@ import 'package:dentista/Models/Alerts.dart';
 import 'package:credit_card_number_validator/credit_card_number_validator.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 
+import 'EmailConfirmation.dart';
+
 class DeliverySignUp extends StatefulWidget {
   @override
   _DeliverySignUpState createState() => _DeliverySignUpState();
 }
 
 class _DeliverySignUpState extends State<DeliverySignUp> {
+
   final _formKey = GlobalKey<FormState>(); // Used to validating the form
   Validator _validator =
       new Validator(); //Use this to validate Name, Credit card, Password
@@ -392,7 +395,6 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                               phonenumber_validator.body;
                           String validationVehicleLicense =
                               license_validation.body;
-                          print(validationPhoneNumber);
                           if (ValidationEmail == "0") {
                             valid_email = false;
                             Alert(context, "Invalid Email",
@@ -433,6 +435,8 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                             Alert(context, "Signed up successfully",
                                 "Press ok to complete the verification",
                                 message2: "");
+
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
                           }
                         }
                       }

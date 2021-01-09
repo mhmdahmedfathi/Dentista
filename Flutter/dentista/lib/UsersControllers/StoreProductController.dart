@@ -42,6 +42,9 @@ void onInit() async{
     Products[i].ProductBoughtCost =(data['PRICE'][i]);
     Products[i].ProductID=(data['PRODUCT_ID'][i]);
     Products[i].ProductCount=(data['NUMBER_OF_UNITS'][i]);
+    Products[i].DESCRIPTION=(data['DESCRIPTION'][i]);
+    Products[i].Category=(data['Category'][i]);
+    Products[i].RATE=(data['RATE'][i]);
 
   }
 
