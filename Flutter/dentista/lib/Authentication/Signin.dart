@@ -240,7 +240,8 @@ class _SignInState extends State<SignIn> {
                             'AccountType':'Manager'
                           }),
                         );
-
+                        final AcountData = json.decode(getdata.body);
+                        authController.setID(AcountData['M_ID']);
 
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
                       }

@@ -38,10 +38,21 @@ def Update_Manager_table():
     return "1"
 
 
-def Get_Pending_Requests():
+def Get_Pending_Requests_Del():
+    ManagerArea = request.json['MArea']
+    Condition = "AREA = '" + ManagerArea +"'"
     connector = SQL(server_name,server_admin,server_password)
-    result = connector.select_query(table='(delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID)',columns=['DISTINCT( D.DELIVERY_ID)','DELIVERY_Fname' ,'DELIVERY_Lname'])
+    result = connector.select_query(table='(delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID)',columns=['DISTINCT( D.DELIVERY_ID)','DELIVERY_Fname' ,'DELIVERY_Lname'],sql_condition=Condition)
     result = {'DID': result['DISTINCT( D.DELIVERY_ID)'] , 'fname':result['DELIVERY_Fname'], 'lname':result['DELIVERY_Lname']}
+    connector.close_connection()
+    return json.dumps(result)
+
+def Get_Pending_Requests_Stores():
+    ManagerArea = request.json['MArea']
+    Condition = "SE.REGION = '" + ManagerArea +"'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='(STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID)',columns=['S.STORE_ID','STORE_NAME'],sql_condition=Condition)
+    result = {'SID': result['S.STORE_ID'] , 'Sname':result['STORE_NAME']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -87,7 +98,7 @@ def Accept_Request():
         Store_id = request.json['SID']
         Condition = "STORE_ID = '" + str(Store_id) +"'"
         connector.delete_query(table='store_verification' ,sql_condition=Condition)
-        connector.update_query(table='Store' ,columns_values_dict= {'MANAGER_ID' : ManagerID} , sql_condition=Condition)
+        connector.update_query(table='Store_branch' ,columns_values_dict= {'MANAGER_ID' :str( ManagerID)} , sql_condition=Condition)
     connector.close_connection()
     return "1"
 
@@ -106,3 +117,22 @@ def Reject_Request():
     connector.close_connection()
     return "1"
 
+
+def GetAreaofManager():
+    email= request.json['Email']
+    Condition = "MANAGER_EMAIL = '" + email + "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table="MANAGER" , columns=['AREA_OF_MANAGEMENT'] , sql_condition=Condition)
+    result = {'Area' :result['AREA_OF_MANAGEMENT'][0] }
+    connector.close_connection()
+    return json.dumps(result)
+
+
+def Get_Request_Info_Store():
+    Store_ID = request.json['SID']
+    Condition = "STORE_ID = '" +str(Store_ID) +  "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result= connector.select_query(table='STORE' , columns=['STORE_NAME', 'EMAIL' , 'PHONE_NUMBER','CREDIT_CARD_NUMBER'],sql_condition=Condition)
+    result = {'Sname' : result['STORE_NAME'][0],'Email' : result['EMAIL'][0],'CCN' : result['CREDIT_CARD_NUMBER'][0],'Phone' : result['PHONE_NUMBER'][0]}
+    connector.close_connection()
+    return json.dumps(result)

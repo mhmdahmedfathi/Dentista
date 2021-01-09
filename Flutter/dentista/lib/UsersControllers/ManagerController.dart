@@ -12,10 +12,15 @@ class ManagerController extends GetxController
   var M_Type = ''.obs;
   var M_Area = ''.obs;
   var M_Email=''.obs;
+
   @override
-  void onInit() async{
+  void onInit() {
     // TODO: implement onInit
     super.onInit();
+   GetManagerData();
+  }
+
+  GetManagerData() async{
     final getdata = await http.post(
       'http://10.0.2.2:5000/GetData',
       headers: <String,String>{
@@ -34,6 +39,7 @@ class ManagerController extends GetxController
     M_Type (accountData['M_Type']);
     M_Area (accountData['M_Area']);
     M_Email(authController.GetEmail);
+
 
   }
 
