@@ -7,6 +7,7 @@ import Manager
 import Delivery
 import Store2
 import Store
+import Chat_handling
 from validate_email import validate_email
 import Login_Auth
 from Verifications import Validator
@@ -56,13 +57,16 @@ app.add_url_rule('/GetDentist', view_func=Dentist.GetDentist, methods = ['POST']
 app.add_url_rule('/manager_signup' , view_func=Manager.Manager_Insertion, methods=['POST'])
 app.add_url_rule('/manager_email_validation' , view_func=Manager.Manager_email_validator , methods=['POST'])
 app.add_url_rule('/manager_update', view_func=Manager.Update_Manager_table, methods = ['POST'])
-app.add_url_rule('/pending_requests', view_func=Manager.Get_Pending_Requests, methods = ['GET'])
+app.add_url_rule('/pending_requests_del', view_func=Manager.Get_Pending_Requests_Del, methods = ['POST'])
+app.add_url_rule('/pending_requests_store', view_func=Manager.Get_Pending_Requests_Stores, methods = ['POST'])
 app.add_url_rule('/get_Delivery_info', view_func=Manager.Get_Request_Info_Delivery, methods = ['POST'])
 app.add_url_rule('/get_all_stores', view_func=Manager.Get_All_Stores, methods = ['POST'])
 app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
 app.add_url_rule('/get_all_delivery', view_func=Manager.Get_All_Delivery, methods = ['POST'])
 app.add_url_rule('/acctept_request', view_func=Manager.Accept_Request, methods = ['POST'])
 app.add_url_rule('/reject_request', view_func=Manager.Reject_Request, methods = ['POST'])
+app.add_url_rule('/area_of_manager', view_func=Manager.GetAreaofManager, methods = ['POST'])
+app.add_url_rule('/pending_store_info', view_func=Manager.Get_Request_Info_Store, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -101,6 +105,12 @@ app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table
 app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=['POST'])
 app.add_url_rule('/Product_Update',view_func=Add_Item.Update_Item_table ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
+# --------------------------------------------------------------------------------------------------------------------------------
+# For Chat
+app.add_url_rule('/send_message', view_func=Chat_handling.InsertChatRoom ,methods=['POST'])
+app.add_url_rule('/retrive_message', view_func=Chat_handling.retrive_Messages ,methods=['POST'])
+# --------------------------------------------------------------------------------------------------------------------------------
+
 app.add_url_rule('/Product_getavailableTotalProducts', view_func=Add_Item.Avaliable_total_Products , methods=['GET','POST'])
 
 
