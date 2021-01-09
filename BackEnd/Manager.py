@@ -4,10 +4,10 @@ from SQLAPI import SQL
 import json
 # ------------------------------------------------------------------------------------------------------------------------------
 #Setting Connection Up
-server_name = 'localhost'
-server_admin= 'root'
-server_password = '@dentista1'
-database = 'dentista'
+server_name = "127.0.0.1"
+server_admin = "root"
+server_password = "Itachionly#1"
+database = "dantista"
 connection_details = [server_name , server_admin , server_password , database]
 # ------------------------------------------------------------------------------------------------------------------------------
 #Manager Insertion
@@ -44,6 +44,7 @@ def Get_Pending_Requests_Del():
     connector = SQL(server_name,server_admin,server_password)
     result = connector.select_query(table='(delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID)',columns=['DISTINCT( D.DELIVERY_ID)','DELIVERY_Fname' ,'DELIVERY_Lname'],sql_condition=Condition)
     result = {'DID': result['DISTINCT( D.DELIVERY_ID)'] , 'fname':result['DELIVERY_Fname'], 'lname':result['DELIVERY_Lname']}
+    print(result)
     connector.close_connection()
     return json.dumps(result)
 

@@ -106,7 +106,7 @@ class _Product_ProfileState extends State<Product_Profile> {
         ),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MyProduct(authController.StoreName, authController.GetEmail, authController.StoreID)));}, color: Colors.white,),
+          IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MyProduct()));}, color: Colors.white,),
         ],
         backgroundColor:Colors.blueGrey[800],
       ),
@@ -153,6 +153,51 @@ class _Product_ProfileState extends State<Product_Profile> {
                               children: [
                                 Text("Product ID " , style: requestInfoStyle(color: Colors.blueGrey[500])),
                                 Text(ProductController.Products[index].ProductID.toString() ,style: requestInfoStyle()  ),
+                              ],
+                            )),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.app_blocking_outlined ),
+                            SizedBox(width: 16),
+                            Expanded(child:Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Category " , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(ProductController.Products[index].Category ,style: requestInfoStyle()  ),
+                              ],
+                            )),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.app_blocking_outlined ),
+                            SizedBox(width: 16),
+                            Expanded(child:Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("DESCRIPTION" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(ProductController.Products[index].DESCRIPTION ,style: requestInfoStyle()  ),
+                              ],
+                            )),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.app_blocking_outlined ),
+                            SizedBox(width: 16),
+                            Expanded(child:Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Rate" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(ProductController.Products[index].RATE.toString() ,style: requestInfoStyle()  ),
                               ],
                             )),
                           ],

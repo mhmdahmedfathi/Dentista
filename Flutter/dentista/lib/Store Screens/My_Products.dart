@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/UsersControllers/StoreProductController.dart';
@@ -20,12 +21,8 @@ import'package:dentista/Store Screens/Store_Home.dart';
 import'package:get/get.dart';
 
 class MyProduct extends StatefulWidget {
-  final String ID;
-  final String Email;
-  final String Store_name;
-  MyProduct( this.Store_name,this.Email,this.ID);
   @override
-  _MyProductState createState() => _MyProductState(Store_name,Email ,ID);
+  _MyProductState createState() => _MyProductState();
 }
 
 
@@ -34,16 +31,16 @@ class _MyProductState extends State<MyProduct> {
   int present = 20;
   int perPage = 20;
   List<bool> fav = List<bool>.generate(20, (index) => false);
-  String ID = "";
-  String Store_name = "";
-  String Email = "";
-  _MyProductState(this.Store_name,this.Email,this.ID);
+  _MyProductState();
 
   
   final StoreProductController ProductController = Get.put(StoreProductController());
 
+  final AuthController authController = Get.put(AuthController());
 
-  
+  String ID = "";
+  String Store_name = "";
+  String Email = "";
 
   @override
   void initState() {
@@ -54,6 +51,10 @@ class _MyProductState extends State<MyProduct> {
         fav.add(false);
       }
       ProductController.onInit();
+      ID= authController.StoreID;
+      Store_name=authController.StoreName;
+      Email=authController.GetEmail;
+
       present = present + perPage;
     });
   }
@@ -90,7 +91,9 @@ class _MyProductState extends State<MyProduct> {
               ProductController.onInit();
             });
 
-          })
+          }),
+      IconButton(icon: Icon(Icons.add), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddItem()));}, color: Colors.white,),
+
     ],
 
     backgroundColor: Colors.deepPurpleAccent,
@@ -103,7 +106,9 @@ class _MyProductState extends State<MyProduct> {
       ProductController.onInit();
       loadMore();
     }
-    ProductController.onInit();
+    setState(() {
+      ProductController.onInit();
+    });
     return true;
     }
     ,child:GridView.count(
@@ -233,32 +238,42 @@ class _MyProductState extends State<MyProduct> {
           ),
           decoration: BoxDecoration(color: Colors.deepPurpleAccent),
         ),
-        ListTile(
-          leading: Icon(Icons.whatshot_sharp),
-          title: Text('About Dentist',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Montserrat"
-            ),
+        DrawerHeader(
+          child: Column(
+            children: [
+              Text("Welcome to Dentista",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat",
+                    color: Colors.white
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                        fit: BoxFit.fill
+                    ),
+                  ),
+                ),
+              ),
+              Text( Store_name,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat",
+                    color: Colors.white
+
+                ),)
+            ],
           ),
-          onTap: (){
-            // To Move to About Dentista Page
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.account_circle_rounded),
-          title: Text('Return Back',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Montserrat"
-            ),
-          ),
-          onTap: (){
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>StoreHome(Store_name, Email, ID)  ));
-          },
+          decoration: BoxDecoration(color: Colors.deepPurpleAccent),
         ),
         ListTile(
           leading: Icon(Icons.logout),

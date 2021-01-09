@@ -51,7 +51,7 @@ async{
     home: isLogged==true ? accountType=='Manager' ? ManagerHome()
     :accountType=='Dentist' ? DentistHome("", "", "")
         :accountType=='Delivery' ? DeliveryHome()
-        :accountType=='Store' ? StoreHome(authController.StoreName,authController.GetEmail,authController.StoreID) : MainScreen() : MainScreen()
+        :accountType=='Store' ? StoreHome() : MainScreen() : MainScreen()
     ,
   ),
   );

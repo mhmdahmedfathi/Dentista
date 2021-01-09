@@ -68,7 +68,6 @@ class SQL:
             self.cursor = self.conn.cursor()
 
     def insert_query(self, table, attributes, values):
-
         # Generate the Query
         x = 1
         y = "OK"
@@ -84,6 +83,7 @@ class SQL:
                 Query = Query + "'" + str(value) + "', "
         Query = Query[:-2]
         Query = Query + " );"
+
         # ---------------------------------------------
         try:
             self.cursor.execute(Query)
@@ -162,7 +162,54 @@ class SQL:
         Query = Query + ";"
 
         Result = {}
+        try:
+            self.cursor.execute(Query)
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            Logs = "Retrive from table " + table + " at " + current_time + " is done correctly\n"
+            self.logs_file.write(Logs)
 
+            for column in columns:
+                Result[column] = []
+            # Appending the results to dictionary
+            rows = self.cursor.fetchall()
+            for row in rows:
+                for index, column in enumerate(columns):
+                    Result[column].append(row[index])
+
+        except :
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            Logs = "ERROR in Retrive from table " + table + " at " + current_time + "\n"
+            self.logs_file.write(Logs)
+        return Result
+
+
+    def select_general(self, table, columns, sql_condition = "",DISTINCTdetector=False):
+        if DISTINCTdetector == True:
+            Query = "SELECT DISTINCT "
+        else:
+            Query = "SELECT "
+        if columns == "*":
+            Query = Query + " * "
+            Q = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "' ;"
+            self.cursor.execute(Q)
+            rows = self.cursor.fetchall()
+            columns = []
+            for row in rows:
+                for r in row:
+                    columns.append(str(r))
+
+        else:
+            for column in columns:
+                Query = Query + column + ", "
+            Query = Query[:-2]
+        Query = Query + " FROM " + table
+        if sql_condition != "":
+            Query = Query + " " + sql_condition
+        Query = Query + ";"
+
+        Result = {}
         try:
             self.cursor.execute(Query)
             now = datetime.now()

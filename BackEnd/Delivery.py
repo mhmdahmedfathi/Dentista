@@ -23,14 +23,6 @@ def Delivery_insertion():
     for key in columns:
         values.append(request.json[key])
 
-    #Searching for manager ID first who is managing Deliverues and the same area
-    ManagerIDColumn = ['MANAGER_ID']
-    #ManagerIDColumn = ['*']
-    condition ="MANAGEMENT_TYPE = 'Delivery' and AREA_OF_MANAGEMENT = '"+values[5]+"'"
-    ManagerID= connector.select_query(table='MANAGER',columns=ManagerIDColumn,sql_condition=condition)
-
-    columns.append('MANAGER_ID')
-    values.append(",".join(repr(e) for e in ManagerID['MANAGER_ID']))
     columns.append('AVAILABLE')
     values.append(1)
     columns.append('RATE')
@@ -38,11 +30,36 @@ def Delivery_insertion():
     columns.append('NUMBER_OF_DORDERS')
     values.append(0)
 
-
-
     connector.insert_query(table = 'DELIVERY', attributes=columns, values=values)
+    condition ="DELIVERY_EMAIL = '"+ values[2] +"'"
+    DeliveryID = connector.select_query(table='DELIVERY',columns=['delivery_ID'],sql_condition=condition)
+    connector.insert_query(table='DELIVERY_VERIFICATION',attributes=['DELIVERY_ID'],values=DeliveryID['delivery_ID'])
     connector.close_connection()
     return "1"
+
+def DeliveryStatus():
+    deliveryemail = request.json['email']
+    condition = "DELIVERY_EMAIL = '"+deliveryemail+"'"
+    connector = SQL(host=server_name, user=server_admin)
+    #if manager ID has value -> Delivery is accepted
+    IDS = connector.select_query(table='DELIVERY', columns=['MANAGER_ID', 'DELIVERY_ID'], sql_condition=condition)
+    if IDS['MANAGER_ID'] != [None]:
+        connector.close_connection()
+        return "Accepted"
+    #else there are 2 state waiting or rejected
+    else:
+        condition = "DELIVERY_ID = " + str(IDS['DELIVERY_ID'][0])
+        #if delivery verification id has value(existed) means delivery in pending
+        verificationid = connector.select_query(table='delivery_verification', columns=['DELIVERY_VERIFICATION_ID'],sql_condition=condition)
+        if verificationid['DELIVERY_VERIFICATION_ID'] != []:
+            connector.close_connection()
+            return "Pending"
+
+        #else delivery is rejected
+        else:
+            connector.close_connection()
+            return "Rejected"
+
 
 # --------------------------------------------------------------------------------------------------------------------------------
 
