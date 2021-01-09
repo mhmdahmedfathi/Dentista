@@ -54,7 +54,6 @@ class OrderController extends GetxController{
         }));
     final seconddata = json.decode(DeliveredOrdersData.body);
     int numberofdeliveredorders = seconddata['number'];
-    print (numberofdeliveredorders);
     DeliveredOrders = List<Order>.generate(numberofdeliveredorders, (index) => Order()).obs;
     for (int i = 0; i < numberofdeliveredorders; i++) {
       DeliveredOrders[i].DentistFName = (seconddata['dentistfname'][i]);
