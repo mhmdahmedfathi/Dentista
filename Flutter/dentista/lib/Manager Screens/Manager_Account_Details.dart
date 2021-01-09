@@ -183,6 +183,24 @@ class _ManagerAccountDetailsState extends State<ManagerAccountDetails> {
                       SizedBox(height: 20),
                       Row(
                         children: [
+                          Icon(Icons.alternate_email),
+                          SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Password " , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                              Text('•••••••',style: requestInfoStyle()),
+                            ],
+                          ),
+                          Spacer(),
+                          IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            return displayBottomSheet(context,'password',"MANAGER_PASSWORD");
+                          })
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
                           Icon(Icons.person),
                           SizedBox(width: 12),
                           Column(

@@ -10,6 +10,7 @@ import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
+import 'package:dentista/UsersControllers/ManagerController.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -25,11 +26,12 @@ async{
   print(isLogged);
   print(accountType);
   runApp(GetMaterialApp(
+    smartManagement: SmartManagement.keepFactory,
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       appBarTheme: AppBarTheme(
         centerTitle: true,
-        color: Colors.white,
+        color: Colors.blueGrey[800],
         iconTheme: IconThemeData(color: Colors.grey[500]),
       ),
       iconTheme: IconThemeData(color: Colors.grey[500]),

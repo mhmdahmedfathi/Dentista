@@ -10,23 +10,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
-class RequestInfo extends StatefulWidget {
+class RequestInfoStore extends StatefulWidget {
   final Map result;
   final reqID;
 
-  RequestInfo({this.result, this.reqID});
+  RequestInfoStore({this.result, this.reqID});
 
   @override
-  _RequestInfoState createState() =>
-      _RequestInfoState(result: result, reqID: reqID);
+  _RequestInfoStoreState createState() =>
+      _RequestInfoStoreState(result: result, reqID: reqID);
 }
 
-class _RequestInfoState extends State<RequestInfo> {
+class _RequestInfoStoreState extends State<RequestInfoStore> {
   final ManagerController managerController = Get.put(ManagerController());
   final Map result;
   final reqID;
 
-  _RequestInfoState({this.result, this.reqID});
+  _RequestInfoStoreState({this.result, this.reqID});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _RequestInfoState extends State<RequestInfo> {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text("DELIVERY INFO",
+              child: Text("STORE INFO",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -88,10 +88,10 @@ class _RequestInfoState extends State<RequestInfo> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Name ",
+                              Text("Store Name ",
                                   style: requestInfoStyle(
                                       color: Colors.blueGrey[500])),
-                              Text(result['Fname'] + " " + result['Lname'],
+                              Text(result['Sname'] ,
                                   style: requestInfoStyle(size: 16)),
                             ],
                           ),
@@ -141,44 +141,10 @@ class _RequestInfoState extends State<RequestInfo> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Area ",
+                              Text("Phone Number ",
                                   style: requestInfoStyle(
                                       color: Colors.blueGrey[500])),
-                              Text(result['Area'],
-                                  style: requestInfoStyle(size: 16)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Icon(Icons.credit_card_sharp),
-                          SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Vehicle License ",
-                                  style: requestInfoStyle(
-                                      color: Colors.blueGrey[500])),
-                              Text(result['License'],
-                                  style: requestInfoStyle(size: 16)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Icon(Icons.car_repair),
-                          SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Vehicle Model ",
-                                  style: requestInfoStyle(
-                                      color: Colors.blueGrey[500])),
-                              Text(result['Model'],
+                              Text(result['Phone'],
                                   style: requestInfoStyle(size: 16)),
                             ],
                           ),
@@ -207,9 +173,10 @@ class _RequestInfoState extends State<RequestInfo> {
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: json.encode({
-                            'type': 'Delivery',
-                            'MID': managerController.Manager_ID.value,
-                            'DID': reqID
+                            'type' : 'Store',
+                            'MID' : managerController.Manager_ID.value,
+                            'DID' : reqID,
+                            'SID' : reqID,
                           }));
                       return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
                     },
@@ -219,19 +186,20 @@ class _RequestInfoState extends State<RequestInfo> {
             ),
             Expanded(
                 child: GestureDetector(
-                  onTap: ()async{
-                    var response = await http.post('http://10.0.2.2:5000/reject_request',
-                        headers: <String,String>{
-                          'Content-Type': 'application/json; charset=UTF-8',
-                        },
-                        body: json.encode({
-                          'type' : 'Delivery',
-                          'MID' : managerController.Manager_ID.value,
-                          'DID' : reqID
-                        })
-                    );
-                    return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
-                  },
+                    onTap: ()async{
+                      var response = await http.post('http://10.0.2.2:5000/reject_request',
+                          headers: <String,String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'type' : 'Store',
+                            'MID' : managerController.Manager_ID.value,
+                            'DID' : reqID,
+                            'SID' : reqID,
+                          })
+                      );
+                      return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
+                    },
                     child: drawButton("Reject", Colors.blueGrey[200]))),
           ],
         ),

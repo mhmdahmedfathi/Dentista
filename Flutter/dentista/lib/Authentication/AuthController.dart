@@ -17,7 +17,10 @@ class AuthController extends GetxController
   {
     box.write('Type', AccountType);
   }
-
+  void setID(int id)
+  {
+    box.write('ID', id);
+  }
   void setdeliveryarea(String DArea){
     box.write("area", DArea);
   }
@@ -48,5 +51,5 @@ class AuthController extends GetxController
   String get GetType => box.read('Type');
   String get GetDeliveryArea => box.read('area');
   String get GetDeliveryID => box.read("deliveryid");
-
+  int get  UserID  => box.read('ID');
 }

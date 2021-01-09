@@ -1,24 +1,35 @@
 import 'package:dentista/Manager%20Screens/GetRequestInfo.dart';
 import 'package:dentista/Manager%20Screens/RequestInfo.dart';
+import 'package:dentista/Manager%20Screens/RequestInfoStore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PendingTile extends StatelessWidget {
   final String Name;
   final String Type;
+  final int id ;
   final String Photourl;
-  PendingTile({this.Name , this.Type , this.Photourl});
+  Map result = Map();
+  PendingTile({this.id,this.Name , this.Type , this.Photourl});
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8),
       child: ListTile(
         onTap: ()async{
-          Map result =await GetRequestInfo(int.parse(Type));
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestInfo(result: result,reqID : Type)));
+          if(Type == "Delivery") {
+            result = await GetRequestInfo(id);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RequestInfo(result: result,reqID : id)));
+
+          }
+          else{
+            result = await GetRequestInfoStore(id);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RequestInfoStore(result: result,reqID : id)));
+
+          }
         },
         title: Text(Name , style: TextStyle(fontWeight: FontWeight.w700 , fontFamily: 'montserrat'),),
-        subtitle: Text("ID: "+Type,style: TextStyle(fontWeight: FontWeight.w600 , fontFamily: 'montserrat')),
+        subtitle: Text("ID: "+id.toString(),style: TextStyle(fontWeight: FontWeight.w600 , fontFamily: 'montserrat')),
         leading: CircleAvatar(
           radius: 25,
           backgroundColor: Colors.blueGrey,

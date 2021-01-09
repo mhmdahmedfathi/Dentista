@@ -125,6 +125,17 @@ def TotalDeliveredOrders():
     connector.close_connection()
     return json.dumps(result)
 
+def GetManagers():
+    DeliveryArea = request.json['area']
+    Condition = "AREA_OF_MANAGEMENT = '" + DeliveryArea + "'"
+    connector = SQL(server_name, server_admin, server_password)
+    result = connector.select_query(table='Manager', columns=['Manager_ID', 'Manager_Fname', 'Manager_Lname'],
+                                    sql_condition=Condition)
+    print(result)
+    result = {'MID': result['Manager_ID'], 'MFname': result['Manager_Fname'], 'MLname': result['Manager_Lname']}
+    connector.close_connection()
+    return json.dumps(result)
+
 #def DeliveryProfile():
     #columns = ['DELIVERY_ID', 'VECHILE_LICENCE', 'VECHILE_MODEL', 'RATE', 'Delivery_PHONE_NUMBER']
     #email = request.json['email']
