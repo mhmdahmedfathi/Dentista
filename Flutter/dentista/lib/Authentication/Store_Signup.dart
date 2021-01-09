@@ -1,6 +1,7 @@
 import 'package:dentista/Authentication/Store2_signup.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -243,7 +244,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                           }
 
                           Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context)=>EmailConfirmation("signup", Email) ));
+                              .push(MaterialPageRoute(builder: (context)=>Store2signup(StoreName) ));
 
                         },
                         child: drawButton(
@@ -257,7 +258,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context)=>Home()));
+                            .push(MaterialPageRoute(builder: (context)=>MainScreen()));
                       },
                       child: drawButton(
                           "Back to sign in",

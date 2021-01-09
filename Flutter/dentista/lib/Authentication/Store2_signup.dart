@@ -1,5 +1,6 @@
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -156,7 +157,7 @@ class _Store2signupState extends State<Store2signup> {
                         'ZIP_CODE': zip
                       }),
                     );
-                    Alert(context, "Bransh has been Signed up successfully",
+                    Alert(context, "Request sent to Mangers successfully",
                         "Press ok ",
                         message2: "");
 
@@ -198,15 +199,19 @@ class _Store2signupState extends State<Store2signup> {
                     'ZIP_CODE': zip
                   }),
                 );
-                Alert(context, "Signed up successfully",
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => MainScreen()));
+
+                Alert(context, "Request sent to Mangers successfully",
                     "Press ok ",
                     message2: "");
 
             }
           },
           child: drawButton("Sign Up", Colors.green),
+
         ),
       ),
-    ]));
+        ]));
   }
 }

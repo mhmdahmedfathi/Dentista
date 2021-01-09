@@ -1,12 +1,17 @@
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import'package:dentista/main.dart';
+import 'package:get/get.dart';
+import 'package:dentista/Models/Alerts.dart';
 class UploadImageDemo extends StatefulWidget {
-  UploadImageDemo() : super();
 
+
+  UploadImageDemo() : super();
   final String title = "Upload Image Demo";
 
   @override
@@ -16,8 +21,7 @@ class UploadImageDemo extends StatefulWidget {
 
 class UploadImageDemoState extends State<UploadImageDemo> {
   //
-  static final String uploadEndPoint =
-      'http://10.0.2.2:5000/Store_phone_validation';
+  final AuthController authController = Get.put(AuthController());
   Future<File> file;
   String status = '';
   String base64Image;
@@ -56,10 +60,18 @@ class UploadImageDemoState extends State<UploadImageDemo> {
       },
       body: json.encode({
         "dic" :{"IMAGE_URL":"$fileName"},
-        "ID"  : 1
+      "ID"  : authController.StoreID,
+      "PRODUCT_NAME"  : authController.Product_Name
+
       }),
     );
     setStatus('Uploaded...');
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context)=>StoreHome() ));
+    Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
+
+
   }
 
   Widget showImage() {

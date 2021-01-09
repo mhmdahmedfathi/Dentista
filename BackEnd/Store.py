@@ -40,9 +40,10 @@ def Store_Information():
     columns = ['STORE_NAME','EMAIL','PHONE_NUMBER' ,'CREDIT_CARD_NUMBER']
     ID = request.json['ID']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " STORE_ID ='" + ID+ "' "
+    condition = " STORE_ID ='" + ID+ "' and MANAGER_ID "
     Count_Region = connector.select_query(table='store_branch ',columns= ['count(STORE_ID)'],sql_condition=condition)
     Region = connector.select_query(table='store_branch ',columns= ['REGION'],sql_condition=condition)
+    condition = " STORE_ID ='" + ID+ "' "
     result = connector.select_query(table='STORE ',columns=columns,sql_condition=condition)
     result = {'STORE_NAME': result['STORE_NAME'],'EMAIL': result['EMAIL'],'PHONE_NUMBER': result['PHONE_NUMBER'], 'CREDIT_CARD_NUMBER': result['CREDIT_CARD_NUMBER'], 'Count_Branches': Count_Region['count(STORE_ID)'], 'BRANCHES': Region['REGION']}
     connector.close_connection()

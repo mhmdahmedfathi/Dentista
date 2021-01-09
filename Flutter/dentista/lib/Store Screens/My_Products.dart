@@ -54,7 +54,6 @@ class _MyProductState extends State<MyProduct> {
       ID= authController.StoreID;
       Store_name=authController.StoreName;
       Email=authController.GetEmail;
-
       present = present + perPage;
     });
   }
@@ -201,43 +200,6 @@ class _MyProductState extends State<MyProduct> {
     child: ListView(
     padding: EdgeInsets.zero,
       children: [
-        DrawerHeader(
-          child: Column(
-            children: [
-              Text("Welcome to Dentista",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat",
-                    color: Colors.white
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                        fit: BoxFit.fill
-                    ),
-                  ),
-                ),
-              ),
-              Text( Store_name,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat",
-                    color: Colors.white
-
-                ),)
-            ],
-          ),
-          decoration: BoxDecoration(color: Colors.deepPurpleAccent),
-        ),
         DrawerHeader(
           child: Column(
             children: [

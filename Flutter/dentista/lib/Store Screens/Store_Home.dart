@@ -29,7 +29,7 @@ class _StoreHomeState extends State<StoreHome> {
   int products = 20;
   int present = 20;
   int perPage = 20;
-  int _page=0;
+  int _page=1;
   List<bool> fav = List<bool>.generate(20, (index) => false);
   final AuthController authController = Get.put(AuthController());
   _StoreHomeState();
@@ -51,7 +51,7 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.timer, size: 30,color: Colors.white),
+                Icon(Icons.home, size: 30,color: Colors.white),
                 Text("Profile" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
               ],
             ),
@@ -61,8 +61,8 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.store_mall_directory_outlined, size: 30,color: Colors.white),
-                Text("My Products" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
+                Icon(Icons.account_circle, size: 30,color: Colors.white),
+                Text("My Account" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
               ],
             ),
           ),
@@ -71,7 +71,7 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.delivery_dining, size: 30,color: Colors.white),
+                Icon(Icons.store, size: 30,color: Colors.white),
                 Text("All Products" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 10,color: Colors.white),)
               ],
             ),
@@ -84,7 +84,7 @@ class _StoreHomeState extends State<StoreHome> {
           });
         },
       ),
-      body:  _page ==0 ?Store_Profile(): _page==1 ? MyProduct() : _page==2 ? All_Products():Container(),
+      body:  _page ==1 ?Store_Profile(): _page==0 ? MyProduct() : _page==2 ? All_Products():Container(),
 
       drawer: Drawer(
 
