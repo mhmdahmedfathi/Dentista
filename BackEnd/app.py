@@ -11,16 +11,26 @@ from validate_email import validate_email
 import Login_Auth
 from Verifications import Validator
 import Add_Item
+import DentistProduct
+import DentistComments
+import Cart
 app = Flask(__name__)
 
 
 
-#------------------------------------------------------------------------------------------------------------------------------
+'''
 server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
+connection_details = [server_name, server_admin, server_password, database]
+'''
 
+server_name = "localhost"
+server_admin = "root"
+server_password = "@dentist1"
+database = "DENTISTA"
+connection_details = [server_name, server_admin, server_password, database]
 #------------------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------------------
@@ -39,6 +49,7 @@ app.add_url_rule('/dentist_signup', view_func=Dentist.dentist_insertion, methods
 app.add_url_rule('/dentist_email_validation', view_func=Dentist.dentist_email_validation, methods = ['POST'])
 app.add_url_rule('/dentist_phone_validation', view_func=Dentist.dentist_phone_validation, methods = ['POST'])
 app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_CreditCard_validation, methods = ['POST'])
+app.add_url_rule('/GetDentist', view_func=Dentist.GetDentist, methods = ['POST'])
 
 #---------------------------------------------------------------------------------------------------------------------------------
 
@@ -97,6 +108,28 @@ app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_P
 
 
 
+# For Dentist Products:
+app.add_url_rule('/FetchProducts', view_func=DentistProduct.FetchProducts ,methods=['POST'])
+app.add_url_rule('/NoProducts', view_func=DentistProduct.NoProducts ,methods=['POST'])
+
+# Comments:
+app.add_url_rule('/AddComment', view_func=DentistComments.AddComment ,methods=['POST'])
+app.add_url_rule('/LikeComment', view_func=DentistComments.LikeComment ,methods=['POST'])
+app.add_url_rule('/ViewComments', view_func=DentistComments.ViewComments ,methods=['POST'])
+app.add_url_rule('/NoComments', view_func=DentistComments.NoComments ,methods=['POST'])
+app.add_url_rule('/ViewLikes', view_func=DentistComments.ViewLikes ,methods=['POST'])
+
+
+
+# ------------------------------------------------------------------------------------------------------------
+# For Cart:
+app.add_url_rule('/ClearCart', view_func=Cart.ClearCart ,methods=['POST'])
+app.add_url_rule('/ShipCart', view_func=Cart.ShipCart ,methods=['POST'])
+app.add_url_rule('/ViewCart', view_func=Cart.ViewCart ,methods=['POST'])
+app.add_url_rule('/AddtoCart', view_func=Cart.AddtoCart ,methods=['POST'])
+app.add_url_rule('/RemoveFromCart', view_func=Cart.RemoveFromCart ,methods=['POST'])
+app.add_url_rule('/ShipCart', view_func=Cart.ShipCart ,methods=['POST'])
+app.add_url_rule('/GetTotalPrice', view_func=Cart.GetTotalPrice ,methods=['POST'])
 
 def run_server(debug=False):
     app.run(debug=debug)
