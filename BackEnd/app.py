@@ -95,8 +95,8 @@ app.add_url_rule('/Store_signup', view_func=Store.Store_insertion,methods=['POST
 app.add_url_rule('/Store_email_validation',view_func=Store.Store_email_validation,methods=['POST'])
 app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validation,methods=['POST'])
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
-#app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
-#app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
+app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
+app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -105,6 +105,7 @@ app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['P
 app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=['POST'])
 app.add_url_rule('/Product_Update',view_func=Add_Item.Update_Item_table ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
+app.add_url_rule('/Product_getavailableTotalProducts', view_func=Add_Item.Avaliable_total_Products , methods=['GET','POST'])
 
 
 
