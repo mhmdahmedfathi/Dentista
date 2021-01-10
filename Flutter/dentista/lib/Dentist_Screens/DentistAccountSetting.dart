@@ -1,26 +1,34 @@
-import 'dart:convert';
-import 'package:dentista/Store%20Screens/Add_bransh.dart';
-import'package:dentista/UsersControllers/StoreController.dart';
+import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Authentication/AuthController.dart';
-import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Models/SharedTextStyle.dart';
-import 'package:dentista/UsersControllers/ManagerController.dart';
+import 'package:dentista/UsersControllers/DentistController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http ;
-import'Store_Home.dart';
-class Store_Profile extends StatefulWidget {
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+class DentistAccountSettings extends StatefulWidget {
   @override
-  _Store_ProfileState createState() => _Store_ProfileState();
+  _DentistAccountSettingsState createState() => _DentistAccountSettingsState();
 }
 
-class _Store_ProfileState extends State<Store_Profile> {
+class _DentistAccountSettingsState extends State<DentistAccountSettings> {
   final AuthController authController = Get.put(AuthController());
-  final StoreController storecontroller = Get.put(StoreController());
+  final DentistController dentistController = Get.put(DentistController());
+  Validator _validator = new Validator();
   String updatedValue;
   final _formKey = GlobalKey<FormState>();
+
+  Map SplitNameString()
+  {
+    String s = updatedValue;
+    int idx = s.indexOf(" ");
+    List names = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
+    return {"DENTIST_Fname" : names[0] , "DENTIST_LNAME" : names[1]};
+  }
+
   void displayBottomSheet(BuildContext context,String hintText,String ColumnName) {
+    String oldPassword;
     showModalBottomSheet(
         backgroundColor: Colors.blueGrey[100],
         isScrollControlled: true,
@@ -32,6 +40,21 @@ class _Store_ProfileState extends State<Store_Profile> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    hintText == "Password" ?
+                    TextFormField
+                      (
+                        key: _formKey,
+                        autofocus: true,
+                      decoration: authDecoration("Enter Old password"),
+                      obscureText: true,
+                      onChanged: (val){setState(() {
+                        oldPassword = val;
+                      });},
+                      validator: (val) {return val != dentistController.DentistPassword.value ?"password dosen't match old one" : null;},
+                      )
+
+                        :
+                    Container(),
                     Form(
                       key: _formKey,
                       child: TextFormField(
@@ -41,9 +64,13 @@ class _Store_ProfileState extends State<Store_Profile> {
                             updatedValue = val;
                           });
                         },
+                        obscureText: hintText == "Password" ? true : false,
                         autofocus: true,
                         decoration: authDecoration('Enter new '+hintText),
                         validator: (val){
+
+                            if (hintText == "Password")
+                            return _validator.validate_password(val) == false ? "Enter valid password":null ;
                           return val.isEmpty? 'Please Enter A Value' : null;
                         },
                       ),
@@ -57,27 +84,27 @@ class _Store_ProfileState extends State<Store_Profile> {
                           if(_formKey.currentState.validate())
                           {
                             Map dict;
-                            if(hintText == 'STORE_NAME')
-                            {
-                              authController.setStoreName(updatedValue);
+                            if(hintText == 'name') {
+                              dict = SplitNameString();
                             }
-                            else if(hintText == 'EMAIL')
+                            else if(hintText == 'email')
                             {
                               authController.setEmail(updatedValue);
                             }
+
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/Store_UpdateInformations',
+                              'http://10.0.2.2:5000/dentist_update',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
                               },
                               body: json.encode({
-                                "dic" :{"$hintText":"$updatedValue"},
-                               "ID"  : authController.StoreID
+                                "dic" :hintText=='name' ? dict :{"$ColumnName":"$updatedValue"},
+                                "DID"  : dentistController.DentistID.value
                               }),
                             );
-                           storecontroller.onInit();
-                           Navigator.pop(context);
+                            dentistController.onInit();
+                            Navigator.pop(context);
                           }
                         },
                         color: Colors.blueGrey[400],
@@ -95,6 +122,16 @@ class _Store_ProfileState extends State<Store_Profile> {
           );
         });
   }
+  int password_length;
+  String Password_String = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    password_length = dentistController.DentistPassword.value.length;
+    for (int i = 0 ; i < password_length; i++)
+      Password_String = Password_String + "*";
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +142,8 @@ class _Store_ProfileState extends State<Store_Profile> {
           letterSpacing: 1.2,
         ),
         ),
-        backgroundColor: Colors.blueGrey[800],
+        backgroundColor:Colors.blueGrey[800],
       ),
-
       body: Column(
         children: [
           Container(
@@ -117,6 +153,17 @@ class _Store_ProfileState extends State<Store_Profile> {
               child: CircleAvatar(
                 backgroundColor: Colors.blueGrey,
                 radius: 85,
+                backgroundImage: NetworkImage(dentistController.DentistImageURL.value),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: ()
+                    {
+
+                    },
+                  ),
+                ),
               ),
             ),
           ),
@@ -143,110 +190,141 @@ class _Store_ProfileState extends State<Store_Profile> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.app_blocking_outlined ),
-                            SizedBox(width: 16),
-                            Expanded(child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Store ID " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(authController.StoreID,style: requestInfoStyle()  ),
-                              ],
-                            )),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
                             Icon(Icons.person_pin),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Name " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(storecontroller.STORE_NAME.value,style: requestInfoStyle()),
+                                Text(dentistController.DentistFname.value+" "+dentistController.DentistLname.value,style: requestInfoStyle()),
                               ],
                             ),
                             Spacer(),
                             IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              return displayBottomSheet(context,'STORE_NAME',"");
+                              return displayBottomSheet(context,'name',"");
                             })
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Store Phone " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(storecontroller.PHONE_NUMBER.value,style: requestInfoStyle()),
-                              ],
-                            ),
-                            Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              return displayBottomSheet(context,'PHONE_NUMBER',"");
-                            })
-
                           ],
                         ),
                         SizedBox(height: 20),
                         Row(
                           children: [
                             Icon(Icons.alternate_email),
-                            SizedBox(width: 16),
-                            Expanded(child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            SizedBox(width: 12),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Email " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(storecontroller.EMAIL.value,style: requestInfoStyle()  ),
+                                Text(dentistController.DentistEmail.value,style: requestInfoStyle()),
                               ],
-                            )),
+                            ),
                             Spacer(),
                             IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              return displayBottomSheet(context,'email',"Store_EMAIL");
+                              return displayBottomSheet(context,'email',"DENTIST_EMAIL");
                             })
                           ],
                         ),
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.credit_card),
-                            SizedBox(width: 16),
-                            Expanded(child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            Icon(Icons.enhanced_encryption),
+                            SizedBox(width: 12),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("CreditCard " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(storecontroller.CREDIT_CARD_NUMBER.value,style: requestInfoStyle()  ),
+                                Text("Password " , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(Password_String,style: requestInfoStyle()),
                               ],
-                            )),
-                            Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              return displayBottomSheet(context,'CREDIT_CARD_NUMBER',"");
-                            })
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Icon(Icons.store),
-                            SizedBox(width: 16),
-                            Expanded(child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Branshes " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text( storecontroller.Branch.value ,style: requestInfoStyle()  ),
+                            ),
 
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.call),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Phone Number" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(dentistController.DentistPhoneNumber.value,style: requestInfoStyle()),
                               ],
-                            )),
+                            ),
                             Spacer(),
                             IconButton(icon: Icon(Icons.edit), onPressed: (){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_bransh()));
+                              return displayBottomSheet(context,'Phone Number','DENTIST_PHONE_NUMBER');
+                            })
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Address" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(dentistController.DentistAddress.value,style: requestInfoStyle()),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                              return displayBottomSheet(context,'address','DENTIST_ADDRESS');
+                            })
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("ZipCode" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(dentistController.DentistZipCode.value.toString(),style: requestInfoStyle()),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                              return displayBottomSheet(context,'Zip Code','DENTIST_ZIP_CODE');
+                            })
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Region" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(dentistController.DentistRegion.value,style: requestInfoStyle()),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                              return displayBottomSheet(context,'Region','DENTIST_REGION');
+                            })
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.location_city),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("City" , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(dentistController.DentistAddress.value,style: requestInfoStyle()),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                              return displayBottomSheet(context,'City','DENTIST_CITY');
                             })
                           ],
                         ),
@@ -258,9 +336,6 @@ class _Store_ProfileState extends State<Store_Profile> {
               ),
             ),
           ),
-
-
-
         ],
       ),
     );

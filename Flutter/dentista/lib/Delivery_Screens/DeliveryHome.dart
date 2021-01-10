@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
+import 'package:dentista/Delivery_Screens/DeliveryReviewScreen.dart';
 import 'package:dentista/Models/SharedTextStyle.dart';
 import 'package:dentista/UsersControllers/OrderController.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,12 +23,16 @@ class DeliveryHome extends StatefulWidget {
 class _DeliveryHomeState extends State<DeliveryHome> {
   final DeliveryController deliveryController = Get.put(DeliveryController());
   final OrderController orderController = Get.put(OrderController());
+  AuthController authController = Get.put(AuthController());
+  List Snames = List<dynamic>();
+  List IDs = List<dynamic>();
   int _page = 0;
   int OrdersNumber = 0;
   int present = 20;
   int perPage = 20;
   List<Order> Orders;
-
+  List<String> ChatScreenChoices = ["Store", "Manager"];
+  String Choice = "";
   _DeliveryHomeState();
 
   @override
@@ -35,9 +42,23 @@ class _DeliveryHomeState extends State<DeliveryHome> {
   }
 
   void asyncmethod() async {
+    deliveryController.onInit();
+    orderController.onInit();
+    var response = await http.post('http://10.0.2.2:5000/get_all_stores',
+        headers: <String,String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode({
+          'MArea' :deliveryController.area.value
+        })
+    );
+
+    final requests = json.decode(response.body);
+    Snames = requests['SNAME'];
+    IDs = requests['SID'];
+
     setState(() {
-      deliveryController.onInit();
-      orderController.onInit();
+
     });
   }
 
@@ -85,7 +106,20 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                             fontSize: 10,
                             color: Colors.white))
                   ],
-                ))
+                )),
+            Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.chat, size: 30, color: Colors.white),
+                    Text("Store Chat",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: Colors.white))
+                  ],
+                )),
           ],
           onTap: (val) {
             setState(() {
@@ -105,10 +139,23 @@ class _DeliveryHomeState extends State<DeliveryHome> {
               icon: Icon(Icons.refresh),
               color: Colors.white,
               onPressed: () async {
-                setState(() {
-                  deliveryController.onInit();
-                  orderController.onInit();
-                });
+                deliveryController.onInit();
+                orderController.onInit();
+                  var response = await http.post('http://10.0.2.2:5000/get_all_stores',
+                      headers: <String,String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'MArea' :deliveryController.area.value
+                      })
+                  );
+
+                  final requests = json.decode(response.body);
+                  Snames = requests['SNAME'];
+                  IDs = requests['SID'];
+                  setState(() {
+
+                  });
                 present = present + perPage;
               })
         ],
@@ -123,7 +170,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
               },
               child: ListView(
                   shrinkWrap: true,
-                  children: List.generate(orderController.numberoforders.value, (index) {
+                  children: List.generate(orderController.numberoforders.value,
+                      (index) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Card(
@@ -132,91 +180,62 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => OrderScreen(index)));
                           },
-                          title: Obx(()=> Text(
-                                orderController.Orders[index].DentistFName == "" &&
-                                    orderController.Orders[index].DentistLName == ""
+                          title: Obx(
+                            () => Text(
+                                orderController.Orders[index].DentistFName ==
+                                            "" &&
+                                        orderController
+                                                .Orders[index].DentistLName ==
+                                            ""
                                     ? ""
                                     : 'Dr. ' +
-                                    orderController.Orders[index].DentistFName +
+                                        orderController
+                                            .Orders[index].DentistFName +
                                         " " +
-                                    orderController.Orders[index].DentistLName,
+                                        orderController
+                                            .Orders[index].DentistLName,
                                 style: TextStyle(
                                     fontFamily: "Montserrat",
                                     fontWeight: FontWeight.w700)),
                           ),
-                          subtitle: Obx(()=> Text(orderController.Orders[index].DentistAddress == ""
+                          subtitle: Obx(
+                            () => Text(orderController
+                                        .Orders[index].DentistAddress ==
+                                    ""
                                 ? ""
                                 : orderController.Orders[index].DentistAddress),
                           ),
-                          leading: Obx(()=> Text(orderController.Orders[index].OrderID == ""
-                                ? ""
-                                : 'no.' + orderController.Orders[index].OrderID),
+                          leading: Obx(
+                            () => Text(
+                                orderController.Orders[index].OrderID == ""
+                                    ? ""
+                                    : 'no.' +
+                                        orderController.Orders[index].OrderID),
                           ),
-                          trailing: Obx(()=> Text(
+                          trailing: Obx(
+                            () => Text(
                                 orderController.Orders[index].TotalCost == ""
                                     ? ""
-                                    : orderController.Orders[index].TotalCost + 'EGP',
+                                    : orderController.Orders[index].TotalCost +
+                                        'EGP',
                                 style: TextStyle(
                                     fontFamily: "Montserrat",
                                     fontWeight: FontWeight.w800)),
                           ),
                         ),
-                        // child: Row(
-                        //   children: [
-                        //     Column(
-                        //       children: [
-                        //         Text(
-                        //           Orders[index].DentistFName == "" &&
-                        //               Orders[index].DentistLName == ""
-                        //               ? ""
-                        //               : 'Dr. ' +
-                        //               Orders[index].DentistFName +
-                        //               " " +
-                        //               Orders[index].DentistLName,
-                        //           style: TextStyle(
-                        //               fontSize: 15, fontFamily: "Montserrat",fontWeight: FontWeight.bold),
-                        //           textAlign: TextAlign.start,
-                        //         ),
-                        //         SizedBox(height: 10.0),
-                        //         Text(
-                        //           Orders[index].DentistAddress,
-                        //           style: TextStyle(
-                        //               fontSize: 15, fontFamily: "Montserrat"),
-                        //           textAlign: TextAlign.start,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //     // SizedBox(width: 50.0),
-                        //     Expanded(
-                        //       child: Align(
-                        //         child: Container(
-                        //           alignment: Alignment.centerRight,
-                        //           child: Text(
-                        //             Orders[index].TotalCost == ""
-                        //                 ? ""
-                        //                 : Orders[index].TotalCost + 'EGP',
-                        //             style: TextStyle(
-                        //                 fontSize: 40,
-                        //                 color: Colors.blueGrey[800],
-                        //                 fontFamily: "Montserrat"),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ),
                     );
                   })),
             )
           : _page == 1
               ? SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    children: [
+                  child: Container(
+                    child: Column(children: [
                       Center(
-                        child: Obx(()=> Text(
-                            'Number of Delivered Orders: ' + deliveryController.NumberOfOrders.value,
+                        child: Obx(
+                          () => Text(
+                            'Number of Delivered Orders: ' +
+                                deliveryController.NumberOfOrders.value,
                             style: requestInfoStyle(),
                             textAlign: TextAlign.center,
                           ),
@@ -224,42 +243,102 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                       ),
                       Container(
                         child: Card(
-                          child: Obx(()=> ListView(
+                          child: Obx(
+                            () => ListView(
                               shrinkWrap: true,
-                              children: List.generate(orderController.DeliveredOrders.length, (index) {
+                              children: List.generate(
+                                  orderController.DeliveredOrders.length,
+                                  (index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Card(
                                     child: ListTile(
-                                      title: Obx(()=> Text(
-                                          orderController.DeliveredOrders[index].DentistFName == "" &&
-                                              orderController.DeliveredOrders[index].DentistLName == ""
-                                              ? ""
-                                              : 'Dr. ' +
-                                              orderController.DeliveredOrders[index].DentistFName +
-                                              " " +
-                                              orderController.DeliveredOrders[index].DentistLName,
-                                          style: TextStyle(
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w700)),
+                                      title: Obx(
+                                        () => Text(
+                                            orderController
+                                                            .DeliveredOrders[
+                                                                index]
+                                                            .DentistFName ==
+                                                        "" &&
+                                                    orderController
+                                                            .DeliveredOrders[
+                                                                index]
+                                                            .DentistLName ==
+                                                        ""
+                                                ? ""
+                                                : 'Dr. ' +
+                                                    orderController
+                                                        .DeliveredOrders[index]
+                                                        .DentistFName +
+                                                    " " +
+                                                    orderController
+                                                        .DeliveredOrders[index]
+                                                        .DentistLName,
+                                            style: TextStyle(
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w700)),
                                       ),
-                                      leading: Obx(()=> Text(orderController.DeliveredOrders[index].OrderID == ""
-                                          ? ""
-                                          : 'no.' + orderController.DeliveredOrders[index].OrderID),
-                                      ),
+                                      leading: Obx(
+                                        () => Text(orderController
+                                                    .DeliveredOrders[index]
+                                                    .OrderID ==
+                                                ""
+                                            ? ""
+                                            : 'no.' +
+                                                orderController
+                                                    .DeliveredOrders[index]
+                                                    .OrderID),
                                       ),
                                     ),
-                                  );
+                                  ),
+                                );
                               }),
-                    ),
+                            ),
                           ),
                         ),
                       ),
-                    ]
+                    ]),
                   ),
-                ),
-              )
-              : Container(),
+                )
+              : _page == 2
+                  ? NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollinfo) {
+          if (scrollinfo.metrics.pixels ==
+              scrollinfo.metrics.maxScrollExtent) loadmore();
+          return true;
+        },
+        child: ListView(
+            shrinkWrap: true,
+            children: List.generate(IDs.length,
+                    (index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: ListTile(
+                        title:
+                             Text(
+                                Snames[index],
+                              style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700)),
+                        trailing: IconButton(
+                          icon: Icon(Icons.chat),
+                          onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                    localuserid: authController.UserID,
+                                    recevierid: IDs[index],
+                                    recevierName:Snames[index],
+                                    recevierType:"Store"
+                                )));
+                          },
+                        )
+                      ),
+                    ),
+                  );
+                })),
+      )
+                  : Container(),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -282,7 +361,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                       backgroundColor: Colors.blueGrey,
                     ),
                   ),
-                  Obx(()=> Text(
+                  Obx(
+                    () => Text(
                       deliveryController.fname.value +
                           ' ' +
                           deliveryController.lname.value,
@@ -311,28 +391,49 @@ class _DeliveryHomeState extends State<DeliveryHome> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.admin_panel_settings_outlined),
               title: Text(
-                'Settings',
+                'Contact Manager',
                 style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () {},
-
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ChatRoom(
+                        localuserid: authController.UserID,
+                        recevierid: int.parse(deliveryController.ManagerID.value),
+                        recevierName: deliveryController.ManagerName.value,
+                        recevierType:"Manager"
+                    )));
+                },
             ),
             ListTile(
-              leading: Icon(Icons.credit_card),
+              leading: Icon(Icons.rate_review),
               title: Text(
-                'My Credit Card',
+                'Reviews',
                 style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DeliveryReviewsScreen()));
+              },
             ),
+            // ListTile(
+            //   leading: Icon(Icons.credit_card),
+            //   title: Text(
+            //     'My Credit Card',
+            //     style: TextStyle(
+            //         fontSize: 20.0,
+            //         fontFamily: "Montserrat",
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            //   onTap: () {},
+            // ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text(
