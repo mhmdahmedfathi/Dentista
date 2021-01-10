@@ -73,7 +73,8 @@ class _Product_ProfileState extends State<Product_Profile> {
                               },
                               body: json.encode({
                                 "dic" :{"$hintText":"$updatedValue"},
-                                "ID"  : authController.StoreID
+                                "ID"  : authController.StoreID,
+                                "PRODUCT_NAME"  : ProductController.Products[index].Product_Name
                               }),
                             );
                             ProductController.onInit();
@@ -106,9 +107,9 @@ class _Product_ProfileState extends State<Product_Profile> {
         ),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MyProduct()));}, color: Colors.white,),
+          IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> StoreHome()));}, color: Colors.white,),
         ],
-        backgroundColor:Colors.blueGrey[800],
+        backgroundColor: Colors.blueGrey[800],
       ),
       body: Column(
         children: [
@@ -168,6 +169,21 @@ class _Product_ProfileState extends State<Product_Profile> {
                               children: [
                                 Text("Category " , style: requestInfoStyle(color: Colors.blueGrey[500])),
                                 Text(ProductController.Products[index].Category ,style: requestInfoStyle()  ),
+                              ],
+                            )),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.app_blocking_outlined ),
+                            SizedBox(width: 16),
+                            Expanded(child:Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Brand " , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                Text(ProductController.Products[index].Brand ,style: requestInfoStyle()  ),
                               ],
                             )),
                           ],

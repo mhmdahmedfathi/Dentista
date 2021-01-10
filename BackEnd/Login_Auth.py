@@ -10,14 +10,14 @@ import json
 database = "DENTISTA"
 # ------------------------------------------------------------------------------------------------------------------------------
 #Connection Arguments of the Local database
-server_name = 'localhost'
-server_admin='root'
+server_name = "dentista1.mysql.database.azure.com"
+server_admin = "dentista@dentista1"
+server_password = "@dentist1"
+database = "DENTISTA"
+server_name = "localhost"
+server_admin = "root"
 server_password = "@dentista1"
 
-server_name = "127.0.0.1"
-server_admin = "root"
-server_password = "Itachionly#1"
-database = "dantista"
 
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ def GetName():
         return json.dumps(result)
     elif AccountType == 'Manager':
         condition = "MANAGER_EMAIL = '" + email + "'"
-        result = sql.select_query(table='MANAGER' , columns=['MANAGER_ID','MANAGER_Fname', 'MANAGER_Lname','MANAGEMENT_TYPE','AREA_OF_MANAGEMENT'] , sql_condition=condition)
+        result = sql.select_query(table='MANAGER' , columns=['MANAGER_ID','MANAGER_Fname','MANAGER_Lname','MANAGEMENT_TYPE','AREA_OF_MANAGEMENT'] , sql_condition=condition)
         result = {'M_ID':result['MANAGER_ID'][0],'fname' : result['MANAGER_Fname'][0] , 'lname': result['MANAGER_Lname'][0],'M_Type': result['MANAGEMENT_TYPE'][0],'M_Area': result['AREA_OF_MANAGEMENT'][0]}
         return json.dumps(result)
     elif AccountType == 'store':
@@ -57,6 +57,7 @@ def GetName():
         result = sql.select_query(table='store' , columns=['STORE_NAME','STORE_ID'] , sql_condition=condition)
         result = {'Store_Name' : result['STORE_NAME'][0],'STORE_ID' : result['STORE_ID'][0]}
         return json.dumps(result)
+    sql.close_connection()
     
 
 

@@ -2,6 +2,10 @@ import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Store%20Screens/Add_bransh.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dentista/Store%20Screens/All_Products.dart';
+import 'package:dentista/Store%20Screens/Delivery_chat.dart';
+import 'package:dentista/Store%20Screens/Dentist_chat.dart';
+import 'package:dentista/Store%20Screens/Manager_chat.dart';
+import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/Store Screens/Add_Item.dart';
@@ -18,23 +22,15 @@ import 'package:dentista/Store Screens/My_Products.dart';
 import'package:dentista/Store Screens/Store_Profile.dart';
 import'package:get/get.dart';
 
-class StoreHome extends StatefulWidget {
-  StoreHome();
+class ChatHome extends StatefulWidget {
   @override
-  _StoreHomeState createState() => _StoreHomeState();
+  _ChatHomeState createState() => _ChatHomeState();
 }
 
 
-class _StoreHomeState extends State<StoreHome> {
-  int products = 20;
-  int present = 20;
-  int perPage = 20;
+class _ChatHomeState extends State<ChatHome> {
   int _page=0;
-  List<bool> fav = List<bool>.generate(20, (index) => false);
   final AuthController authController = Get.put(AuthController());
-  _StoreHomeState();
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +47,8 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.home, size: 30,color: Colors.white),
-                Text("Profile" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
+                Icon(Icons.chat, size: 30,color: Colors.white),
+                Text("Managers Chat" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
               ],
             ),
           ),
@@ -61,8 +57,8 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.account_circle, size: 30,color: Colors.white),
-                Text("My Account" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
+                Icon(Icons.chat, size: 30,color: Colors.white),
+                Text("Dentists Chat" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
               ],
             ),
           ),
@@ -71,8 +67,8 @@ class _StoreHomeState extends State<StoreHome> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.store, size: 30,color: Colors.white),
-                Text("All Products" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 10,color: Colors.white),)
+                Icon(Icons.chat, size: 30,color: Colors.white),
+                Text("Deliveries Chat" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 10,color: Colors.white),)
               ],
             ),
           ),
@@ -84,7 +80,7 @@ class _StoreHomeState extends State<StoreHome> {
           });
         },
       ),
-      body:  _page ==1 ?Store_Profile(): _page==0 ? MyProduct() : _page==2 ? All_Products():Container(),
+      body:  _page ==1 ?Dentist_Chat() : _page==0 ? Manager_Chat() : _page==2 ? Delivery_Chat() :Container(),
 
       drawer: Drawer(
 
@@ -127,6 +123,19 @@ class _StoreHomeState extends State<StoreHome> {
                 ],
               ),
               decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Return Back',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat"
+                ),
+              ),
+              onTap: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>StoreHome()));
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),

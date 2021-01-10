@@ -42,6 +42,7 @@ class OrderController extends GetxController{
         Orders[i].DentistAddress = (data['address'][i]);
         Orders[i].Dentistphonenumber = (data['phone'][i]);
         Orders[i].Dentistemail = (data['email'][i]);
+        Orders[i].DentistiID = (data['DID'][i].toString());
       }
 
     final DeliveredOrdersData = await http.post(
@@ -54,7 +55,6 @@ class OrderController extends GetxController{
         }));
     final seconddata = json.decode(DeliveredOrdersData.body);
     int numberofdeliveredorders = seconddata['number'];
-    print (numberofdeliveredorders);
     DeliveredOrders = List<Order>.generate(numberofdeliveredorders, (index) => Order()).obs;
     for (int i = 0; i < numberofdeliveredorders; i++) {
       DeliveredOrders[i].DentistFName = (seconddata['dentistfname'][i]);

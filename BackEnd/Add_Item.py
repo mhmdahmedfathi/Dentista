@@ -12,7 +12,7 @@ connection_details = [server_name , server_admin , server_password , database]
 # ------------------------------------------------------------------------------------------------------------------------------
 #Product Insertion
 def Product_Insertion():
-    columns = ['NUMBER_OF_UNITS','STORE_ID','PRODUCT_ID','PRICE','SELLING_PRICE']
+    columns = ['NUMBER_OF_UNITS','STORE_ID','PRODUCT_ID','PRICE','SELLING_PRICE','Brand','DESCRIPTION' ,'Category']
     values =[]
     for key in columns:
         values.append(request.json[key])
@@ -22,6 +22,8 @@ def Product_Insertion():
     ProductID= connector.select_query(table='products',columns=PRODUCT_IDColumn,sql_condition=condition)
     if ProductID['PRODUCT_ID']== []:
         columns[2]='PRODUCT_NAME'
+        print(columns)
+        print(values)
         connector.insert_query(table='products' ,attributes=columns, values=values)
         connector.close_connection()
         return "1"
@@ -34,13 +36,13 @@ def Product_Insertion():
 # ------------------------------------------------------------------------------------------------------------------------------
 
 def Avaliable_Products():
-    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','RATE' ,'PRICE' ,'Category','DESCRIPTION','IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
+    columns = ['NUMBER_OF_UNITS','SELLING_PRICE','RATE','Brand','PRICE' ,'Category','DESCRIPTION','IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
     ID = request.json['ID']
     connector = SQL(host=server_name, user=server_admin)
     condition = " STORE_ID ='" + ID+ "' "
     Count_Product = connector.select_query(table='products ',columns= ['count(distinct PRODUCT_ID)'],sql_condition=condition)
     result = connector.select_query(table='products ',columns=columns,sql_condition=condition)
-    result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'RATE': result['RATE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'],'Category': result['Category'],'DESCRIPTION': result['DESCRIPTION'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
+    result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'Brand': result['Brand'],'RATE': result['RATE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'],'Category': result['Category'],'DESCRIPTION': result['DESCRIPTION'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -51,11 +53,8 @@ def Avaliable_total_Products():
     columns = ['NUMBER_OF_UNITS','SELLING_PRICE','PRICE' ,'IMAGE_URL', 'PRODUCT_NAME','PRODUCT_ID']
     connector = SQL(host=server_name, user=server_admin)
     Count_Product = connector.select_query(table='products ',columns= ['count(distinct PRODUCT_ID)'])
-    print(Count_Product)
     result = connector.select_query(table='products',columns=columns)
-    print(result)
     result = {'SELLING_PRICE': result['SELLING_PRICE'],'PRICE': result['PRICE'],'PRODUCT_ID': result['PRODUCT_ID'], 'NUMBER_OF_UNITS': result['NUMBER_OF_UNITS'], 'IMAGE_URL': result['IMAGE_URL'], 'PRODUCT_NAME': result['PRODUCT_NAME'], 'Count': Count_Product['count(distinct PRODUCT_ID)']}
-    print(result)
     connector.close_connection()
     return json.dumps(result)
 
@@ -65,7 +64,8 @@ def Avaliable_total_Products():
 def Update_Item_table():
     columns_dic = request.json['dic']
     ID = request.json["ID"]
-    condition = "STORE_ID = '" +str(ID) +  "'"
+    PRODUCT_NAME =request.json["PRODUCT_NAME"]
+    condition = "STORE_ID = '" +str(ID) +  "' and PRODUCT_NAME = '" +PRODUCT_NAME+"'"
     connector = SQL(host=server_name, user=server_admin)
     connector.update_query(table='products' ,columns_values_dict= columns_dic,sql_condition=condition)
     connector.close_connection()

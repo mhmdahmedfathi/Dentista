@@ -211,6 +211,10 @@ class _SignInState extends State<SignIn> {
                                 'AccountType':'Delivery'
                               }),
                             );
+                            final AcountData = json.decode(getdata.body);
+                            authController.setID(AcountData['id']);
+                            authController.setAccountType('Delivery');
+
 
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                           }
@@ -221,26 +225,39 @@ class _SignInState extends State<SignIn> {
                       }
                       else if (AccountType == "store")
                       {
-                      final getdata = await http.post(
-                      'http://10.0.2.2:5000/GetData',
-                      headers: <String,String>{
-                      'Content-Type': 'application/json; charset=UTF-8',
-                      },
-                      body: json.encode({
-                      'email':email,
-                      'AccountType':'store'
-                      }),
-                      );
 
-                      final AcountData = json.decode(getdata.body);
+                        final statusresponse = await http.post(
+                          'http://10.0.2.2:5000/StoreStatus',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode(
+                              {'email': email}),
+                        );
+                        String status = statusresponse.body;
+                        if (status=="Accepted") {
+                          final getdata = await http.post(
+                            'http://10.0.2.2:5000/GetData',
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: json.encode({
+                              'email': email,
+                              'AccountType': 'store'
+                            }),
+                          );
 
-                      String store_name= AcountData['Store_Name'];
-                      String id = AcountData['STORE_ID'].toString();
-                      authController.setStoreID(id);
-                      authController.setEmail(email);
-                      authController.setStoreName(store_name) ;
-
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(StoreHome())));
+                          final AcountData = json.decode(getdata.body);
+                          String store_name = AcountData['Store_Name'];
+                          String id = AcountData['STORE_ID'].toString();
+                          authController.setStoreID(id);
+                          authController.setEmail(email);
+                          authController.setStoreName(store_name);
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => (StoreHome())));
+                        } else{
+                          Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
+                        }
 
                       }
                       else if (AccountType == "Manager")
@@ -256,7 +273,8 @@ class _SignInState extends State<SignIn> {
                             'AccountType':'Manager'
                           }),
                         );
-
+                        final AcountData = json.decode(getdata.body);
+                        authController.setID(AcountData['M_ID']);
 
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
                       }
