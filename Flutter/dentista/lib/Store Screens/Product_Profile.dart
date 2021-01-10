@@ -109,7 +109,7 @@ class _Product_ProfileState extends State<Product_Profile> {
         actions: [
           IconButton(icon: Icon(Icons.arrow_back_sharp), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> StoreHome()));}, color: Colors.white,),
         ],
-        backgroundColor:Colors.blueGrey[800],
+        backgroundColor: Colors.blueGrey[800],
       ),
       body: Column(
         children: [

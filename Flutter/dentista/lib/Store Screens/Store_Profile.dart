@@ -105,7 +105,7 @@ class _Store_ProfileState extends State<Store_Profile> {
           letterSpacing: 1.2,
         ),
         ),
-        backgroundColor:Colors.blueGrey[800],
+        backgroundColor: Colors.blueGrey[800],
       ),
 
       body: Column(

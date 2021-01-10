@@ -1,4 +1,7 @@
 import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Store%20Screens/Chat_Home.dart';
+import 'package:dentista/Store%20Screens/Delivery_chat.dart';
+import 'package:dentista/Store%20Screens/Manager_chat.dart';
 import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/UsersControllers/StoreProductController.dart';
@@ -33,7 +36,7 @@ class _MyProductState extends State<MyProduct> {
   List<bool> fav = List<bool>.generate(20, (index) => false);
   _MyProductState();
 
-  
+
   final StoreProductController ProductController = Get.put(StoreProductController());
 
   final AuthController authController = Get.put(AuthController());
@@ -58,7 +61,7 @@ class _MyProductState extends State<MyProduct> {
     });
   }
 
-  
+
   void loadMore() {
     setState(() {
       for (int i = 0; i<20; i++)
@@ -72,188 +75,201 @@ class _MyProductState extends State<MyProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey[800],
         centerTitle: false,
         title: Text('My Products',
-        style: TextStyle(
-        fontSize: 30,
-        fontFamily: "Montserrat"
-    ),
-    textAlign: TextAlign.left,
-    ),
-    actions: [
-      IconButton(
-          icon: Icon(Icons.refresh),
-          color: Colors.white,
-          onPressed: () async {
-            setState(() {
-              ProductController.onInit();
-            });
-
-          }),
-      IconButton(icon: Icon(Icons.add), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddItem()));}, color: Colors.white,),
-
-    ],
-
-    backgroundColor: Colors.deepPurpleAccent,
-    ),
-
-    body: NotificationListener<ScrollNotification>(
-    onNotification: (ScrollNotification ScrollInfo){
-    if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
-    {
-      ProductController.onInit();
-      loadMore();
-    }
-    setState(() {
-      ProductController.onInit();
-    });
-    return true;
-    }
-    ,child:GridView.count(
-    crossAxisCount: 2,
-    crossAxisSpacing: 0.0,
-    mainAxisSpacing: 0.0,
-    shrinkWrap: true,
-    children: List.generate(ProductController.ProductCount.value , (index) {
-    return Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: InkWell(
-    onTap: (){},
-    child: Card(
-    child: Column(
-    children: [
-    Obx(()=>
-       Text(ProductController.Products[index].Product_Name,
-        style: TextStyle(
-        fontSize: 20,
-        color: Colors.deepPurpleAccent,
-        fontFamily: "Montserrat"
+          style: TextStyle(
+              fontSize: 30,
+              fontFamily: "Montserrat"
+          ),
+          textAlign: TextAlign.left,
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: () async {
+                setState(() {
+                  ProductController.onInit();
+                });
+
+              }),
+          IconButton(icon: Icon(Icons.add), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddItem()));}, color: Colors.white,),
+
+        ],
+
       ),
-    ),
-    Expanded(
-    child: Container(
-    decoration: BoxDecoration(
-    image: DecorationImage(
-    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-    fit: BoxFit.cover,
-    ),
-    borderRadius:
-    BorderRadius.all(Radius.circular(20.0),),
-    ),
-    ),
 
-    ),
-    Padding(
-    padding: const EdgeInsets.all(2.0),
-    child: Row(
-    children: [
-    Align(
-    alignment: Alignment.centerLeft,
-    child: Text(ProductController.Products[index].ProductCost.toString(),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification ScrollInfo){
+          if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
+          {
+            ProductController.onInit();
+            loadMore();
+          }
+          setState(() {
+            ProductController.onInit();
+          });
+          return true;
+        }
+        ,child:GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 0.0,
+        mainAxisSpacing: 0.0,
+        shrinkWrap: true,
+        children: List.generate(ProductController.ProductCount.value , (index) {
+          return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: (){},
+                child: Card(
+                  child: Column(
+                    children: [
+                      Obx(()=>
+                          Text(ProductController.Products[index].Product_Name,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.deepPurpleAccent,
+                                fontFamily: "Montserrat"
+                            ),
+                          ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(20.0),),
+                          ),
+                        ),
 
-      style: TextStyle(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(ProductController.Products[index].ProductCost.toString(),
 
-    fontSize: 20,
-    fontFamily: "Montserrat"
-    ),
-    textAlign: TextAlign.left,
+                                style: TextStyle(
 
-    ),
-    ),
-    SizedBox(width: 30,),
-    Align(
-    alignment: Alignment.centerRight,
-    child: IconButton(
-    alignment: Alignment.centerRight,
-    icon: Icon(Icons.star, color: !fav[index] ? Colors.grey: Colors.amber, ),
+                                    fontSize: 20,
+                                    fontFamily: "Montserrat"
+                                ),
+                                textAlign: TextAlign.left,
 
-    onPressed: (){setState(() {
+                              ),
+                            ),
+                            SizedBox(width: 30,),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                alignment: Alignment.centerRight,
+                                icon: Icon(Icons.star, color: !fav[index] ? Colors.grey: Colors.amber, ),
 
-      fav[index] = !fav[index];
-    });},
-    ),
-    ),
-      Align(
-          child: IconButton(icon: Icon(Icons.more), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Product_Profile(index) ));}, color: Colors.grey)
-      )
+                                onPressed: (){setState(() {
 
-    ],
-    ),
-    ),
+                                  fav[index] = !fav[index];
+                                });},
+                              ),
+                            ),
+                            Align(
+                                child: IconButton(icon: Icon(Icons.more), onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Product_Profile(index) ));}, color: Colors.grey)
+                            )
+
+                          ],
+                        ),
+                      ),
 
 
-    ],
-    ),
+                    ],
+                  ),
 
-    ),
-    )
-    );
-    },
-    ),
+                ),
+              )
+          );
+        },
+        ),
 
-    ),
-    ),
+      ),
+      ),
       drawer: Drawer(
 
-    child: ListView(
-    padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          child: Column(
-            children: [
-              Text("Welcome to Dentista",
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [
+                  Text("Welcome to Dentista",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Montserrat",
+                        color: Colors.white
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                            fit: BoxFit.fill
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text( Store_name,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Montserrat",
+                        color: Colors.white
+
+                    ),)
+                ],
+              ),
+              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+            ),
+            ListTile(
+              leading: Icon(Icons.chat),
+              title: Text('Chats',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat",
-                    color: Colors.white
+                    fontFamily: "Montserrat"
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                        fit: BoxFit.fill
-                    ),
-                  ),
-                ),
-              ),
-              Text( Store_name,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat",
-                    color: Colors.white
-
-                ),)
-            ],
-          ),
-          decoration: BoxDecoration(color: Colors.deepPurpleAccent),
-        ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Sign Out',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Montserrat"
+              onTap: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ChatHome() ));
+              },
             ),
-          ),
-          onTap: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
-          },
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Sign Out',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat"
+                ),
+              ),
+              onTap: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+              },
+            ),
+          ],
         ),
-      ],
-    ),
 
-    ),
+      ),
 
     );
   }

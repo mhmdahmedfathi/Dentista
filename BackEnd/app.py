@@ -98,6 +98,9 @@ app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['P
 app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
 app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
 app.add_url_rule('/StoreStatus', view_func=Store2.StoreStatus, methods=['POST'])
+app.add_url_rule('/Store_ManagerChat', view_func=Store.Store_ManagerChat, methods=['POST'])
+app.add_url_rule('/Store_DentistChat', view_func=Store.Store_DentistChat , methods=['POST'])
+app.add_url_rule('/Store_DeliveryChat', view_func=Store.Store_DeliveryChat, methods=['POST'])
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------
