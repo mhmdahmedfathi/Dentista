@@ -42,6 +42,7 @@ class OrderController extends GetxController{
         Orders[i].DentistAddress = (data['address'][i]);
         Orders[i].Dentistphonenumber = (data['phone'][i]);
         Orders[i].Dentistemail = (data['email'][i]);
+        Orders[i].DentistiID = (data['DID'][i].toString());
       }
 
     final DeliveredOrdersData = await http.post(

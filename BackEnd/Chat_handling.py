@@ -10,9 +10,10 @@ import json
 database = "DENTISTA"
 # ------------------------------------------------------------------------------------------------------------------------------
 #Connection Arguments of the Local database
-server_name = 'localhost'
-server_admin='root'
-server_password = "@dentista1"
+server_name = "dentista1.mysql.database.azure.com"
+server_admin = "dentista@dentista1"
+server_password = "@dentist1"
+database = "DENTISTA"
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
 def InsertChatRoom():
@@ -24,28 +25,64 @@ def InsertChatRoom():
     senderID = request.json['senderid']
     senerType = request.json['sendertype']
     connector= SQL(host=server_name, user=server_admin,password=server_password)
-    if((useroneType == 'Manager' and usertwoType == 'Store') or (usertwoType == 'Manager' and useroneType == 'Store')):
+    if(useroneType == 'Manager' and usertwoType == 'Store'):
         columns = ['MESSAGES' , 'MANAGER_ID','STORE_ID','SENDER_ID','SENDER_TYPE']
         values= [message , useroneID , usertwoID,senderID,senerType]
         connector.insert_query(table='MANAGER_STORE_CHAT' ,attributes=columns , values=values)
         connector.close_connection()
         return "1"
-    elif ((useroneType == 'Manager' and usertwoType == 'Delivery') or (usertwoType == 'Manager' and useroneType == 'Delivery')):
+    elif(usertwoType == 'Manager' and useroneType == 'Store'):
+        columns = ['MESSAGES', 'MANAGER_ID', 'STORE_ID', 'SENDER_ID', 'SENDER_TYPE']
+        values = [message, usertwoID, useroneID, senderID, senerType]
+        connector.insert_query(table='MANAGER_STORE_CHAT', attributes=columns, values=values)
+        connector.close_connection()
+        return "1"
+    elif (useroneType == 'Manager' and usertwoType == 'Delivery'):
         columns = ['MESSAGES' , 'MANAGER_ID','DELIVERY_ID','SENDER_ID','SENDER_TYPE']
         values= [message , useroneID , usertwoID,senderID,senerType]
         connector.insert_query(table='MANAGER_DELIVERY_CHAT' ,attributes=columns , values=values)
         connector.close_connection()
         return "1"
-    elif ((useroneType == 'Dentist' and usertwoType == 'Delivery') or (usertwoType == 'Dentist' and useroneType == 'Delivery')):
-        columns = ['MESSAGES' , 'DENTIST_ID','DELIVERY_ID','SENDER_ID','SENDER_TYPE']
-        values= [message , useroneID , usertwoID,senderID,senerType]
+    elif (usertwoType == 'Manager' and useroneType == 'Delivery'):
+        columns = ['MESSAGES' , 'MANAGER_ID','DELIVERY_ID','SENDER_ID','SENDER_TYPE']
+        values= [message , useroneID , usertwoID, senderID,senerType]
+        connector.insert_query(table='MANAGER_DELIVERY_CHAT' ,attributes=columns , values=values)
+        connector.close_connection()
+        return "1"
+    elif (useroneType == 'Dentist' and usertwoType == 'Delivery'):
+        columns = ['MESSAGES' , 'DENTIST_ID', 'DELIVERY_ID', 'SENDER_ID','SENDER_TYPE']
+        values= [message , useroneID , usertwoID , senderID,senerType]
         connector.insert_query(table='DENTIST_DELIVERY_CHAT' ,attributes=columns , values=values)
         connector.close_connection()
         return "1"
-    elif ((useroneType == 'Dentist' and usertwoType == 'Store') or (usertwoType == 'Dentist' and useroneType == 'Store')):
+    elif (usertwoType == 'Dentist' and useroneType == 'Delivery'):
+        columns = ['MESSAGES' , 'DENTIST_ID', 'DELIVERY_ID', 'SENDER_ID','SENDER_TYPE']
+        values= [message , usertwoID , useroneID , senderID,senerType]
+        connector.insert_query(table='DENTIST_DELIVERY_CHAT' ,attributes=columns , values=values)
+        connector.close_connection()
+        return "1"
+    elif (useroneType == 'Dentist' and usertwoType == 'Store'):
         columns = ['MESSAGES' , 'DENTIST_ID','STORE_ID','SENDER_ID','SENDER_TYPE']
         values= [message , useroneID , usertwoID,senderID,senerType]
         connector.insert_query(table='DENTIST_STORE_CHAT' ,attributes=columns , values=values)
+        connector.close_connection()
+        return "1"
+    elif(usertwoType == 'Dentist' and useroneType == 'Store'):
+        columns = ['MESSAGES' , 'DENTIST_ID','STORE_ID','SENDER_ID','SENDER_TYPE']
+        values= [message , usertwoID , useroneID,senderID,senerType]
+        connector.insert_query(table='DENTIST_STORE_CHAT' ,attributes=columns , values=values)
+        connector.close_connection()
+        return "1"
+    elif (useroneType == 'Delivery' and usertwoType == 'Store'):
+        columns = ['MESSAGES' , 'Delivery_ID','STORE_ID','SENDER_ID','SENDER_TYPE']
+        values= [message , useroneID , usertwoID,senderID,senerType]
+        connector.insert_query(table='store_delivery_chat' ,attributes=columns , values=values)
+        connector.close_connection()
+        return "1"
+    elif(usertwoType == 'Delivery' and useroneType == 'Store'):
+        columns = ['MESSAGES' , 'Delivery_ID','STORE_ID','SENDER_ID','SENDER_TYPE']
+        values= [message , usertwoID , useroneID,senderID,senerType]
+        connector.insert_query(table='store_delivery_chat' ,attributes=columns , values=values)
         connector.close_connection()
         return "1"
 
@@ -56,18 +93,42 @@ def retrive_Messages():
     useroneID = request.json['useroneid']
     usertwoID = request.json['usertwoid']
     connector= SQL(host=server_name, user=server_admin,password=server_password)
-    if((useroneType == 'Manager' and usertwoType == 'Store') or (usertwoType == 'Manager' and useroneType == 'Store')):
-        Condition = "(( MANAGER_ID = '"+ str(useroneID) +"') AND " + "( STORE_ID = '" +str(usertwoID) +"')) OR" +"(( MANAGER_ID = '"+ str(usertwoID) +"') AND " + "( STORE_ID = '" +str(useroneID) +"'))"
+    if((useroneType == 'Manager' and usertwoType == 'Store')):
+        Condition = "(( MANAGER_ID = '"+ str(useroneID) +"') AND " + "( STORE_ID = '" +str(usertwoID) +"'))"
         results = connector.select_query(table='MANAGER_STORE_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
-    elif ((useroneType == 'Manager' and usertwoType == 'Delivery') or (usertwoType == 'Manager' and useroneType == 'Delivery')):
-        Condition = "(( MANAGER_ID = '"+ str(useroneID) +"') AND " + "( DELIVERY_ID = '" +str(usertwoID) +"')) OR" +"(( MANAGER_ID = '"+ str(usertwoID) +"') AND " + "( DELIVERY_ID = '" +str(useroneID) +"'))"
+    elif((usertwoType == 'Manager' and useroneType == 'Store')):
+        Condition = "(( MANAGER_ID = '"+ str(usertwoID) +"') AND " + "( STORE_ID = '" +str(useroneID) +"'))"
+        results = connector.select_query(table='MANAGER_STORE_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
+
+    elif ((useroneType == 'Manager' and usertwoType == 'Delivery')):
+        Condition = "(( MANAGER_ID = '"+ str(useroneID) +"') AND " + "( DELIVERY_ID = '" +str(usertwoID) +"'))"
         results = connector.select_query(table='MANAGER_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
-    elif ((useroneType == 'Dentist' and usertwoType == 'Delivery') or (usertwoType == 'Dentist' and useroneType == 'Delivery')):
-        Condition = "((DENTIST_ID = '"+ str(useroneID) +"') AND " + "( DELIVERY_ID = '" +str(usertwoID) +"')) OR" +"(( DENTIST = '"+ str(usertwoID) +"') AND " + "( DELIVERY_ID = '" +str(useroneID) +"'))"
+    elif ((usertwoType == 'Manager' and useroneType == 'Delivery')):
+        Condition = "(( MANAGER_ID = '"+ str(usertwoID) +"') AND " + "( DELIVERY_ID = '" +str(useroneID) +"'))"
+        results = connector.select_query(table='MANAGER_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
+
+    elif ((useroneType == 'Dentist' and usertwoType == 'Delivery')):
+        Condition = "((DENTIST_ID = '"+ str(useroneID) +"') AND " + "( DELIVERY_ID = '" +str(usertwoID) +"'))"
         results = connector.select_query(table='DENTIST_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
-    elif ((useroneType == 'Dentist' and usertwoType == 'Store') or (usertwoType == 'Dentist' and useroneType == 'Store')):
-        Condition = "((DENTIST_ID = '"+ str(useroneID) +"') AND " + "( STORE_ID = '" +str(usertwoID) +"')) OR" +"(( DENTIST = '"+ str(usertwoID) +"') AND " + "( STORE_ID = '" +str(useroneID) +"'))"
+    elif ((usertwoType == 'Dentist' and useroneType == 'Delivery')):
+        Condition = "((DENTIST_ID = '"+ str(usertwoID) +"') AND " + "( DELIVERY_ID = '" +str(useroneID) +"'))"
         results = connector.select_query(table='DENTIST_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
+
+    elif ((useroneType == 'Dentist' and usertwoType == 'Store')):
+        Condition = "((DENTIST_ID = '"+ str(useroneID) +"') AND " + "( STORE_ID = '" +str(usertwoID) +"'))"
+        results = connector.select_query(table='DENTIST_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
+    elif ((usertwoType == 'Dentist' and useroneType == 'Store')):
+        Condition = "((DENTIST_ID = '"+ str(usertwoID) +"') AND " + "( STORE_ID = '" +str(useroneID) +"'))"
+        results = connector.select_query(table='DENTIST_DELIVERY_CHAT' , columns=['MESSAGES' , 'SENDER_ID','SENDER_TYPE'] ,sql_condition=Condition)
+
+    elif ((useroneType == 'Delivery' and usertwoType == 'Store')):
+        Condition = "((Delivery_ID = '" + str(useroneID) + "') AND " + "( STORE_ID = '" + str(usertwoID) + "'))"
+        results = connector.select_query(table='store_delivery_chat',columns=['MESSAGES', 'SENDER_ID', 'SENDER_TYPE'], sql_condition=Condition)
+    elif ((usertwoType == 'Delivery' and useroneType == 'Store')):
+        Condition = "((Delivery_ID = '" + str(usertwoID) + "') AND " + "( STORE_ID = '" + str(useroneID) + "'))"
+        results = connector.select_query(table='store_delivery_chat',columns=['MESSAGES', 'SENDER_ID', 'SENDER_TYPE'], sql_condition=Condition)
+
     results = {'Messages' : results['MESSAGES'] , 'Sender_id' : results['SENDER_ID'],'Sender_type' : results['SENDER_TYPE']}
+
     connector.close_connection()
     return json.dumps(results)

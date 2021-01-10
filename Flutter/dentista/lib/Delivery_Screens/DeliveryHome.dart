@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
+import 'package:dentista/Delivery_Screens/DeliveryReviewScreen.dart';
 import 'package:dentista/Models/SharedTextStyle.dart';
 import 'package:dentista/UsersControllers/OrderController.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +23,7 @@ class DeliveryHome extends StatefulWidget {
 class _DeliveryHomeState extends State<DeliveryHome> {
   final DeliveryController deliveryController = Get.put(DeliveryController());
   final OrderController orderController = Get.put(OrderController());
+  AuthController authController = Get.put(AuthController());
   List Snames = List<dynamic>();
   List IDs = List<dynamic>();
   int _page = 0;
@@ -56,8 +60,6 @@ class _DeliveryHomeState extends State<DeliveryHome> {
     setState(() {
 
     });
-
-    print('init' + orderController.numberoforders.value.toString());
   }
 
   void loadmore() {
@@ -151,7 +153,6 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                   final requests = json.decode(response.body);
                   Snames = requests['SNAME'];
                   IDs = requests['SID'];
-
                   setState(() {
 
                   });
@@ -322,7 +323,15 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                                   fontWeight: FontWeight.w700)),
                         trailing: IconButton(
                           icon: Icon(Icons.chat),
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                    localuserid: authController.UserID,
+                                    recevierid: IDs[index],
+                                    recevierName:Snames[index],
+                                    recevierType:"Store"
+                                )));
+                          },
                         )
                       ),
                     ),
@@ -390,7 +399,29 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ChatRoom(
+                        localuserid: authController.UserID,
+                        recevierid: int.parse(deliveryController.ManagerID.value),
+                        recevierName: deliveryController.ManagerName.value,
+                        recevierType:"Manager"
+                    )));
+                },
+            ),
+            ListTile(
+              leading: Icon(Icons.rate_review),
+              title: Text(
+                'Reviews',
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DeliveryReviewsScreen()));
+              },
             ),
             // ListTile(
             //   leading: Icon(Icons.credit_card),

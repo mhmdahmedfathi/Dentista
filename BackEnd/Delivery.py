@@ -83,13 +83,13 @@ def Delivery_VehicleLicense_validator():
 
 # Showing data in app functions
 def OrdersToBeDelivered():
-    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL']
+    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL', 'd.DENTIST_ID']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
     condition = " SHIPMENT_STATUS = 'Not Delivered' and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
-    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL']}
+    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL'], 'DID':result['d.DENTIST_ID']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -125,14 +125,22 @@ def TotalDeliveredOrders():
     connector.close_connection()
     return json.dumps(result)
 
-def GetManagers():
+def GetManager():
     DeliveryArea = request.json['area']
     Condition = "AREA_OF_MANAGEMENT = '" + DeliveryArea + "'"
     connector = SQL(server_name, server_admin, server_password)
-    result = connector.select_query(table='Manager', columns=['Manager_ID', 'Manager_Fname', 'Manager_Lname'],
-                                    sql_condition=Condition)
-    print(result)
+    result = connector.select_query(table='Manager', columns=['Manager_ID', 'Manager_Fname', 'Manager_Lname'],sql_condition=Condition)
     result = {'MID': result['Manager_ID'], 'MFname': result['Manager_Fname'], 'MLname': result['Manager_Lname']}
+    connector.close_connection()
+    return json.dumps(result)
+
+def Reviews():
+    DELIVERY_ID = request.json['id']
+    columns = ['R.REVIEW', 'D.DENTIST_Fname', 'D.DENTIST_LNAME', 'D.DENTIST_IMAGE_URL']
+    condition = "R.DELIVERY_ID = " + DELIVERY_ID + " and R.DENTIST_ID = D.DENTIST_ID"
+    connector = SQL(server_name, server_admin, server_password)
+    result = connector.select_query(table='REVIEW_DELIVERY as R , DENTIST as D',columns=columns,sql_condition=condition)
+    result= {'length': len(result['R.REVIEW']), 'review': result['R.REVIEW'], 'Dfname': result['D.DENTIST_Fname'], 'Dlname': result['D.DENTIST_LNAME'], 'ImgUrl': result['D.DENTIST_IMAGE_URL']}
     connector.close_connection()
     return json.dumps(result)
 

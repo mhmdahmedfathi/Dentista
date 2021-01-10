@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:dentista/Delivery_Screens/DeliveryChat.dart';
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
 import 'package:dentista/UsersControllers/OrderController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   final DeliveryController deliveryController = Get.put(DeliveryController());
   final OrderController orderController =Get.put(OrderController());
+  AuthController authController = Get.put(AuthController());
 
   int indexorder;
   int present = 20;
@@ -111,7 +113,13 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: IconButton(
                         icon: Icon(Icons.chat),
                       onPressed: (){
-
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ChatRoom(
+                                localuserid: authController.UserID,
+                                recevierid: int.parse(orderController.Orders[indexorder].DentistiID),
+                                recevierName:orderController.Orders[indexorder].DentistFName+" "+orderController.Orders[indexorder].DentistLName,
+                                recevierType:"Dentist"
+                            )));
                         },
                     )
                   ),

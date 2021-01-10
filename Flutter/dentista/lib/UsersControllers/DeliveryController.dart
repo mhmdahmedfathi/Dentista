@@ -11,6 +11,8 @@ class DeliveryController extends GetxController{
   var phone = "".obs;
   var area = "".obs;
   var ID = "".obs;
+  var ManagerID = "".obs;
+  var ManagerName="".obs;
   var vechilemodel = "".obs;
   var vechilelicense = "".obs;
   var rate = "".obs;
@@ -43,10 +45,22 @@ class DeliveryController extends GetxController{
     rate (AcountData['rate'].toString());
     NumberOfOrders (AcountData['ordersnumber'].toString());
     Availablity (AcountData['availablity'].toString());
-
     authController.setdeliveryarea(area.value);
     authController.setdeliveryID(ID.value);
 
+
+    final managerresponse = await http.post(
+      'http://10.0.2.2:5000/delivery_getmanager',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(
+          {'area': area.value}),
+    );
+
+    final managerData = json.decode(managerresponse.body);
+    ManagerID (managerData['MID'].toString());
+    ManagerName (managerData['MFname'][0]+" "+ managerData['MLname'][0] );
 
   }
 

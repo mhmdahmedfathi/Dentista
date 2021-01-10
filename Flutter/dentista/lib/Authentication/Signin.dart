@@ -211,6 +211,10 @@ class _SignInState extends State<SignIn> {
                                 'AccountType':'Delivery'
                               }),
                             );
+                            final AcountData = json.decode(getdata.body);
+                            authController.setID(AcountData['id']);
+                            authController.setAccountType('Delivery');
+
 
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                           }
