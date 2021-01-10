@@ -5,6 +5,7 @@ class StoreProductView {
   String DESCRIPTION;
   String Category;
   int RATE ;
+  String Brand;
   int ProductCost;
   int ProductID;
   int ProductBoughtCost;
@@ -12,6 +13,7 @@ class StoreProductView {
   int Count;
   String IMAGE_URL;
   StoreProductView() {
+    Brand="";
     RATE=0;
   Product_Name = "";
   ProductBoughtCost=0;

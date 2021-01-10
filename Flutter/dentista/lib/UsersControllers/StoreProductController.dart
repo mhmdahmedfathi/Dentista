@@ -45,6 +45,7 @@ void onInit() async{
     Products[i].DESCRIPTION=(data['DESCRIPTION'][i]);
     Products[i].Category=(data['Category'][i]);
     Products[i].RATE=(data['RATE'][i]);
+    Products[i].Brand =(data['Brand'][i]);
 
   }
 

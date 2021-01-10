@@ -162,6 +162,7 @@ class SQL:
         Query = Query + ";"
 
         Result = {}
+
         try:
             self.cursor.execute(Query)
             now = datetime.now()

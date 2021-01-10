@@ -43,7 +43,7 @@ class StoreController extends GetxController {
 
        Branches=List<String>.generate(BranchesCount.value, (index) => "" ).obs;
        for(int i=0;i!=BranchesCount.value;i++) {
-        print(Branches[i]=data['BRANCHES'][i]);
+        Branches[i]=data['BRANCHES'][i];
        }
 
       Branch.value="";
@@ -51,7 +51,7 @@ class StoreController extends GetxController {
            Branch.value=Branch.value + Branches[i]+" ";
        }
 
-        print(Branch);
+
   }
 
 

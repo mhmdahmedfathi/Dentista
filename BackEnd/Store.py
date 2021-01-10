@@ -40,9 +40,10 @@ def Store_Information():
     columns = ['STORE_NAME','EMAIL','PHONE_NUMBER' ,'CREDIT_CARD_NUMBER']
     ID = request.json['ID']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " STORE_ID ='" + ID+ "' "
+    condition = " STORE_ID ='" + ID+ "' and MANAGER_ID "
     Count_Region = connector.select_query(table='store_branch ',columns= ['count(STORE_ID)'],sql_condition=condition)
     Region = connector.select_query(table='store_branch ',columns= ['REGION'],sql_condition=condition)
+    condition = " STORE_ID ='" + ID+ "' "
     result = connector.select_query(table='STORE ',columns=columns,sql_condition=condition)
     result = {'STORE_NAME': result['STORE_NAME'],'EMAIL': result['EMAIL'],'PHONE_NUMBER': result['PHONE_NUMBER'], 'CREDIT_CARD_NUMBER': result['CREDIT_CARD_NUMBER'], 'Count_Branches': Count_Region['count(STORE_ID)'], 'BRANCHES': Region['REGION']}
     connector.close_connection()
@@ -59,4 +60,53 @@ def Update_Store_table():
     connector.update_query(table='STORE' ,columns_values_dict= columns_dic,sql_condition=condition)
     connector.close_connection()
     return "1"
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+def Store_ManagerChat():
+    ID = request.json['ID']
+    connector = SQL(host=server_name, user=server_admin)
+    condition = " STORE_ID ='" + ID+ "'"
+    Count_Region = connector.select_query(table='store_branch ',columns= ['count(DISTINCT (MANAGER_ID))'],sql_condition=condition)
+    
+    condition = "MANAGER_ID = (select MANAGER_ID from store_branch where STORE_ID ='" + ID+ "' and MANAGER_ID )"
+    columns=['MANAGER_Fname','MANAGER_Lname']
+    result = connector.select_query(table='manager ',columns=columns,sql_condition=condition)
+    result = {'MANAGER_Fname': result['MANAGER_Fname'],'MANAGER_Lname': result['MANAGER_Lname'],'count(DISTINCT (MANAGER_ID))': Count_Region['count(DISTINCT (MANAGER_ID))']}
+    connector.close_connection()
+    return json.dumps(result)
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
+def Store_DentistChat():
+    ID = request.json['ID']
+    connector = SQL(host=server_name, user=server_admin)
+    condition = " Chat ='" + ID+ "'"
+    Count_Region = connector.select_query(table='dentist ',columns= ['count(DENTIST_ID)'],sql_condition=condition)
+    columns=['DENTIST_Fname','DENTIST_LNAME']
+    result = connector.select_query(table='dentist ',columns=columns,sql_condition=condition)
+    result = {'DENTIST_Fname': result['DENTIST_Fname'],'DENTIST_LNAME': result['DENTIST_LNAME'],'count(DENTIST_ID)': Count_Region['count(Chat)']}
+    connector.close_connection()
+    return json.dumps(result)
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
+def Store_DeliveryChat():
+    ID = request.json['ID']
+    connector = SQL(host=server_name, user=server_admin)
+    condition = " Chat ='" + ID+ "'"
+    condition = "AREA IN (select REGION from store_branch where STORE_ID = '" + ID+ "' and MANAGER_ID );"
+    print(condition)
+    Count_Region = connector.select_query(table='delivery ',columns= ['count(DELIVERY_ID)'],sql_condition=condition)
+    columns=['DELIVERY_Fname','DELIVERY_Lname']
+    result = connector.select_query(table='delivery ',columns=columns,sql_condition=condition)
+    print(result)
+    result = {'DELIVERY_Fname': result['DELIVERY_Fname'],'DELIVERY_Lname': result['DELIVERY_Lname'],'count(DELIVERY_ID)': Count_Region['count(DELIVERY_ID)']}
+    connector.close_connection()
+    return json.dumps(result)
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 

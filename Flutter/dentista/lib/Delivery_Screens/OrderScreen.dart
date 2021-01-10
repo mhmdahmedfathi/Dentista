@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
 import 'package:dentista/UsersControllers/OrderController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   final DeliveryController deliveryController = Get.put(DeliveryController());
   final OrderController orderController =Get.put(OrderController());
+  AuthController authController = Get.put(AuthController());
 
   int indexorder;
   int present = 20;
@@ -91,16 +94,39 @@ class _OrderScreenState extends State<OrderScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              color: Colors.grey[300],
-              padding: EdgeInsets.all(20),
-              child: Center(
-                child: CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
-                  radius: 85,
+            Stack(
+              children: [
+                Container(
+                color: Colors.grey[300],
+                padding: EdgeInsets.all(20),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blueGrey,
+                    radius: 85,
+                  ),
                 ),
               ),
+                Padding(
+                  padding: EdgeInsets.only(top: 140,left: 250),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black54,
+                    child: IconButton(
+                        icon: Icon(Icons.chat),
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ChatRoom(
+                                localuserid: authController.UserID,
+                                recevierid: int.parse(orderController.Orders[indexorder].DentistiID),
+                                recevierName:orderController.Orders[indexorder].DentistFName+" "+orderController.Orders[indexorder].DentistLName,
+                                recevierType:"Dentist"
+                            )));
+                        },
+                    )
+                  ),
+                )
+            ]
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
