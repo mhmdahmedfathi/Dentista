@@ -1,6 +1,7 @@
 import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Store%20Screens/Add_bransh.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Store%20Screens/Chat_Home.dart';
 import 'package:dentista/UsersControllers/Product_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
@@ -81,7 +82,7 @@ class _All_ProductsState extends State<All_Products> {
 
               }),
         ],
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.blueGrey[800],
       ),
       body: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification ScrollInfo){
@@ -211,6 +212,19 @@ class _All_ProductsState extends State<All_Products> {
                 ],
               ),
               decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+            ),
+            ListTile(
+              leading: Icon(Icons.chat),
+              title: Text('Chats',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat"
+                ),
+              ),
+              onTap: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ChatHome() ));
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),

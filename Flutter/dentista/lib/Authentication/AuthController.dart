@@ -33,6 +33,11 @@ class AuthController extends GetxController
   {
     box.write('Store_ID', ID);
   }
+
+  void setProduct_Name(String Product_Name)
+  {
+    box.write('Product_Name', Product_Name);
+  }
   void setStoreName(String Name)
   {
     box.write('Store_Name', Name);
@@ -40,6 +45,7 @@ class AuthController extends GetxController
 
   String get StoreName => box.read('Store_Name');
   String get StoreID => box.read('Store_ID');
+  String get Product_Name => box.read('Product_Name');
   bool get State => box.read('isLoggedIn') ?? false;
   String get GetEmail => box.read('email');
   String get GetType => box.read('Type');

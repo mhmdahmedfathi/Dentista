@@ -1,4 +1,5 @@
 import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Store%20Screens/Upload_Image.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'dart:convert';
@@ -27,6 +28,10 @@ class _AddItemState extends State<AddItem> {
   String No_Of_Units="";
   String Price="";
   String Sell_Price="";
+  String Catagory="";
+  String Brand="";
+  String Description="";
+
 
   final AuthController authController = Get.put(AuthController());
 
@@ -104,7 +109,10 @@ class _AddItemState extends State<AddItem> {
                               Price = val;
                             });
                           },
-                        ),
+                      validator: (val) {
+                        return val.isEmpty ? "Enter a valid number" : null;
+                      },
+                    ),
                         SizedBox(height: 20,),
                         TextFormField(
                           decoration: authDecoration("Selling Price"),
@@ -115,6 +123,33 @@ class _AddItemState extends State<AddItem> {
                           },
                           validator: (val){
                             return val.isEmpty ? "Enter a valid number" : null;
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          decoration: authDecoration("Catagory"),
+                          onChanged: (val) {
+                            setState(() {
+                              Catagory = val;
+                            });
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          decoration: authDecoration("Brand"),
+                          onChanged: (val) {
+                            setState(() {
+                              Brand = val;
+                            });
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          decoration: authDecoration("Discription(optional)"),
+                          onChanged: (val) {
+                            setState(() {
+                              Description = val;
+                            });
                           },
                         ),
                         SizedBox(height: 20),
@@ -148,16 +183,21 @@ class _AddItemState extends State<AddItem> {
                                 'PRODUCT_ID': Product_Name,
                                 'PRICE': Price,
                                 'SELLING_PRICE': Sell_Price,
+                                'Brand': Brand,
+                                'Category': Catagory,
+                                'DESCRIPTION': Description,
+
                               }),
                             );
+                            authController.setProduct_Name(Product_Name);
                             Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context)=>StoreHome() ));
-                            Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
+                                .push(MaterialPageRoute(builder: (context)=>UploadImageDemo() ));
+                        //    Alert(context, "Item Added successfully", "Press ok to continue", message2: "");
 
                         }
 
                       },
-                      child: drawButton("Add Item", Colors.green),
+                      child: drawButton("continue", Colors.green),
                     ),
                   ),
                   SizedBox(width: 2),

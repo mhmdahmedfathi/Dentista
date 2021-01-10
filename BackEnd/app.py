@@ -97,6 +97,11 @@ app.add_url_rule('/Store_phone_validation',view_func=Store.Store_phone_validatio
 app.add_url_rule('/Store2_signup', view_func=Store2.Store2_insertion,methods=['POST'])
 app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Information, methods=['POST'])
 app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
+app.add_url_rule('/StoreStatus', view_func=Store2.StoreStatus, methods=['POST'])
+app.add_url_rule('/Store_ManagerChat', view_func=Store.Store_ManagerChat, methods=['POST'])
+app.add_url_rule('/Store_DentistChat', view_func=Store.Store_DentistChat , methods=['POST'])
+app.add_url_rule('/Store_DeliveryChat', view_func=Store.Store_DeliveryChat, methods=['POST'])
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -137,6 +142,7 @@ app.add_url_rule('/AddtoCart', view_func=Cart.AddtoCart ,methods=['POST'])
 app.add_url_rule('/RemoveFromCart', view_func=Cart.RemoveFromCart ,methods=['POST'])
 app.add_url_rule('/ShipCart', view_func=Cart.ShipCart ,methods=['POST'])
 app.add_url_rule('/GetTotalPrice', view_func=Cart.GetTotalPrice ,methods=['POST'])
+
 
 def run_server(debug=False):
     app.run(debug=debug)
