@@ -1,5 +1,6 @@
 import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Controllers/CommentController.dart';
+import 'package:dentista/ProductScreens/CommentView.dart';
 import 'package:dentista/ProductScreens/DentistProduct.dart';
 import 'package:dentista/UsersControllers/DentistController.dart';
 import 'package:flutter/cupertino.dart';
@@ -303,12 +304,13 @@ class _ViewProductState extends State<ViewProduct> {
             //AddCommentWidget(context,product.ProductID, authController.GetEmail, dentistController.DentistImageURL.value),
 
             AddCommentWidget(context,product.ProductID, authController.GetEmail, dentistController.DentistImageURL.value, commentController),
-            IconButton(icon: Icon(Icons.add_comment), onPressed: (){
-             showModalBottomSheet(context: context, builder: (context)  {
-              return ;
-             }
-             );
-            })
+            IconButton(icon: Icon(Icons.add_comment), onPressed: ()
+            {
+
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CommentView(product.ProductID)));
+            }
+            )
 
 
           ],

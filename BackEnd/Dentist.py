@@ -32,6 +32,15 @@ def dentist_insertion():
     connector.close_connection()
     return "1"
 
+def UpdateDentistTable():
+    columns_dic = request.json['dic']
+    DentistID = request.json["DID"]
+    condition = "DENTIST_ID = '" +str(DentistID) +  "'"
+    connector = SQL(server_name,server_admin,server_password)
+    connector.update_query(table='Dentist' ,columns_values_dict= columns_dic,sql_condition=condition)
+    connector.close_connection()
+    return "1"
+
 # --------------------------------------------------------------------------------------------------------------------------------
 
 # Validations of the Dentist

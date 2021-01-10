@@ -46,6 +46,7 @@ app.add_url_rule('/dentist_email_validation', view_func=Dentist.dentist_email_va
 app.add_url_rule('/dentist_phone_validation', view_func=Dentist.dentist_phone_validation, methods = ['POST'])
 app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_CreditCard_validation, methods = ['POST'])
 app.add_url_rule('/GetDentist', view_func=Dentist.GetDentist, methods = ['POST'])
+app.add_url_rule('/UpdateDentistTable', view_func=Dentist.UpdateDentistTable, methods = ['POST'])
 
 #---------------------------------------------------------------------------------------------------------------------------------
 

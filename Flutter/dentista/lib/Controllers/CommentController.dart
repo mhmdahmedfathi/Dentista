@@ -15,10 +15,10 @@ class CommentController extends GetxController
   }
 
   @override
-  void onInit() {
+  void onInit() async{
     // TODO: implement onInit
     super.onInit();
-    GetComments();
+    await GetComments();
 
   }
 
@@ -37,6 +37,7 @@ class CommentController extends GetxController
               body: json.encode({"product_id" : ProductID.value}));
 
           NoComments_request = int.parse(NoComments_res.body);
+          NoComments(NoComments_request);
         }
         finally
             {
