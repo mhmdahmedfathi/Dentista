@@ -4,6 +4,7 @@ import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
   ////////////////////////////////////
   bool policy_check = false;
 
-  Color btn_color = Colors.grey;
+  Color btn_color = Colors.blueGrey[200];
   List<String> managementType = ["Store" , "Delivery"];
  
   @override
@@ -65,7 +66,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 90.0,
-                            color: Colors.green
+                            color: Colors.blueGrey[800]
                         ),
                       )
                     ],
@@ -83,7 +84,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                   child: Column(
                     children: [
                       TextFormField(
-                        decoration: authDecoration("First Name"),
+                        decoration: authDecoration("First Name",icon: Icons.group_rounded),
                         onChanged: (val){
                           setState(() {
                             firstName = val;
@@ -96,7 +97,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       ),
                       SizedBox(height: 20),
                       TextFormField(
-                          decoration: authDecoration("Last Name"),
+                          decoration: authDecoration("Last Name",icon: Icons.group_outlined),
                         onChanged: (val){
                           setState(() {
                             lastName = val;
@@ -123,7 +124,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       SizedBox(height: 20),
                       TextFormField(
                         obscureText: true,
-                        decoration: authDecoration("Password"),
+                        decoration: authDecoration("Password",icon: Icons.lock),
                         onChanged: (val){
                           setState(() {
                             password = val;
@@ -137,7 +138,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       SizedBox(height: 20),
                       TextFormField(
                         obscureText: true,
-                        decoration: authDecoration("Re-Enter Password"),
+                        decoration: authDecoration("Re-Enter Password",icon: Icons.lock),
                         onChanged: (val){
                           setState(() {
                             repassword = val;
@@ -154,7 +155,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                         children: [
                           Expanded(
                             child: DropdownButtonFormField(
-                              decoration: authDecoration("Management Type"),
+                              decoration: authDecoration("Management Type",icon: Icons.title),
                               items: managementType.map((typ){
                                 return DropdownMenuItem(
                                   value: typ,
@@ -173,7 +174,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              decoration: authDecoration("Area"),
+                              decoration: authDecoration("Area",icon: Icons.location_on),
                               onChanged: (val){
                                 setState(() {
                                   manageArea = val;
@@ -191,16 +192,17 @@ class _ManagerSignupState extends State<ManagerSignup> {
                       Row(
                         children: [
                           Checkbox(
+                            activeColor: Colors.blueGrey[800],
                             onChanged: (bool val) {
                               setState(() {
                                 this.policy_check = val;
                                 if (policy_check == true)
                                 {
-                                  btn_color = Colors.green;
+                                  btn_color = Colors.blueGrey[800];
                                 }
                                 else
                                 {
-                                  btn_color = Colors.grey;
+                                  btn_color = Colors.blueGrey[200];
                                 }
                               });
                             },
@@ -208,7 +210,8 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           ),
                           Text("I confirm that I have read Dentista \n User of Agreement and Privacy Policy",
                             style: TextStyle(
-                                fontSize: 13.0,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w500,
                                 fontFamily: "Montserrat"
                             ),
                           )
@@ -274,10 +277,9 @@ class _ManagerSignupState extends State<ManagerSignup> {
             Expanded(
               child: GestureDetector(
                 onTap: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context)=>Home()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
                 },
-                child: drawButton("Back to sign in", Colors.grey),
+                child: drawButton("Back to sign in", Colors.blueGrey[200]),
               ),
             ),
           ],

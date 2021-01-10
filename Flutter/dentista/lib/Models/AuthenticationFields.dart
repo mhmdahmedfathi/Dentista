@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-InputDecoration authDecoration (String hintext)
+InputDecoration authDecoration (String hintext, {IconData icon= Icons.email_rounded})
 {
   return InputDecoration(
+    suffixIcon: Icon(icon, color: Colors.blueGrey[600],),
     hintText: hintext,
     labelStyle: TextStyle(
         fontWeight: FontWeight.bold,

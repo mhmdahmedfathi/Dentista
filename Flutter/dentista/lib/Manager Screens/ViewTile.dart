@@ -48,7 +48,7 @@ class ViewTile extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.chat_outlined),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatRoom(
