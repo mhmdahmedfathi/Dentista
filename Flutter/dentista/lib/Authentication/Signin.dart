@@ -6,6 +6,7 @@ import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/Temp_Home.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
@@ -61,7 +62,7 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 90.0,
-                            color: Colors.green
+                            color: Colors.blueGrey[800]
                         ),
                       )
                     ],
@@ -92,7 +93,8 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: 20),
                       TextFormField(
-                        decoration: authDecoration("Password"),
+                        obscureText: true,
+                        decoration: authDecoration("Password", icon: Icons.lock),
                         onChanged: (val){
                           setState(() {
                             password = val;
@@ -107,6 +109,7 @@ class _SignInState extends State<SignIn> {
                       Row(
                         children: [
                           Checkbox(
+                            activeColor: Colors.blueGrey[800],
                             onChanged: (bool val) {
                               setState(() {
                                 this.rememberme = val;
@@ -130,74 +133,91 @@ class _SignInState extends State<SignIn> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap:()async
+
+        ],
+      ),
+      bottomNavigationBar:  Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: GestureDetector(
+                  onTap:()async
+                  {
+                    final account = await http.post(
+                      'http://10.0.2.2:5000/LogIn',
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'email': email,
+                        'password': password
+                      }),
+                    );
+                    String AccountType = account.body;
+                    if(rememberme)
                     {
-                      final account = await http.post(
-                        'http://10.0.2.2:5000/LogIn',
+                      authController.ChangeState();
+                      authController.setEmail(email);
+                      authController.setAccountType(AccountType);
+                    }
+                    else
+                    {
+                      authController.setEmail(email);
+                      authController.setAccountType(AccountType);
+                    }
+                    if(AccountType == "Dentist")
+                    {
+
+
+                      final getdata = await http.post(
+                        'http://10.0.2.2:5000/GetData',
                         headers: <String, String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                         },
                         body: json.encode({
                           'email': email,
-                          'password': password
+                          'AccountType': 'Dentist'
                         }),
                       );
-                      String AccountType = account.body;
-                      if(rememberme)
-                        {
-                          authController.ChangeState();
-                          authController.setEmail(email);
-                          authController.setAccountType(AccountType);
-                        }
-                      else
-                        {
-                          authController.setEmail(email);
-                          authController.setAccountType(AccountType);
-                        }
-                      if(AccountType == "Dentist")
+
+
+                      final result = json.decode(getdata.body);;
+
+                      String fname = result['fname'];
+                      String lname = result['lname'];
+
+
+
+
+
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome(fname, lname, email))));
+                    }
+                    else if (AccountType == "Delivery")
+                    {
+
+                      final statusresponse = await http.post(
+                        'http://10.0.2.2:5000/delivery_getdeliverystatus',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode(
+                            {'email': email}),
+                      );
+                      String status = statusresponse.body;
+                      if (status=="Accepted")
                       {
-
-
                         final getdata = await http.post(
                           'http://10.0.2.2:5000/GetData',
-                          headers: <String, String>{
+                          headers: <String,String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: json.encode({
-                            'email': email,
-                            'AccountType': 'Dentist'
+                            'email':email,
+                            'AccountType':'Delivery'
                           }),
                         );
 
-
-                        final result = json.decode(getdata.body);;
-
-                        String fname = result['fname'];
-                        String lname = result['lname'];
-
-
-
-
-
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DentistHome(fname, lname, email))));
-                      }
-                      else if (AccountType == "Delivery")
-                      {
-
-                        final statusresponse = await http.post(
-                          'http://10.0.2.2:5000/delivery_getdeliverystatus',
-                          headers: <String, String>{
-                            'Content-Type': 'application/json; charset=UTF-8',
-                          },
-                          body: json.encode(
-                              {'email': email}),
-                        );
                         String status = statusresponse.body;
                         if (status=="Accepted")
                           {
@@ -222,9 +242,30 @@ class _SignInState extends State<SignIn> {
                           Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
                         }
 
+
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                       }
+
+                      else{
+                        Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
+                      }
+
+                    }
+                    else if (AccountType == "store") {
+                      final getdata = await http.post(
+                        'http://10.0.2.2:5000/GetData',
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode({
+                          'email': email,
+                          'AccountType': 'store'
+                        }),
+                      );
+                    }
                       else if (AccountType == "store")
                       {
+
 
                         final statusresponse = await http.post(
                           'http://10.0.2.2:5000/StoreStatus',
@@ -259,46 +300,46 @@ class _SignInState extends State<SignIn> {
                           Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
                         }
 
-                      }
-                      else if (AccountType == "Manager")
-                      {
+                    }
+                    else if (AccountType == "Manager")
+                    {
 
-                        final getdata = await http.post(
-                          'http://10.0.2.2:5000/GetData',
-                          headers: <String,String>{
-                            'Content-Type': 'application/json; charset=UTF-8',
-                          },
-                          body: json.encode({
-                            'email':email,
-                            'AccountType':'Manager'
-                          }),
-                        );
-                        final AcountData = json.decode(getdata.body);
-                        authController.setID(AcountData['M_ID']);
+                      final getdata = await http.post(
+                        'http://10.0.2.2:5000/GetData',
+                        headers: <String,String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: json.encode({
+                          'email':email,
+                          'AccountType':'Manager'
+                        }),
+                      );
+                      final AcountData = json.decode(getdata.body);
+                      authController.setID(AcountData['M_ID']);
 
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
-                      }
-                      else
-                      {
-                        Alert(context, "Log in Failed", "This is an invalid email or account", message2: "Please Try again");
-                      }
-                      //setSharedpref();
-                      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
-                    },
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
+                    }
+                    else
+                    {
+                      Alert(context, "Log in Failed", "This is an invalid email or account", message2: "Please Try again");
+                    }
+                    //setSharedpref();
+                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TempHome()));
+                  },
 
-                    child: drawButton("Sign in", Colors.green),
-                  )),
-                SizedBox(width: 2),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: (){},
-                    child: drawButton("Create Account", Colors.grey),
-                  ),
-                ),
-              ],
+                  child: drawButton("Sign in", Colors.blueGrey[800]),
+                )),
+            SizedBox(width: 2),
+            Expanded(
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+                },
+                child: drawButton("Create Account", Colors.blueGrey[200]),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

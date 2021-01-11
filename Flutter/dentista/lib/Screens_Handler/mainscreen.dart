@@ -10,52 +10,200 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body:Column(
         children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context)=>DentistSignup()));
-            },
-            child: drawButton("Dentist Sign-Up Form", Colors.green),
+          SafeArea(
+            child: Container(
+              color: Colors.grey[300],
+              padding: EdgeInsets.fromLTRB(30, 30, 30, 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Dentista" ,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
+                          fontSize: 60.0,
+                        ),
+                      ),
+                      Text("." ,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 90.0,
+                            color: Colors.blueGrey[800]
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context)=>DeliverySignUp()));
-            },
-            child: drawButton("Delivery Sign-Up Form", Colors.green),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>DentistSignup()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 2
+                        ),
+                        color: Colors.blueGrey[700],
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text("SIGN UP AS DENTIST"
+                          ,style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: 20.0,
+                          )
+                          ,
+                        ),
+                      ),
 
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context)=>StoreSignUp()));
-            },
-            child: drawButton("Store Sign-Up Form", Colors.green),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>StoreSignUp()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey,
+                            width: 2
+                        ),
+                        color: Colors.blueGrey[700],
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text("SIGN UP AS STORE"
+                          ,style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: 20.0,
+                          )
+                          ,
+                        ),
+                      ),
 
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context)=>ManagerSignup()));
-            },
-            child: drawButton("Manager Sign-Up Form", Colors.green),
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context)=>SignIn()));
-            },
-            child: drawButton("Sign In", Colors.green),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>DeliverySignUp()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey,
+                            width: 2
+                        ),
+                        color: Colors.blueGrey[700],
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text("SIGN UP AS DELIVERY"
+                          ,style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: 20.0,
+                          )
+                          ,
+                        ),
+                      ),
+
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>ManagerSignup()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey,
+                            width: 2
+                        ),
+                        color: Colors.blueGrey[700],
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text("SIGN UP AS MANAGER"
+                          ,style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: 20.0,
+                          )
+                          ,
+                        ),
+                      ),
+
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>SignIn()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey,
+                            width: 2
+                        ),
+                        color: Colors.blueGrey[700],
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text("SIGN IN"
+                          ,style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: 20.0,
+                          )
+                          ,
+                        ),
+                      ),
+
+                    ),
+                  ),
+                ],
+              ),
+            ),
           )
         ],
-      ),
+      )
     );
   }
 }
