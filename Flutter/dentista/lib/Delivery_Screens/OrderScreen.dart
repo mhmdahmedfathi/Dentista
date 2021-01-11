@@ -14,9 +14,10 @@ import 'package:dentista/UsersControllers/DeliveryController.dart';
 
 class OrderScreen extends StatefulWidget {
   final indexorder;
-  OrderScreen(this.indexorder);
+  final usage;
+  OrderScreen(this.indexorder,this.usage);
   @override
-  _OrderScreenState createState() => _OrderScreenState(indexorder);
+  _OrderScreenState createState() => _OrderScreenState(indexorder,usage);
 }
 
 class _OrderScreenState extends State<OrderScreen> {
@@ -25,6 +26,7 @@ class _OrderScreenState extends State<OrderScreen> {
   AuthController authController = Get.put(AuthController());
 
   int indexorder;
+  String usage="";
   int present = 20;
   int perPage = 20;
 
@@ -39,7 +41,7 @@ class _OrderScreenState extends State<OrderScreen> {
   //
    List<Product> Products;
 
-  _OrderScreenState(this.indexorder);
+  _OrderScreenState(this.indexorder,this.usage);
 
   @override
   void initState() {
@@ -273,35 +275,61 @@ class _OrderScreenState extends State<OrderScreen> {
                       borderRadius: BorderRadius.circular(18.0),
                       side: BorderSide(color: Colors.black87)),
                   child: Text(
-                    "Deliver",
+                    usage == 'ASSIGN'? "Deliver": 'Assign as Delivered',
                     style: TextStyle(
                       fontFamily: 'montserrat',
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   onPressed: () async {
-                    final result = await http.post(
-                        'http://10.0.2.2:5000/delivery_assignorder',
-                        headers: <String, String>{
-                          'Content-Type': 'application/json; charset=UTF-8',
-                        },
-                        body: json.encode({
-                          'DELIVERYID': deliveryController.ID.value,
-                          'ORDERID': orderController.Orders[indexorder].OrderID,
-                          'no.Dorders': (int.parse(deliveryController
-                                      .NumberOfOrders.value) +
+                    if(usage=="ASSIGN"){
+                      if(deliveryController.Availablity.value=="1"){
+                        final result = await http.post(
+                            'http://10.0.2.2:5000/delivery_assignorder',
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: json.encode({
+                              'DELIVERYID': deliveryController.ID.value,
+                              'ORDERID': orderController.Orders[indexorder].OrderID,
+                              'no.Dorders': (int.parse(deliveryController
+                                  .NumberOfOrders.value) +
                                   1)
-                              .toString()
-                        }));
-                    String assigningresult = result.body;
-                    if (assigningresult == "0") {
-                      Alert(context, "This order is already assigned", "",
-                          message2: "");
-                    } else {
-                      Alert(context, "This order is assigned to you",
-                          "You can't assign order untill you deliver this order",
-                          message2: "");
-                      deliveryController.IncDordersNumber();
+                                  .toString()
+                            }));
+                        String assigningresult = result.body;
+                        if (assigningresult == "0") {
+                          Alert(context, "This order is already assigned", "",
+                              message2: "");
+                        } else {
+                          Alert(context, "This order is assigned to you",
+                              "You can't assign order until you deliver this order",
+                              message2: "");
+                          deliveryController.IncDordersNumber();
+                        }
+                        deliveryController.onInit();
+                        orderController.onInit();
+                      }
+                      else{
+                        Alert(context, "Deliver your assigned orders first",
+                            "You can't assign order until you deliver this order",
+                            message2: "");
+                      }
+
+                    }
+                    else{
+                      final result = await http.post(
+                          'http://10.0.2.2:5000/delivery_finishorder',
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: json.encode({
+                            'DELIVERYID': deliveryController.ID.value,
+                            'ORDERID': orderController.Orders[indexorder].OrderID,
+                            'price': orderController.Orders[indexorder].TotalCost
+                          }));
+                      deliveryController.onInit();
+                      orderController.onInit();
                     }
                   },
                 ),

@@ -83,13 +83,13 @@ def Delivery_VehicleLicense_validator():
 
 # Showing data in app functions
 def OrdersToBeDelivered():
-    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL', 'd.DENTIST_ID']
+    columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL', 'd.DENTIST_ID', 'O.SHIPMENT_STATUS']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " SHIPMENT_STATUS = 'Not Delivered' and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
+    condition = " (SHIPMENT_STATUS = 'Not Delivered' or SHIPMENT_STATUS = 'ASSIGNED')and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
-    result = {'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL'], 'DID':result['d.DENTIST_ID']}
+    result = {'status': result['O.SHIPMENT_STATUS'],'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL'], 'DID':result['d.DENTIST_ID']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -108,12 +108,12 @@ def ProductsofOrder():
 def DeliveredOrders():
     deliverid = request.json['DELIVERYID']
     today = datetime.date.today().strftime("%Y-%m-%d")
-    columns = ['O.ORDER_ID', 'D.DENTIST_FNAME', 'D.DENTIST_LNAME']
-    condition = "O.DELIVERY_ID = " + deliverid + " and O.ORDER_DATE= '"+today+"' and O.DENTIST_ID=D.DENTIST_ID"
+    columns = ['O.ORDER_ID', 'D.DENTIST_FNAME', 'D.DENTIST_LNAME', 'O.SHIPMENT_STATUS','O.TOTAL_COST',]
+    condition = "O.DELIVERY_ID = " + deliverid + " and O.ORDER_DATE= '"+today+"' and O.DENTIST_ID=D.DENTIST_ID and O.SHIPMENT_STATUS ='DELIVERED' order by O.SHIPMENT_STATUS"
     connector = SQL(host=server_name, user=server_admin)
     result = connector.select_query(table='ORDERS as O , DENTIST as D',columns=columns,sql_condition=condition,DISTINCTdetector=True)
     connector.close_connection()
-    result = {'orderids': result['O.ORDER_ID'], 'number': len(result['O.ORDER_ID']), 'dentistfname': result['D.DENTIST_FNAME'], 'dentistlname': result['D.DENTIST_LNAME']}
+    result = {'cost': result['O.TOTAL_COST'] ,'orderids': result['O.ORDER_ID'], 'number': len(result['O.ORDER_ID']), 'dentistfname': result['D.DENTIST_FNAME'], 'dentistlname': result['D.DENTIST_LNAME'], 'status': result['O.SHIPMENT_STATUS']}
     return json.dumps(result)
 
 
@@ -167,11 +167,27 @@ def DeliverOrder():
     if result['SHIPMENT_STATUS'][0] == 'ASSIGNED':
         return "0"
     else:
-        Query = {'O.DELIVERY_ID' : deliveryid, 'O.SHIPMENT_STATUS' : 'ASSIGNED', 'D.AVAILABLE': 0, 'D.NUMBER_OF_DORDERS': numberofDorders, 'O.ORDER_DATE': today}
+        Query = {'O.DELIVERY_ID' : deliveryid, 'O.SHIPMENT_STATUS' : 'ASSIGNED', 'D.AVAILABLE': "0", 'D.NUMBER_OF_DORDERS': numberofDorders, 'O.ORDER_DATE': today}
         condition = "O.ORDER_ID = " + orderid +" and D.delivery_id = " + deliveryid
         connector.update_query(table='ORDERS as O, DELIVERY as D',columns_values_dict=Query,sql_condition=condition)
         connector.close_connection()
         return "1"
+
+def FinishDelivering():
+    deliveryid = request.json['DELIVERYID']
+    orderid = request.json['ORDERID']
+    orderprice = request.json['price']
+    Query = {'O.SHIPMENT_STATUS': 'DELIVERED', 'D.AVAILABLE': 1}
+    condition = "O.ORDER_ID = " + orderid + " and D.delivery_id = " + deliveryid
+    connector = SQL(host=server_name, user=server_admin)
+    connector.exectute_query("UPDATE ORDERS as O, DELIVERY as D SET O.SHIPMENT_STATUS =  'DELIVERED', D.AVAILABLE =  '1' WHERE O.ORDER_ID = "+orderid+" and D.delivery_id = "+deliveryid+";")
+    #connector.update_query(table='ORDERS as O, DELIVERY as D',columns_values_dict=Query,sql_condition=condition)
+    AddedMoney = int(2/100*float(orderprice))
+    AddedMoney =  int (AddedMoney)
+    Query = "SET @Prev_Credit = ("+str(AddedMoney)+" + (SELECT CREDIT FROM VIRTUAL_BANK WHERE CARD_NUMBER = (SELECT DELIVERY_CREDIT_CARD_NUMBER FROM DELIVERY WHERE DELIVERY_ID = "+deliveryid+") ) );\n"+"UPDATE VIRTUAL_BANK SET CREDIT = @Prev_Credit  WHERE CARD_NUMBER = (SELECT DELIVERY_CREDIT_CARD_NUMBER FROM DELIVERY WHERE DELIVERY_ID = "+deliveryid+");"
+    connector.exectute_query(Query)
+    connector.close_connection()
+    return "1"
 
 def UpdateData():
     columns_dic = request.json['dic']

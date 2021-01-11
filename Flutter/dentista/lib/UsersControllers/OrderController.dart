@@ -43,6 +43,7 @@ class OrderController extends GetxController{
         Orders[i].Dentistphonenumber = (data['phone'][i]);
         Orders[i].Dentistemail = (data['email'][i]);
         Orders[i].DentistiID = (data['DID'][i].toString());
+        Orders[i].Status = (data['status'][i]);
       }
 
     final DeliveredOrdersData = await http.post(
@@ -60,6 +61,8 @@ class OrderController extends GetxController{
       DeliveredOrders[i].DentistFName = (seconddata['dentistfname'][i]);
       DeliveredOrders[i].DentistLName = (seconddata['dentistlname'][i]);
       DeliveredOrders[i].OrderID = (seconddata['orderids'][i].toString());
+      DeliveredOrders[i].Status = (seconddata['status'][i]);
+      DeliveredOrders[i].TotalCost = (seconddata['cost'][i].toString());
     }
 
   }
