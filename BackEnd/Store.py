@@ -68,10 +68,9 @@ def Store_ManagerChat():
     connector = SQL(host=server_name, user=server_admin)
     condition = " STORE_ID ='" + ID+ "'"
     Count_Region = connector.select_query(table='store_branch ',columns= ['count(DISTINCT (MANAGER_ID))'],sql_condition=condition)
-    
-    condition = "MANAGER_ID = (select MANAGER_ID from store_branch where STORE_ID ='" + ID+ "' and MANAGER_ID )"
+    condition = "MANAGER_ID in (select MANAGER_ID from store_branch where STORE_ID ='" + ID+ "' and MANAGER_ID )"
     columns=['MANAGER_Fname','MANAGER_Lname']
-    result = connector.select_query(table='manager ',columns=columns,sql_condition=condition)
+    result = connector.select_query(table='manager',columns=columns,sql_condition=condition)
     result = {'MANAGER_Fname': result['MANAGER_Fname'],'MANAGER_Lname': result['MANAGER_Lname'],'count(DISTINCT (MANAGER_ID))': Count_Region['count(DISTINCT (MANAGER_ID))']}
     connector.close_connection()
     return json.dumps(result)
