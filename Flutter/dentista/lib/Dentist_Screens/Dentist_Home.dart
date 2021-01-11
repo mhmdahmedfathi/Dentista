@@ -30,7 +30,6 @@ class _DentistHomeState extends State<DentistHome> {
   List<bool> fav = List<bool>.generate(20, (index) => false);
 
 
-
   final _formKey = GlobalKey<FormState>();
   String updatedValue = "";
   void displayBottomSheet(BuildContext context, int index) {
