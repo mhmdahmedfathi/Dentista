@@ -1,7 +1,10 @@
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Controllers/ProductController.dart';
+import 'package:dentista/Controllers/SearchController.dart';
 import 'package:dentista/Dentist_Screens/DentistAccountSetting.dart';
 import 'package:dentista/Dentist_Screens/DentistCart.dart';
+import 'package:dentista/Dentist_Screens/scheduleOrder.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/ProductScreens/ViewProduct.dart';
 import 'package:dentista/UsersControllers/DentistController.dart';
@@ -137,6 +140,9 @@ class _DentistHomeState extends State<DentistHome> {
       present = present + perPage;
     });
   }
+  SearchController searchController = Get.put(SearchController());
+  bool IsSearch = false;
+  String SearchString = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +157,7 @@ class _DentistHomeState extends State<DentistHome> {
           textAlign: TextAlign.left,
         ),
         actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: (){}, color: Colors.white,),
+
           IconButton(icon: Icon(Icons.add_shopping_cart_outlined),
               onPressed: ()
               {
@@ -163,7 +169,36 @@ class _DentistHomeState extends State<DentistHome> {
               }
 
               },
-              color: Colors.white)
+              color: Colors.white),
+          IconButton(icon: Icon(Icons.search), onPressed: ()
+          {
+            IsSearch = true;
+          }, color: Colors.white,),
+          IsSearch == false ? Container() :
+          Obx(()=> searchController.IsLoading.value == true ? CircularProgressIndicator() : TextField(
+            decoration:  new InputDecoration(
+    border: new OutlineInputBorder(
+    borderRadius: const BorderRadius.all(
+    const Radius.circular(10.0),
+    ),
+    ),
+    filled: true,
+    hintStyle: new TextStyle(color: Colors.grey[800]),
+    hintText: "Type in your text",
+    fillColor: Colors.white70),
+            onChanged: (val){SearchString = val;},
+            onEditingComplete: () async
+            {
+              IsSearch = false;
+              searchController.FetchProducts(SearchString);
+              productController.ProductList(searchController.ProductList);
+              setState(() {
+
+              });
+            },
+
+          ))
+
         ],
         backgroundColor: Colors.blueGrey[800],
 
@@ -358,6 +393,7 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               decoration: BoxDecoration(color: Colors.blueGrey[800]),
             ),
+            /*
             ListTile(
               leading: Icon(Icons.whatshot_sharp),
               title: Text('About Dentist',
@@ -371,6 +407,8 @@ class _DentistHomeState extends State<DentistHome> {
                 // To Move to About Dentista Page
               },
             ),
+            
+             */
             ListTile(
               leading: Icon(Icons.account_circle_rounded),
               title: Text('Account Details',
@@ -386,20 +424,7 @@ class _DentistHomeState extends State<DentistHome> {
                     builder: (context) => DentistAccountSettings()));
               },
             ),
-            ListTile(
-              leading: Icon(Icons.credit_card),
-              title: Text('Payment Methods',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"
-                ),
-              ),
-              onTap: (){
-                // To Move to About Dentista Page
 
-              },
-            ),
             ListTile(
               leading: Icon(Icons.shopping_cart),
               title: Text('My Shopping Cart',
@@ -411,6 +436,7 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               onTap: (){
                 // To Move to About Dentista Page
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DentistCart()));
               },
             ),
             ListTile(
@@ -424,6 +450,7 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               onTap: (){
                 // To Move to About Dentista Page
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ScheduleOrder()));
               },
             ),
             ListTile(
@@ -450,6 +477,8 @@ class _DentistHomeState extends State<DentistHome> {
                 ),
               ),
               onTap: (){
+                AuthController authController = Get.put(AuthController());
+                authController.setEmail("");
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
               },
             ),
