@@ -109,7 +109,11 @@ class _DeliveryReviewsScreenState extends State<DeliveryReviewsScreen> {
         backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Reviews',
-          style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
+          style: TextStyle(
+              fontSize: 30,
+              fontFamily: "Montserrat",
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.left,
         ),
         centerTitle: false,
@@ -121,10 +125,10 @@ class _DeliveryReviewsScreenState extends State<DeliveryReviewsScreen> {
           Center(
             child: Text(deliveryController.rate.value,
               style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: "Montserrat",
+                fontFamily: 'montserrat',
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
               ),
-              textAlign: TextAlign.center,
             ),
           )
         ],

@@ -126,8 +126,11 @@ class _DeliveryHomeState extends State<DeliveryHome> {
         backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Dentista',
-          style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
-          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: 'montserrat',
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
         ),
         centerTitle: false,
         actions: [

@@ -210,8 +210,11 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
         backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Account Seetings',
-          style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
-          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: 'montserrat',
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
         ),
         centerTitle: false,
       ),
