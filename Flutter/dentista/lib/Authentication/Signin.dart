@@ -34,6 +34,21 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   bool rememberme = false;
+
+  void SuccessfulSignIn(String AccountType){
+    if(rememberme)
+    {
+      authController.ChangeState();
+      authController.setEmail(email);
+      authController.setAccountType(AccountType);
+    }
+    else
+    {
+      authController.setEmail(email);
+      authController.setAccountType(AccountType);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,21 +170,10 @@ class _SignInState extends State<SignIn> {
                       }),
                     );
                     String AccountType = account.body;
-                    if(rememberme)
-                    {
-                      authController.ChangeState();
-                      authController.setEmail(email);
-                      authController.setAccountType(AccountType);
-                    }
-                    else
-                    {
-                      authController.setEmail(email);
-                      authController.setAccountType(AccountType);
-                    }
+
                     if(AccountType == "Dentist")
                     {
-
-
+                      SuccessfulSignIn(AccountType);
                       final getdata = await http.post(
                         'http://10.0.2.2:5000/GetData',
                         headers: <String, String>{
@@ -195,7 +199,6 @@ class _SignInState extends State<SignIn> {
                     }
                     else if (AccountType == "Delivery")
                     {
-
                       final statusresponse = await http.post(
                         'http://10.0.2.2:5000/delivery_getdeliverystatus',
                         headers: <String, String>{
@@ -205,8 +208,10 @@ class _SignInState extends State<SignIn> {
                             {'email': email}),
                       );
                       String status = statusresponse.body;
+
                       if (status=="Accepted")
                       {
+                        SuccessfulSignIn(AccountType);
                         final getdata = await http.post(
                           'http://10.0.2.2:5000/GetData',
                           headers: <String,String>{
@@ -217,25 +222,9 @@ class _SignInState extends State<SignIn> {
                             'AccountType':'Delivery'
                           }),
                         );
-
-                        String status = statusresponse.body;
-                        if (status=="Accepted")
-                          {
-                            final getdata = await http.post(
-                              'http://10.0.2.2:5000/GetData',
-                              headers: <String,String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                              },
-                              body: json.encode({
-                                'email':email,
-                                'AccountType':'Delivery'
-                              }),
-                            );
-                            final AcountData = json.decode(getdata.body);
-                            authController.setID(AcountData['id']);
-                            authController.setAccountType('Delivery');
-
-
+                        final AcountData = json.decode(getdata.body);
+                        authController.setID(AcountData['id']);
+                        authController.setAccountType('Delivery');
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
                           }
                         else{
@@ -243,12 +232,6 @@ class _SignInState extends State<SignIn> {
                         }
 
 
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(DeliveryHome())));
-                      }
-
-                      else{
-                        Alert(context, "Request Status", "Your sign up request is "+ status,message2: "");
-                      }
 
                     }
                       else if (AccountType == "Store")
@@ -265,6 +248,7 @@ class _SignInState extends State<SignIn> {
                         );
                         String status = statusresponse.body;
                         if (status=="Accepted") {
+                          SuccessfulSignIn(AccountType);
                           final getdata = await http.post(
                             'http://10.0.2.2:5000/GetData',
                             headers: <String, String>{
@@ -291,7 +275,7 @@ class _SignInState extends State<SignIn> {
                     }
                     else if (AccountType == "Manager")
                     {
-
+                      SuccessfulSignIn(AccountType);
                       final getdata = await http.post(
                         'http://10.0.2.2:5000/GetData',
                         headers: <String,String>{
