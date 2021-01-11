@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
@@ -199,13 +200,14 @@ class _Store2signupState extends State<Store2signup> {
                     'ZIP_CODE': zip
                   }),
                 );
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MainScreen()));
+                //Navigator.of(context).push(
+                  //  MaterialPageRoute(builder: (context) => MainScreen()));
 
-                Alert(context, "Request sent to Mangers successfully",
-                    "Press ok ",
+                Alert(context, "Signed up successfully",
+                    "Press ok to complete the verification",
                     message2: "");
-
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
             }
           },
           child: drawButton("Sign Up", Colors.green),

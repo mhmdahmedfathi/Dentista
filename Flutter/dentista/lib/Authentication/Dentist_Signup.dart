@@ -1,5 +1,7 @@
 //import 'dart:html';
 import 'dart:convert';
+import 'package:dentista/Authentication/EmailConfirmation.dart';
+import 'package:dentista/Screens_Handler/mainscreen.dart';
 import 'package:dentista/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Models/AuthButtons.dart';
@@ -385,6 +387,8 @@ class _DentistSignupState extends State<DentistSignup> {
                             }),
                           );
                           Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
                         }
                       }
                     }:null,
@@ -396,7 +400,7 @@ class _DentistSignupState extends State<DentistSignup> {
                   child: GestureDetector(
                     onTap: (){
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context)=>Home()));
+                          .push(MaterialPageRoute(builder: (context)=>MainScreen()));
                     },
                     child: drawButton("Back to sign in", Colors.grey),
                   ),
