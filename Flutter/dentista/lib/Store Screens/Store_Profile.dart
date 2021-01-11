@@ -106,7 +106,17 @@ class _Store_ProfileState extends State<Store_Profile> {
         ),
         ),
         backgroundColor: Colors.blueGrey[800],
-      ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: () async {
+                setState(() {
+                  storecontroller.onInit();
+                });
+
+              }),
+        ],),
 
       body: Column(
         children: [
