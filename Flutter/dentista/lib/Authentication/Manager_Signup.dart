@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:dentista/Models/AuthButtons.dart';
@@ -28,7 +29,7 @@ class _ManagerSignupState extends State<ManagerSignup> {
   String manageArea ='';
   ////////////////////////////////////
   bool policy_check = false;
-
+final AuthController authController = Get.put(AuthController());
   Color btn_color = Colors.blueGrey[200];
   List<String> managementType = ["Store" , "Delivery"];
  
@@ -268,6 +269,8 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           })
                       );
                       Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                      authController.setEmail(email);
+                      authController.setAccountType('Manager');
                       Navigator.of(context)
                           .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
                     }

@@ -4,17 +4,17 @@ import json
 from validate_email import validate_email
 
 
-server_name = "127.0.0.1"
+server_name = "localhost"
 server_admin = "root"
-server_password = "Itachionly#1"
-database = "dantista"
+server_password = "@dentista1"
+database = "dentista"
 
 
 
 def email_validate():
 
     email = request.json['email']
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
     condition = "DENTIST_EMAIL = '" + email + "'"
     output = connector.select_query(table='DENTIST', columns=['DENTIST_ID'], sql_condition= condition)
     connector.close_connection()
@@ -27,7 +27,7 @@ def email_validate():
 def phone_validate():
 
     phone = request.json['phone']
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
 
     condition = "DENTIST_PHONE_NUMBER = '" + phone + "'"
     output = connector.select_query(table='DENTIST', columns=['DENTIST_ID'], sql_condition= condition)

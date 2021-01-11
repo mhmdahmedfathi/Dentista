@@ -73,6 +73,10 @@ app.add_url_rule('/acctept_request', view_func=Manager.Accept_Request, methods =
 app.add_url_rule('/reject_request', view_func=Manager.Reject_Request, methods = ['POST'])
 app.add_url_rule('/area_of_manager', view_func=Manager.GetAreaofManager, methods = ['POST'])
 app.add_url_rule('/pending_store_info', view_func=Manager.Get_Request_Info_Store, methods = ['POST'])
+app.add_url_rule('/store_branches', view_func=Manager.Get_Store_branches, methods = ['POST'])
+app.add_url_rule('/products_count', view_func=Manager.Get_Products_Count, methods = ['POST'])
+app.add_url_rule('/delete_store', view_func=Manager.Delete_Store, methods = ['POST'])
+app.add_url_rule('/delete_delivery', view_func=Manager.Delete_Delivery, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------
