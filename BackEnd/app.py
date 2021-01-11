@@ -16,6 +16,7 @@ import DentistProduct
 import DentistComments
 import ScheduleOrders
 import Cart
+from SendingEmail import  ConfirmEmail
 app = Flask(__name__)
 
 
@@ -38,6 +39,8 @@ app.add_url_rule('/GetData', view_func=Login_Auth.GetName, methods = ['GET', 'PO
 
 #------------------------------------------------------------------------------------------------------------------------------
 
+# Email Confirmation:
+app.add_url_rule('/ConfirmEmail', view_func=ConfirmEmail, methods = ['POST'])
 
 #-------------------------------------------------------------------------------------------------------------------------------
 # Dentist 

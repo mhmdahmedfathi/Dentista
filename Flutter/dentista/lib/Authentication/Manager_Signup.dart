@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dentista/Auth/Validations.dart';
+import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
@@ -267,6 +268,8 @@ class _ManagerSignupState extends State<ManagerSignup> {
                           })
                       );
                       Alert(context, "Signed up successfully", "Press ok to complete the verification", message2: "");
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
                     }
                   }
                 }:null,

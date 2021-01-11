@@ -1,182 +1,234 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Controllers/EmailConfirmationController.dart';
+import 'package:dentista/Delivery_Screens/DeliveryHome.dart';
+import 'package:dentista/Dentist_Screens/Dentist_Home.dart';
+import 'package:dentista/Manager%20Screens/Manager_Home.dart';
 import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
+import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Authentication/Store_Signup.dart';
+import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dentista/Auth/Validations.dart';
 import 'package:dentista/Models/Alerts.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'dart:async';
 
 class EmailConfirmation extends StatefulWidget {
-  final String FieldName;
-  final String Email;
-  EmailConfirmation(this.FieldName,this.Email);
+
   @override
   _EmailConfirmationState createState() => _EmailConfirmationState();
 
 }
 
 class _EmailConfirmationState extends State<EmailConfirmation> {
-  final _formKey = GlobalKey<FormState>(); // Used to validating the form
-  final random =new Random();
-  int CODEoutput ;
-  int _counter = 60;
-  bool count = false;
-  bool start = true;
+
+  EmailConfirmationController emailConfirmationController = Get.put(EmailConfirmationController());
+  String text = '';
+
+  void _onKeyboardTap(String value) {
+    setState(() {
+      text = text + value;
+    });
+  }
 
   Timer _timer;
-  int inputcode;
-  void Randomizor()
-  {
-    inputcode(int min, int max) => 100000 + random.nextInt(899999);
-  _counter =60;
+  int _start = 60;
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+          (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
   }
-  void starttimer(){
-   _counter = 60;
-   _timer =new Timer.periodic(Duration(seconds: 1), (timer) {
-     if(_counter>0) {
-       setState(() {
-         _counter--;
-       });
-     }else{
-        _timer.cancel();
-        count=true;
-     }
-   });
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
 
- }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+
+
+  Widget otpNumberWidget(int position) {
+    try {
+      return Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 0),
+            borderRadius: const BorderRadius.all(Radius.circular(8))
+        ),
+        child: Center(child: Text(text[position], style: TextStyle(color: Colors.black),)),
+      );
+    } catch (e) {
+      return Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 0),
+            borderRadius: const BorderRadius.all(Radius.circular(8))
+        ),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Column(children:[
-        SafeArea(
-            child: Container(
-              color: Colors.grey[200],
-              padding: EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Let's",
-                    style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Montserrat"),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Verify email",
-                        style: TextStyle(
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        ".",
-                        style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )),
-        Center(
-          child: Column(
+      body: SafeArea(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-             new Text('$_counter',
-              style:TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 48,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: CircleAvatar(
 
-              )
-              )
-            ],
-          )
-        ),
-        Expanded(
-            child: Container(
-              padding: EdgeInsets.only(left: 30, right: 30, top: 20),
-              child: SingleChildScrollView(
-                  child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            decoration: authDecoration("Code"),
-                            onChanged: (val) {
-                              setState(() {
-                                CODEoutput = int.parse(val);
-                              });
-                            },
-                            validator: (val) {
-                              return val.isEmpty ? "Please Enter the right code" : null;
-                            },
-                          ),
-                          SizedBox(height: 20)
-                        ],
-                      ))),
-            )),
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap:start? () async {
-                   Randomizor();
-                   starttimer();
-                   start=false;
-                  }:null,
-                  child: drawButton("Send Code", Colors.green),
+                  backgroundImage: NetworkImage('https://assets.stickpng.com/images/58485698e0bb315b0f7675a8.png'),
+                  radius: 80,
                 ),
               ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    if (inputcode == CODEoutput) {
-                      // Sending to Database
-                      final response = await http.post(
-                        'http://10.0.2.2:5000/Email_Confirmation',
-                        headers: <String, String>{
-                          'Content-Type': 'application/json; charset=UTF-8',
-                        },
-                        body: json.encode({
-                        }),
-                      );
-                      Alert(context, "Email has been Signed up successfully",
-                          "Press ok ",
-                          message2: "");
-                    }
+            ),
+            Flexible(
+              child: Text('Verify your Email',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey[800]
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0,),
+            Flexible(
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                constraints: const BoxConstraints(
+                    maxWidth: 500
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    otpNumberWidget(0),
+                    otpNumberWidget(1),
+                    otpNumberWidget(2),
+                    otpNumberWidget(3),
+                    otpNumberWidget(4),
+                    otpNumberWidget(5),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("${_start} seconds to ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: ()
+                  {
+                    // Initailize the controller
+                    emailConfirmationController.onInit();
+                    _start = 60;
+                    text = "";
+                    startTimer();
+                    setState(() {
+
+                    });
                   },
-                  child: drawButton("Submit Code", Colors.green),
-                ),
-              ),
-              GestureDetector(
-                  onTap: count? () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => StoreSignUp()));
-                  }:null,
-                  child: drawButton("Resend Code", Colors.grey),
-                ),
-            ],
-          ),
-        ),
+                  child: Text('resend code',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.normal,
+                      color: Colors.blue[400]
+                    ),
 
-      ]
-    )
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 4,),
+            CupertinoButton(
+              onPressed: text.length == 0 ? null : ()
+              {
+                if (text == emailConfirmationController.Code.value.toString())
+                  {
+                    print("true");
+                    AuthController authController = Get.put(AuthController());
+                    if(authController.GetType == "Dentist")
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>DentistHome("", "", "")));
+                    else if (authController.GetType == "Delivery")
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>DeliveryHome()));
+                    else if (authController.GetType == "Manager")
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>ManagerHome()));
+                    else if (authController.GetType == "Store")
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(builder: (context)=>StoreHome()));
+
+                  }
+                else
+                  {
+
+                  }
+              },
+              color: Colors.blue[800],
+              child: Text('Confirm', style: TextStyle(
+                fontSize: 15,
+                fontFamily: "Montserrat",
+                fontWeight: FontWeight.normal,
+              ),),
+            ),
+            SizedBox(height: 4.0,),
+            NumericKeyboard(
+                onKeyboardTap: _onKeyboardTap,
+              textColor: Colors.blueGrey[800],
+              rightIcon: Icon(Icons.backspace),
+              rightButtonFn: (){
+                  setState(() {
+                    text = text.substring(0, text.length - 1);
+                  });
+              },
+            )
+
+          ],
+        ),
+      ),
     );
   }
 }

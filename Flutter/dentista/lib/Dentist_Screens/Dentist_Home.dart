@@ -1,3 +1,4 @@
+import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Controllers/ProductController.dart';
 import 'package:dentista/Dentist_Screens/DentistAccountSetting.dart';
 import 'package:dentista/Dentist_Screens/DentistCart.dart';
@@ -437,6 +438,7 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               onTap: (){
                 // To Move to About Dentista Page
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>EmailConfirmation()));
               },
             ),
             ListTile(

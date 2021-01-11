@@ -437,7 +437,8 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                 "Press ok to complete the verification",
                                 message2: "");
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
                           }
                         }
                       }

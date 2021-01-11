@@ -23,17 +23,19 @@ class MainScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Dentista" ,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Montserrat",
-                          fontSize: 60.0,
+                      Expanded(
+                        child: Text("Dentista" ,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            fontSize: MediaQuery.of(context).size.width *0.163,
+                          ),
                         ),
                       ),
                       Text("." ,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 90.0,
+                            fontSize: MediaQuery.of(context).size.width *0.163,
                             color: Colors.blueGrey[800]
                         ),
                       )
