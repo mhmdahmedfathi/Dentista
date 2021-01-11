@@ -108,7 +108,7 @@ class _MyProductState extends State<MyProduct> {
             ProductController.onInit();
             loadMore();
           }
-          setState(() {
+          setState(() async{
             ProductController.onInit();
           });
           return true;

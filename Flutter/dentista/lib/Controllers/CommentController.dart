@@ -18,7 +18,7 @@ class CommentController extends GetxController
   void onInit() async{
     // TODO: implement onInit
     super.onInit();
-    await GetComments();
+     GetComments();
 
   }
 

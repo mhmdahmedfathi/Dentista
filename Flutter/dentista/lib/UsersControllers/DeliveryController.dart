@@ -18,6 +18,7 @@ class DeliveryController extends GetxController{
   var rate = "".obs;
   var NumberOfOrders = "".obs;
   var Availablity = "".obs;
+  var ImageURL = "".obs;
 
   @override
   void onInit() async {
@@ -42,11 +43,13 @@ class DeliveryController extends GetxController{
     ID (AcountData['id'].toString());
     vechilemodel (AcountData['Vmodel']);
     vechilelicense (AcountData['Vlicense']);
+    ImageURL (AcountData['ImageURL']);
     rate (AcountData['rate'].toString());
     NumberOfOrders (AcountData['ordersnumber'].toString());
     Availablity (AcountData['availablity'].toString());
     authController.setdeliveryarea(area.value);
     authController.setdeliveryID(ID.value);
+
 
 
     final managerresponse = await http.post(
@@ -59,7 +62,7 @@ class DeliveryController extends GetxController{
     );
 
     final managerData = json.decode(managerresponse.body);
-    ManagerID (managerData['MID'].toString());
+    ManagerID (managerData['MID'][0].toString());
     ManagerName (managerData['MFname'][0]+" "+ managerData['MLname'][0] );
 
   }

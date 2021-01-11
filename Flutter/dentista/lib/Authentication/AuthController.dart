@@ -43,6 +43,10 @@ class AuthController extends GetxController
     box.write('Store_Name', Name);
   }
 
+  void ResetStorage(){
+    box.erase();
+  }
+
   String get StoreName => box.read('Store_Name');
   String get StoreID => box.read('Store_ID');
   String get Product_Name => box.read('Product_Name');

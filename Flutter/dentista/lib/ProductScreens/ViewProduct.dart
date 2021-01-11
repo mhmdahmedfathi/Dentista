@@ -173,11 +173,36 @@ class ViewProduct extends StatefulWidget {
   _ViewProductState createState() => _ViewProductState(product);
 }
 
-class _ViewProductState extends State<ViewProduct> {
+class _ViewProductState extends State<ViewProduct> with TickerProviderStateMixin{
   DentistProduct product;
   AuthController authController = Get.put(AuthController());
   CommentController commentController;
   DentistController dentistController = Get.put(DentistController());
+
+
+
+
+  bool icon1 = false;
+  bool icon2 = false;
+  bool icon3 = false;
+  bool icon4 = false;
+  bool icon5 = false;
+
+  AnimationController _controller1;
+  Animation <Color> color_animation1;
+
+  AnimationController _controller2;
+  Animation <Color> color_animation2;
+
+  AnimationController _controller3;
+  Animation <Color> color_animation3;
+
+  AnimationController _controller4;
+  Animation <Color> color_animation4;
+
+  AnimationController _controller5;
+  Animation <Color> color_animation5;
+
 
 
 
@@ -196,6 +221,49 @@ class _ViewProductState extends State<ViewProduct> {
 
     commentController = Get.put(CommentController(product.ProductID));
 
+
+
+    _controller1 = AnimationController(
+        duration: Duration(seconds: 1),
+        vsync: this
+
+    );
+    color_animation1 = ColorTween(begin: Colors.grey[400], end:Colors.amber).animate(_controller1);
+
+
+    _controller2 = AnimationController(
+        duration: Duration(seconds: 1),
+        vsync: this
+
+    );
+    color_animation2 = ColorTween(begin: Colors.grey[400], end:Colors.amber).animate(_controller2);
+
+
+    _controller3 = AnimationController(
+        duration: Duration(seconds: 1),
+        vsync: this
+
+    );
+    color_animation3 = ColorTween(begin: Colors.grey[400], end:Colors.amber).animate(_controller3);
+
+
+    _controller4 = AnimationController(
+        duration: Duration(seconds: 1),
+        vsync: this
+
+    );
+    color_animation4 = ColorTween(begin: Colors.grey[400], end:Colors.amber).animate(_controller4);
+
+
+    _controller5 = AnimationController(
+        duration: Duration(seconds: 1),
+        vsync: this
+
+    );
+    color_animation5 = ColorTween(begin: Colors.grey[400], end:Colors.amber).animate(_controller5);
+
+
+
   }
 
   @override
@@ -210,11 +278,24 @@ class _ViewProductState extends State<ViewProduct> {
             fontFamily: "Montserrat",
           ),
         ),
+        actions: [
+          IconButton(icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
+              onPressed: () async
+              {
+                final ProductRes = await http.post(
+                    'http://10.0.2.2:5000/AddtoCart',
+                    headers: <String,String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: json.encode({"product_id" : product..ProductID, "dentist_email": dentistController.DentistEmail}));
+              }
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Obx(()=> commentController.IsLoading.value == true ? Center(child: CircularProgressIndicator()) :
-        Column(
+        ListView(
           children: [
             Hero(tag: "product_${product.ProductName}",
                 child: ClipRRect(
@@ -301,16 +382,189 @@ class _ViewProductState extends State<ViewProduct> {
                 ),
               ),
             ) ,
-            //AddCommentWidget(context,product.ProductID, authController.GetEmail, dentistController.DentistImageURL.value),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                Expanded(
+                  child: Text("Review:  ${product.NoOfReviews} Reviews with rate ${product.Rate}", style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.normal,
+                  ),),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child:AnimatedBuilder(
+                      animation: _controller1,
+                      builder: (BuildContext context, _){
+                        return IconButton(
+                          icon: Icon(Icons.star, color: color_animation1.value,),
+                          onPressed: (){
+                            icon1 = true;
+                            icon2 = false;
+                            icon3 = false;
+                            icon4 = false;
+                            icon5 = false;
+                          _controller1.forward();
+                          },
+                        );
+                      },
+                    )
+                ),
+                Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: AnimatedBuilder(
+                      animation: _controller2,
+                      builder: (BuildContext context, _)
+                      {
+                        return IconButton(
+                          icon: Icon(Icons.star, color:color_animation2.value,),
+                          onPressed: (){
+                            icon2 = true;
+                            icon1 = false;
+                            icon3 = false;
+                            icon4 = false;
+                            icon5 = false;
+                          _controller1.forward();
+                          _controller2.forward();
+                          },
+                        );
+                      },
+                    )
+                ),
+                Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: AnimatedBuilder(
+                      animation: _controller3,
+                      builder: (BuildContext context, _)
+                      {
+                        return IconButton(
+                          icon: Icon(Icons.star, color: color_animation3.value,),
+                          onPressed: (){
+                            icon3 = true;
+                            icon2 = false;
+                            icon1 = false;
+                            icon4 = false;
+                            icon5 = false;
+                          _controller1.forward();
+                          _controller2.forward();
+                          _controller3.forward();
+                          },
+                        );
+                      },
+                    )
+                ),
+                Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: AnimatedBuilder(
+                      animation: _controller4,
+                      builder: (BuildContext context, _)
+                      {
+                        return IconButton(
+                          icon: Icon(Icons.star, color: color_animation4.value,),
+                          onPressed: (){
+                            icon4 = true;
+                            icon2 = false;
+                            icon3 = false;
+                            icon1 = false;
+                            icon5 = false;
+                          _controller1.forward();
+                          _controller2.forward();
+                          _controller3.forward();
+                          _controller4.forward();
+                          },
+                        );
+                      },
+                    )
+                ),
+                Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: AnimatedBuilder(
+                      animation: _controller5,
+                      builder: (BuildContext context, _)
+                      {
+                        return IconButton(
+                          icon: Icon(Icons.star, color: color_animation5.value,),
+                          onPressed: (){icon5 = true;
+                          icon2 = false;
+                          icon3 = false;
+                          icon4 = false;
+                          icon1 = false;
+                          _controller1.forward();
+                          _controller2.forward();
+                          _controller3.forward();
+                          _controller4.forward();
+                          _controller5.forward();
+                          },
+                        );
+                      },
+                    )
+                )
+              ],
+            ),
+            GestureDetector(
+              onTap: () async
+              {
+                int index = 0;
+                if (icon1)
+                  index = 1;
+                else if (icon2)
+                  index = 2;
+                else if (icon3)
+                  index = 3;
+                else if (icon4)
+                  index = 4;
+                else if (icon5)
+                  index = 5;
 
-            AddCommentWidget(context,product.ProductID, authController.GetEmail, dentistController.DentistImageURL.value, commentController),
-            IconButton(icon: Icon(Icons.add_comment), onPressed: ()
-            {
+                final ReviewReq = await http.post(
+                    'http://10.0.2.2:5000/Review',
+                    headers: <String,String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: json.encode({"product_id" : product.ProductID, "review": index}));
 
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CommentView(product.ProductID)));
-            }
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Center(child:Text('Submit review', style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.normal,
+                    color: Colors.blue[800]
+                ),
+                ),
+                ),
+              )
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: AddCommentWidget(context,product.ProductID, authController.GetEmail, dentistController.DentistImageURL.value, commentController),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CommentView(product.ProductID)));
+              },
+              child: Center(
+                child: Text("Comments",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.normal,
+                    color: Colors.blue[800]
+                  ),
+                ),
+              ),
             )
+
 
 
           ],
