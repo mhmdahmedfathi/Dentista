@@ -59,7 +59,7 @@ class DeliveryController extends GetxController{
     );
 
     final managerData = json.decode(managerresponse.body);
-    ManagerID (managerData['MID'].toString());
+    ManagerID (managerData['MID'][0].toString());
     ManagerName (managerData['MFname'][0]+" "+ managerData['MLname'][0] );
 
   }

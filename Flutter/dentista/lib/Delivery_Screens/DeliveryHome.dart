@@ -403,6 +403,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
+                print(deliveryController.ManagerID.value);
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ChatRoom(
                         localuserid: authController.UserID,
@@ -447,6 +448,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
+                authController.ResetStorage();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => MainScreen()));
               },
