@@ -98,9 +98,9 @@ def ProductsofOrder():
     connector = SQL(host=server_name, user=server_admin)
     condition = " op.PRODUCT_ID = p.PRODUCT_ID and op.ORDER_ID = '"+orderid+ "'"
     columns = ['count(*)']
-    numberofproducts = connector.select_query(table='order_product as op, products as p ',columns=columns,sql_condition=condition)
+    numberofproducts = connector.select_query(table='order_product as op, product as p ',columns=columns,sql_condition=condition)
     columns = ['op.PRODUCT_ID', 'p.PRODUCT_NAME', 'p.SELLING_PRICE', 'op.NUMBER_OF_UNITS']
-    result = connector.select_query(table='order_product as op, products as p ',columns=columns, sql_condition=condition)
+    result = connector.select_query(table='order_product as op, product as p ',columns=columns, sql_condition=condition)
     result = {'productid': result['op.PRODUCT_ID'], 'productname': result['p.PRODUCT_NAME'], 'productprice': result['p.SELLING_PRICE'], 'no.units': result['op.NUMBER_OF_UNITS'], 'no.products': numberofproducts['count(*)']}
     connector.close_connection()
     return json.dumps(result)
