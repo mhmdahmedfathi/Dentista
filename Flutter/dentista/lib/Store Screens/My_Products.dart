@@ -139,7 +139,7 @@ class _MyProductState extends State<MyProduct> {
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                              image: NetworkImage(ProductController.Products[index].IMAGE_URL),
                               fit: BoxFit.cover,
                             ),
                             borderRadius:
