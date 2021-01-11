@@ -1,5 +1,7 @@
 import 'package:dentista/Controllers/ProductController.dart';
+import 'package:dentista/Dentist_Screens/DentistAccountSetting.dart';
 import 'package:dentista/Dentist_Screens/DentistCart.dart';
+import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/ProductScreens/ViewProduct.dart';
 import 'package:dentista/UsersControllers/DentistController.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,87 @@ class _DentistHomeState extends State<DentistHome> {
   int present = 20;
   int perPage = 20;
   List<bool> fav = List<bool>.generate(20, (index) => false);
+
+
+
+  final _formKey = GlobalKey<FormState>();
+  String updatedValue = "";
+  void displayBottomSheet(BuildContext context, int index) {
+    String oldPassword;
+    showModalBottomSheet(
+        backgroundColor: Colors.blueGrey[100],
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) {
+          return Container(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        onChanged: (val)
+                        {
+                          setState(() {
+                            updatedValue = val;
+                          });
+                        },
+                        autofocus: true,
+                        decoration: authDecoration('duration (in Days)'),
+                        validator: (val){
+
+                          return val.isEmpty? 'Please Enter A Value' : null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: RaisedButton(
+                        onPressed: ()async{
+                          if(_formKey.currentState.validate())
+                          {
+
+                            final updatedata = await http.post(
+                              'http://10.0.2.2:5000/ScheduleOrder',
+                              headers: <String,String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                                'Charset': 'utf-8'
+                              },
+                              body: json.encode({
+                                "DentistID" :dentistController.DentistID.value,
+                                "duration"  : updatedValue,
+                                "ProductID" : productController.ProductList[index].ProductID
+                              }),
+                            );
+                            dentistController.onInit();
+                            setState(() {
+
+                            });
+                            Navigator.pop(context);
+                          }
+                        },
+                        color: Colors.blueGrey[400],
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.black87)
+                        ),
+                        child: Text("Update" , style: TextStyle( fontFamily: 'montserrat',
+                          fontWeight: FontWeight.w600,),),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          );
+        });
+  }
+
+
 
 
 
@@ -211,6 +294,12 @@ class _DentistHomeState extends State<DentistHome> {
                               },
                               alignment: Alignment.topRight,
 
+                            ),
+                            IconButton(icon: Icon(Icons.schedule),
+                                onPressed: ()
+                                {
+                                  displayBottomSheet(context, index);
+                                }
                             )
                           ],
                         ),
@@ -251,13 +340,13 @@ class _DentistHomeState extends State<DentistHome> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                            image: NetworkImage(dentistController.DentistImageURL.value),
                             fit: BoxFit.fill
                         ),
                       ),
                     ),
                   ),
-                  Text(fname + " " + lname,
+                  Text(dentistController.DentistFname.value + " " + dentistController.DentistLname.value,
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -293,6 +382,8 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               onTap: (){
                 // To Move to About Dentista Page
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DentistAccountSettings()));
               },
             ),
             ListTile(
@@ -306,6 +397,7 @@ class _DentistHomeState extends State<DentistHome> {
               ),
               onTap: (){
                 // To Move to About Dentista Page
+
               },
             ),
             ListTile(

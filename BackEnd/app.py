@@ -14,6 +14,7 @@ from Verifications import Validator
 import Add_Item
 import DentistProduct
 import DentistComments
+import ScheduleOrders
 import Cart
 app = Flask(__name__)
 
@@ -47,6 +48,8 @@ app.add_url_rule('/dentist_phone_validation', view_func=Dentist.dentist_phone_va
 app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_CreditCard_validation, methods = ['POST'])
 app.add_url_rule('/GetDentist', view_func=Dentist.GetDentist, methods = ['POST'])
 app.add_url_rule('/UpdateDentistTable', view_func=Dentist.UpdateDentistTable, methods = ['POST'])
+app.add_url_rule('/ScheduleOrder', view_func=ScheduleOrders.ScheduleOrder, methods = ['POST'])
+app.add_url_rule('/UpdateDentistImage', view_func=Dentist.UpdateDentistImage, methods = ['POST'])
 
 #---------------------------------------------------------------------------------------------------------------------------------
 
@@ -112,6 +115,7 @@ app.add_url_rule('/Store_DeliveryChat', view_func=Store.Store_DeliveryChat, meth
 app.add_url_rule('/Product_ADD', view_func=Add_Item.Product_Insertion ,methods=['POST'])
 app.add_url_rule('/Product_Update',view_func=Add_Item.Update_Item_table ,methods=['POST'])
 app.add_url_rule('/Product_getavailableProducts', view_func=Add_Item.Avaliable_Products , methods=['GET','POST'])
+app.add_url_rule('/SearchProduct', view_func=DentistProduct.SearchProduct , methods=['POST'])
 # --------------------------------------------------------------------------------------------------------------------------------
 # For Chat
 app.add_url_rule('/send_message', view_func=Chat_handling.InsertChatRoom ,methods=['POST'])
