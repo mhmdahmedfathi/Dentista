@@ -56,10 +56,6 @@ class _DeliveryHomeState extends State<DeliveryHome> {
     final requests = json.decode(response.body);
     Snames = requests['SNAME'];
     IDs = requests['SID'];
-
-    setState(() {
-
-    });
   }
 
   void loadmore() {
@@ -178,7 +174,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                         child: ListTile(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OrderScreen(index)));
+                                builder: (context) => OrderScreen(index,orderController.Orders[index].Status=='ASSIGNED'?'Deliver':'ASSIGN')));
                           },
                           title: Obx(
                             () => Text(
@@ -253,6 +249,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Card(
                                     child: ListTile(
+                                      onTap: (){
+                                      },
                                       title: Obx(
                                         () => Text(
                                             orderController
@@ -288,6 +286,11 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                                                 orderController
                                                     .DeliveredOrders[index]
                                                     .OrderID),
+                                      ),
+                                      trailing: Obx(
+                                              ()=> Text(
+                                                orderController.DeliveredOrders[index].Status
+                                              )
                                       ),
                                     ),
                                   ),
