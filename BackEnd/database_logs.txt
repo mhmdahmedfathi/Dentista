@@ -1,234 +1,61 @@
 Connection established 
-Retrive from table LOGIN_DATA at 02:29:35 is done correctly
+Retrive from table LOGIN_DATA at 13:05:43 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 13:06:48 is done correctly
+Retrive from table Dentist at 13:06:48 is done correctly
+Retrive from table Dentist at 13:06:48 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table MANAGER at 02:29:36 is done correctly
-Connection established 
-Retrive from table MANAGER at 02:29:36 is done correctly
-Connection established 
-Retrive from table MANAGER at 02:29:36 is done correctly
+Retrive from table DENTIST at 14:06:50 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table MANAGER at 02:29:36 is done correctly
+Retrive from table PRODUCT at 14:06:50 is done correctly
+Connection established 
+Retrive from table PRODUCT at 14:06:51 is done correctly
+Retrive from table OFFERS at 14:06:51 is done correctly
+Connection established 
+Retrive from table PRODUCT at 14:06:51 is done correctly
+Retrive from table OFFERS at 14:06:52 is done correctly
+Connection established 
+Retrive from table DENTIST at 14:53:34 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:29:36 is done correctly
+Retrive from table PRODUCT at 14:53:34 is done correctly
+Connection established 
+Retrive from table PRODUCT at 14:53:36 is done correctly
+Retrive from table OFFERS at 14:53:36 is done correctly
+Connection established 
+Retrive from table PRODUCT at 14:53:37 is done correctly
+Retrive from table OFFERS at 14:53:37 is done correctly
+Connection established 
+Retrive from table LOGIN_DATA at 15:08:17 is done correctly
+Retrive from table Dentist at 15:08:17 is done correctly
+Retrive from table Dentist at 15:08:17 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:29:36 is done correctly
+Retrive from table LOGIN_DATA at 15:09:37 is done correctly
+Retrive from table Dentist at 15:09:37 is done correctly
+Retrive from table Dentist at 15:09:37 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table (STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID) at 02:29:39 is done correctly
+Retrive from table LOGIN_DATA at 15:25:48 is done correctly
+Retrive from table Dentist at 15:25:48 is done correctly
+Retrive from table Dentist at 15:25:48 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:29:40 is done correctly
+Retrive from table DENTIST_COMMENT at 15:26:48 is done correctly
 Connection is Closed 
  
 Connection established 
-Retrive from table DELIVERY at 02:29:41 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:29:44 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:29:45 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:29:46 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:29:46 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID) at 02:32:15 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:16 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:17 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:18 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:18 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:19 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:20 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:21 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:21 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID) at 02:32:22 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:22 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:23 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:24 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:24 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID) at 02:32:25 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:26 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:26 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:27 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID) at 02:32:29 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:31 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:31 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 02:32:33 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:36 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:37 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:37 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:32:38 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:32:41 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:32:42 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:32:43 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:43 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:43 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:59 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:32:59 is done correctly
-Connection established 
-Retrive from table MANAGER at 02:32:59 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:59 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:32:59 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table DELIVERY at 02:33:02 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:33:03 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:33:04 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:33:05 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:33:05 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:33:51 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:33:52 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER at 02:33:53 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table (delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID) at 02:33:53 is done correctly
-Connection is Closed 
- 
-Connection established 
-Retrive from table MANAGER_DELIVERY_CHAT at 02:33:53 is done correctly
+Retrive from table DENTIST_COMMENT at 15:26:49 is done correctly
+Retrive from table DENTIST at 15:26:49 is done correctly
+Retrive from table DENTIST at 15:26:50 is done correctly
+Retrive from table DENTIST at 15:26:50 is done correctly
 Connection is Closed 
  

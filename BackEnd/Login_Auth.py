@@ -14,9 +14,7 @@ server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
 server_password = "@dentist1"
 database = "DENTISTA"
-server_name = "localhost"
-server_admin = "root"
-server_password = "@dentista1"
+
 
 
 connection_details = [server_name, server_admin, server_password, database]

@@ -38,7 +38,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
   String RePassword = "";
   bool valid_email = true;
   bool policy_check = false;
-  Color btn_color = Colors.grey;
+  Color btn_color = Colors.blueGrey[200];
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,8 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     style: TextStyle(
                         fontSize: 90.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green),
+                        color: Colors.blueGrey[800]
+                    ),
                   ),
                 ],
               )
@@ -90,7 +91,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: authDecoration("First Name"),
+                    decoration: authDecoration("First Name",icon: Icons.group_rounded),
                     onChanged: (val) {
                       setState(() {
                         FirstName = val;
@@ -106,7 +107,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
-                    decoration: authDecoration("Last Name"),
+                    decoration: authDecoration("Last Name",icon: Icons.group_outlined),
                     onChanged: (val) {
                       setState(() {
                         LastName = val;
@@ -135,7 +136,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   SizedBox(height: 20.0),
                   TextFormField(
                     obscureText: true,
-                    decoration: authDecoration("Password"),
+                    decoration: authDecoration("Password",icon: Icons.lock),
                     onChanged: (val) {
                       setState(() {
                         Password = val;
@@ -152,7 +153,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   SizedBox(height: 20),
                   TextFormField(
                     obscureText: true,
-                    decoration: authDecoration("Re-Enter Password"),
+                    decoration: authDecoration("Re-Enter Password",icon: Icons.lock),
                     onChanged: (val) {
                       setState(() {
                         RePassword = val;
@@ -168,7 +169,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     height: 20,
                   ),
                   TextFormField(
-                    decoration: authDecoration("Phone Number"),
+                    decoration: authDecoration("Phone Number",icon: Icons.phone_android),
                     onChanged: (val) {
                       setState(() {
                         PhoneNumber = val;
@@ -182,7 +183,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
-                    decoration: authDecoration("Credit Card Number"),
+                    decoration: authDecoration("Credit Card Number",icon: Icons.credit_card),
                     onChanged: (val) {
                       setState(() {
                         CreditCardNumber = val;
@@ -203,7 +204,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     children: [
                       Expanded(
                           child: TextFormField(
-                        decoration: authDecoration("Expiration Month"),
+                        decoration: authDecoration("Expiration\nMonth",icon: Icons.calendar_today_sharp),
                         onChanged: (val) {
                           setState(() {
                             ExpirationMonth = int.parse(val);
@@ -215,7 +216,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                       )),
                       Expanded(
                           child: TextFormField(
-                        decoration: authDecoration("Expiration Year"),
+                        decoration: authDecoration("Expiration\nYear",icon: Icons.calendar_today_sharp),
                         onChanged: (val) {
                           setState(() {
                             ExpirationYear = int.parse(val);
@@ -231,7 +232,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     height: 20,
                   ),
                   TextFormField(
-                    decoration: authDecoration("CVV"),
+                    decoration: authDecoration("CVV",icon: Icons.credit_card),
                     onChanged: (val) {
                       setState(() {
                         CVV = int.parse(val);
@@ -243,7 +244,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    decoration: authDecoration("Area"),
+                    decoration: authDecoration("Area",icon: Icons.location_on),
                     onChanged: (val) {
                       setState(() {
                         Area = val;
@@ -270,7 +271,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                         children: [
                           Expanded(
                             child: TextFormField(
-                              decoration: authDecoration("Vehicle License"),
+                              decoration: authDecoration("Vehicle License",icon: Icons.card_membership),
                               onChanged: (val) {
                                 setState(() {
                                   VehicleLicence = val;
@@ -288,7 +289,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                           ),
                           Expanded(
                               child: TextFormField(
-                            decoration: authDecoration("Vehicle Model"),
+                            decoration: authDecoration("Vehicle Model",icon: Icons.local_shipping),
                             onChanged: (val) {
                               setState(() {
                                 VehicleModel = val;
@@ -313,9 +314,9 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                 setState(() {
                                   policy_check = val;
                                   if (policy_check)
-                                    btn_color = Colors.green;
+                                    btn_color = Colors.blueGrey[800];
                                   else
-                                    btn_color = Colors.grey;
+                                    btn_color = Colors.blueGrey[200];
                                 });
                               },
                             ),
@@ -436,7 +437,8 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                                 "Press ok to complete the verification",
                                 message2: "");
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
                           }
                         }
                       }
@@ -450,7 +452,7 @@ class _DeliverySignUpState extends State<DeliverySignUp> {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => MainScreen()));
                   },
-                  child: drawButton("Back to sign in", Colors.grey),
+                  child: drawButton("Back to sign in", Colors.blueGrey[200]),
                 ),
               )
             ],
