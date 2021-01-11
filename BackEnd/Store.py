@@ -69,9 +69,9 @@ def Store_ManagerChat():
     condition = " STORE_ID ='" + ID+ "'"
     Count_Region = connector.select_query(table='store_branch ',columns= ['count(DISTINCT (MANAGER_ID))'],sql_condition=condition)
     condition = "MANAGER_ID in (select MANAGER_ID from store_branch where STORE_ID ='" + ID+ "' and MANAGER_ID )"
-    columns=['MANAGER_Fname','MANAGER_Lname']
+    columns=['MANAGER_Fname','MANAGER_Lname','MANAGER_ID']
     result = connector.select_query(table='manager',columns=columns,sql_condition=condition)
-    result = {'MANAGER_Fname': result['MANAGER_Fname'],'MANAGER_Lname': result['MANAGER_Lname'],'count(DISTINCT (MANAGER_ID))': Count_Region['count(DISTINCT (MANAGER_ID))']}
+    result = {'MANAGER_Fname': result['MANAGER_Fname'],'MANAGER_ID': result['MANAGER_ID'],'MANAGER_Lname': result['MANAGER_Lname'],'count(DISTINCT (MANAGER_ID))': Count_Region['count(DISTINCT (MANAGER_ID))']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -86,10 +86,10 @@ def Store_DeliveryChat():
     condition = "AREA IN (select REGION from store_branch where STORE_ID = '" + ID+ "' and MANAGER_ID );"
     print(condition)
     Count_Region = connector.select_query(table='delivery ',columns= ['count(DELIVERY_ID)'],sql_condition=condition)
-    columns=['DELIVERY_Fname','DELIVERY_Lname']
+    columns=['DELIVERY_Fname','DELIVERY_Lname','DELIVERY_ID']
     result = connector.select_query(table='delivery ',columns=columns,sql_condition=condition)
     print(result)
-    result = {'DELIVERY_Fname': result['DELIVERY_Fname'],'DELIVERY_Lname': result['DELIVERY_Lname'],'count(DELIVERY_ID)': Count_Region['count(DELIVERY_ID)']}
+    result = {'DELIVERY_Fname': result['DELIVERY_Fname'],'DELIVERY_ID': result['DELIVERY_ID'],'DELIVERY_Lname': result['DELIVERY_Lname'],'count(DELIVERY_ID)': Count_Region['count(DELIVERY_ID)']}
     connector.close_connection()
     return json.dumps(result)
 
