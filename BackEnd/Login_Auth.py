@@ -42,13 +42,13 @@ def GetName():
         return json.dumps(result)
     elif AccountType == 'Delivery':
         condition = "DELIVERY_EMAIL = '" + email + "'"
-        result = sql.select_query(table='DELIVERY', columns=['DELIVERY_Fname', 'DELIVERY_Lname', 'AREA', 'DELIVERY_ID', 'Delivery_PHONE_NUMBER', 'NUMBER_OF_DORDERS', 'DELIVERY_EMAIL', 'VECHILE_MODEL', 'VECHILE_LICENCE', 'RATE', 'AVAILABLE'] ,sql_condition= condition)
-        result ={'fname': result['DELIVERY_Fname'][0], 'lname': result['DELIVERY_Lname'][0], 'area': result['AREA'][0], 'id': result['DELIVERY_ID'][0], 'phone': result['Delivery_PHONE_NUMBER'][0],'ordersnumber': result['NUMBER_OF_DORDERS'][0], 'email':result['DELIVERY_EMAIL'][0],'Vmodel': result['VECHILE_MODEL'][0], 'Vlicense': result['VECHILE_LICENCE'][0], 'rate': result['RATE'][0],'availablity': result['AVAILABLE'][0]}
+        result = sql.select_query(table='DELIVERY', columns=['DELIVERY_Fname', 'DELIVERY_Lname', 'AREA', 'DELIVERY_ID', 'Delivery_PHONE_NUMBER', 'NUMBER_OF_DORDERS', 'DELIVERY_EMAIL', 'VECHILE_MODEL', 'VECHILE_LICENCE', 'RATE', 'AVAILABLE', 'DELIVERY_IMAGE_URL'] ,sql_condition= condition)
+        result ={'fname': result['DELIVERY_Fname'][0], 'lname': result['DELIVERY_Lname'][0], 'area': result['AREA'][0], 'id': result['DELIVERY_ID'][0], 'phone': result['Delivery_PHONE_NUMBER'][0],'ordersnumber': result['NUMBER_OF_DORDERS'][0], 'email':result['DELIVERY_EMAIL'][0],'Vmodel': result['VECHILE_MODEL'][0], 'Vlicense': result['VECHILE_LICENCE'][0], 'rate': result['RATE'][0],'availablity': result['AVAILABLE'][0], 'ImageURL' : result['DELIVERY_IMAGE_URL'][0]}
         return json.dumps(result)
     elif AccountType == 'Manager':
         condition = "MANAGER_EMAIL = '" + email + "'"
-        result = sql.select_query(table='MANAGER' , columns=['MANAGER_ID','MANAGER_Fname','MANAGER_Lname','MANAGEMENT_TYPE','AREA_OF_MANAGEMENT'] , sql_condition=condition)
-        result = {'M_ID':result['MANAGER_ID'][0],'fname' : result['MANAGER_Fname'][0] , 'lname': result['MANAGER_Lname'][0],'M_Type': result['MANAGEMENT_TYPE'][0],'M_Area': result['AREA_OF_MANAGEMENT'][0]}
+        result = sql.select_query(table='MANAGER' , columns=['MANAGER_ID','MANAGER_Fname','MANAGER_Lname','MANAGEMENT_TYPE','AREA_OF_MANAGEMENT', 'MANAGER_IMAGE_URL'] , sql_condition=condition)
+        result = {'M_ID':result['MANAGER_ID'][0],'fname' : result['MANAGER_Fname'][0] , 'lname': result['MANAGER_Lname'][0],'M_Type': result['MANAGEMENT_TYPE'][0],'M_Area': result['AREA_OF_MANAGEMENT'][0], 'M_IMG' : result['MANAGER_IMAGE_URL'][0]}
         return json.dumps(result)
     elif AccountType == 'Store':
         condition = "EMAIL = '" + email + "'"

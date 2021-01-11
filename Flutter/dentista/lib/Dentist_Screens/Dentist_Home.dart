@@ -407,7 +407,7 @@ class _DentistHomeState extends State<DentistHome> {
                 // To Move to About Dentista Page
               },
             ),
-            
+
              */
             ListTile(
               leading: Icon(Icons.account_circle_rounded),

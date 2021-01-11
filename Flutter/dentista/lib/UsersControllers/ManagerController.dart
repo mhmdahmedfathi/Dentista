@@ -12,6 +12,7 @@ class ManagerController extends GetxController
   var M_Type = ''.obs;
   var M_Area = ''.obs;
   var M_Email=''.obs;
+  var ImageURL = ''.obs;
 
   @override
   void onInit() {
@@ -38,6 +39,7 @@ class ManagerController extends GetxController
     Manager_ID (accountData['M_ID']);
     M_Type (accountData['M_Type']);
     M_Area (accountData['M_Area']);
+    ImageURL (accountData['M_IMG']);
     M_Email(authController.GetEmail);
 
 
