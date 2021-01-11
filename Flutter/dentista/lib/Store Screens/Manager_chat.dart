@@ -139,7 +139,7 @@ class _Manager_ChatState extends State<Manager_Chat> {
               decoration: BoxDecoration(color: Colors.deepPurpleAccent),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
+              leading: Icon(Icons.keyboard_return),
               title: Text('Return Back',
                 style: TextStyle(
                     fontSize: 20,

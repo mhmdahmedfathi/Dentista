@@ -19,7 +19,6 @@ import'package:dentista/Store Screens/Store_Profile.dart';
 import'package:get/get.dart';
 
 class StoreHome extends StatefulWidget {
-  StoreHome();
   @override
   _StoreHomeState createState() => _StoreHomeState();
 }
@@ -32,7 +31,6 @@ class _StoreHomeState extends State<StoreHome> {
   int _page=0;
   List<bool> fav = List<bool>.generate(20, (index) => false);
   final AuthController authController = Get.put(AuthController());
-  _StoreHomeState();
 
   
   @override

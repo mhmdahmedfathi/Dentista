@@ -251,19 +251,7 @@ class _SignInState extends State<SignIn> {
                       }
 
                     }
-                    else if (AccountType == "store") {
-                      final getdata = await http.post(
-                        'http://10.0.2.2:5000/GetData',
-                        headers: <String, String>{
-                          'Content-Type': 'application/json; charset=UTF-8',
-                        },
-                        body: json.encode({
-                          'email': email,
-                          'AccountType': 'store'
-                        }),
-                      );
-                    }
-                      else if (AccountType == "store")
+                      else if (AccountType == "Store")
                       {
 
 
@@ -284,7 +272,7 @@ class _SignInState extends State<SignIn> {
                             },
                             body: json.encode({
                               'email': email,
-                              'AccountType': 'store'
+                              'AccountType': 'Store'
                             }),
                           );
 

@@ -58,16 +58,6 @@ class _ChatHomeState extends State<ChatHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.chat, size: 30,color: Colors.white),
-                Text("Dentists Chat" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.chat, size: 30,color: Colors.white),
                 Text("Deliveries Chat" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 10,color: Colors.white),)
               ],
             ),
@@ -80,7 +70,7 @@ class _ChatHomeState extends State<ChatHome> {
           });
         },
       ),
-      body:  _page ==1 ?Dentist_Chat() : _page==0 ? Manager_Chat() : _page==2 ? Delivery_Chat() :Container(),
+      body:   _page==0 ? Manager_Chat() : _page==1 ? Delivery_Chat() :Container(),
 
       drawer: Drawer(
 
@@ -125,7 +115,7 @@ class _ChatHomeState extends State<ChatHome> {
               decoration: BoxDecoration(color: Colors.deepPurpleAccent),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
+              leading: Icon(Icons.keyboard_return),
               title: Text('Return Back',
                 style: TextStyle(
                     fontSize: 20,

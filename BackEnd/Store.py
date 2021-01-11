@@ -76,19 +76,6 @@ def Store_ManagerChat():
     connector.close_connection()
     return json.dumps(result)
 
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-
-def Store_DentistChat():
-    ID = request.json['ID']
-    connector = SQL(host=server_name, user=server_admin)
-    condition = " Chat ='" + ID+ "'"
-    Count_Region = connector.select_query(table='dentist ',columns= ['count(DENTIST_ID)'],sql_condition=condition)
-    columns=['DENTIST_Fname','DENTIST_LNAME']
-    result = connector.select_query(table='dentist ',columns=columns,sql_condition=condition)
-    result = {'DENTIST_Fname': result['DENTIST_Fname'],'DENTIST_LNAME': result['DENTIST_LNAME'],'count(DENTIST_ID)': Count_Region['count(Chat)']}
-    connector.close_connection()
-    return json.dumps(result)
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------
