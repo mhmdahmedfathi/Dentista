@@ -33,10 +33,12 @@ def dentist_insertion():
     return "1"
 
 def UpdateDentistTable():
+
     columns_dic = request.json['dic']
     DentistID = request.json["DID"]
-    condition = "DENTIST_ID = '" +str(DentistID) +  "'"
-    connector = SQL(server_name,server_admin,server_password)
+    condition = "DENTIST_ID = " +str(DentistID) 
+     
+    connector = SQL(server_name,server_admin)
     connector.update_query(table='Dentist' ,columns_values_dict= columns_dic,sql_condition=condition)
     connector.close_connection()
     return "1"
@@ -73,5 +75,17 @@ def GetDentist():
     Outputs['DentistPassword'] = results['DENTIST_PASSWORD'][0]
     Outputs['DentistPhoneNumber'] = results['DENTIST_PHONE_NUMBER'][0]
     Outputs['DentistZipCode'] = results['DENTIST_ZIP_CODE'][0]
+    sql.close_connection()
 
     return json.dumps(Outputs)
+
+
+def UpdateDentistImage():
+    ImageURL = request.json['ImageURL']
+    DentistID = request.json['DentistID']
+    Query = f"Update DENTIST SET DENTIST_IMAGE_URL = '{ImageURL}' WHERE DENTIST_ID = {DentistID};"
+    sql = SQL(host=server_name, user=server_admin)
+    sql.exectute_query(Query)
+    sql.close_connection()
+    return '1'
+

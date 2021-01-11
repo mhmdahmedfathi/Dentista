@@ -7,6 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:azblob/azblob.dart';
+import 'package:mime/mime.dart';
+import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+
 class DentistAccountSettings extends StatefulWidget {
   @override
   _DentistAccountSettingsState createState() => _DentistAccountSettingsState();
@@ -43,7 +50,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                     hintText == "Password" ?
                     TextFormField
                       (
-                        key: _formKey,
+
                         autofocus: true,
                       decoration: authDecoration("Enter Old password"),
                       obscureText: true,
@@ -93,7 +100,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                             }
 
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/dentist_update',
+                              'http://10.0.2.2:5000/UpdateDentistTable',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
@@ -104,6 +111,9 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               }),
                             );
                             dentistController.onInit();
+                            setState(() {
+
+                            });
                             Navigator.pop(context);
                           }
                         },
@@ -124,6 +134,43 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
   }
   int password_length;
   String Password_String = "";
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future uploadImageToAzure(BuildContext context) async {
+    try {
+
+      String fileName = _image.path;
+      // read file as Uint8List
+      Uint8List content = await _image.readAsBytes();
+      var storage = AzureStorage.parse('DefaultEndpointsProtocol=https;AccountName=dentista;AccountKey=nogDckvD56HkYXDMmJWqMnUAQiimd9g0OYpVJTrHlQRNARxdBJ5quSE2j9i3/K/yIR+ME3YhGkWbNU1E13cChA==;EndpointSuffix=core.windows.net');
+      String container = "quickstartblobs";
+      // get the mine type of the file
+      String contentType = lookupMimeType(fileName);
+      await storage.putBlob('/$container/$fileName', bodyBytes: content,
+          contentType: contentType,
+          type: BlobType.BlockBlob);
+      print("done");
+    } on AzureStorageException catch (ex) {
+      print(ex.message);
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -157,9 +204,30 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: ()
+                    icon: Icon(Icons.camera_alt, color: Colors.black,),
+                    onPressed: () async
                     {
+                      await getImage();
+                      //print(_image);
+                      uploadImageToAzure(context);
+                      String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + _image.path;
+                      //print(ImageURL_Uploaded);
+                      final updatedata = await http.post(
+                        'http://10.0.2.2:5000/UpdateDentistImage',
+                        headers: <String,String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                          'Charset': 'utf-8'
+                        },
+                        body: json.encode({
+                          "ImageURL" : ImageURL_Uploaded,
+                          "DentistID"  : dentistController.DentistID.value
+                        }),
+                      );
+                      dentistController.onInit();
+                      setState(() {
+
+                      });
+
 
                     },
                   ),
@@ -235,7 +303,10 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                                 Text(Password_String,style: requestInfoStyle()),
                               ],
                             ),
-
+                            Spacer(),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                              return displayBottomSheet(context,'Password',"DENTIST_PASSWORD");
+                            })
                           ],
                         ),
                         SizedBox(height: 20),

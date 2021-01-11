@@ -58,6 +58,14 @@ def FetchProducts():
 
 
 
-
-
+def SearchProduct():
+    search_context = request.json['SearchContext']
+    sql = SQL(server_name, server_admin)
+    Query = f"SELECT * FROM PRODUCT WHERE MATCH (PRODUCT_NAME) AGAINST ('{search_context}' IN NATURAL LANGUAGE MODE);"
     
+    result = sql.exectute_query(Query)
+    PRODUCT_ID, PRODUCT_NAME, PRICE, SELLING_PRICE, IMAGE_URL, NUMBER_OF_UNITS, STORE_ID, RATE, NO_OF_REVIEWERS, CATEGORY, Brand, DESCRIPTION = result
+    print(PRODUCT_NAME)
+
+
+
