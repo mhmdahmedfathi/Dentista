@@ -6,6 +6,7 @@ import'dart:convert';
 
 class StoreManagerChat extends GetxController {
   var Manager =new List<String>().obs;
+  var IDs =new List<int>().obs;
   var managerChats=0.obs;
   var managerFname="".obs;
   var managerLname="".obs;
@@ -30,10 +31,12 @@ class StoreManagerChat extends GetxController {
 
     final data = json.decode(ChatData.body);
     {
-      print(managerChats(data['count(DISTINCT (MANAGER_ID))'][0]));
+      (managerChats(data['count(DISTINCT (MANAGER_ID))'][0]));
       Manager=List<String>.generate(managerChats.value, (index) => "" ).obs;
+      IDs=List<int>.generate(managerChats.value, (index) => 0 ).obs;
       for(int i=0;i!=managerChats.value;i++) {
         Manager[i]=(data['MANAGER_Fname'][i] +"  " +data['MANAGER_Lname'][i]);
+        print(IDs[i]=(data['MANAGER_ID'][i]));
       }
 
 

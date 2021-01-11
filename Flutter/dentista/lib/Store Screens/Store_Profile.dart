@@ -106,20 +106,20 @@ class _Store_ProfileState extends State<Store_Profile> {
         ),
         ),
         backgroundColor: Colors.blueGrey[800],
-      ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: () async {
+                setState(() {
+                  storecontroller.onInit();
+                });
+
+              }),
+        ],),
 
       body: Column(
         children: [
-          Container(
-            color: Colors.grey[300],
-            padding: EdgeInsets.all(20),
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
-                radius: 85,
-              ),
-            ),
-          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(12.0),

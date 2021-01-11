@@ -203,13 +203,7 @@ class _ChatRoomState extends State<ChatRoom> {
             fontWeight: FontWeight.w600
         ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ManagerHome()));
-          },
-        ),
+        
       ),
       body: Stack(
         children: [

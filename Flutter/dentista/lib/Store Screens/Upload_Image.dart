@@ -8,6 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import'package:dentista/main.dart';
 import 'package:get/get.dart';
 import 'package:dentista/Models/Alerts.dart';
+import 'package:azblob/azblob.dart';
+import 'package:mime/mime.dart';
+import 'dart:typed_data';
+import 'dart:io';
 class UploadImageDemo extends StatefulWidget {
 
 
@@ -40,14 +44,33 @@ class UploadImageDemoState extends State<UploadImageDemo> {
     });
   }
 
-  startUpload() {
+  startUpload() async {
     setStatus('Uploading Image...');
     if (null == tmpFile) {
       setStatus(errMessage);
       return;
     }
-    var fileName = tmpFile.path;
-    upload(fileName);
+    var FileName = tmpFile.path;
+    try {
+
+      String fileName = tmpFile.path;
+      // read file as Uint8List
+      Uint8List content = await tmpFile.readAsBytes();
+      var storage = AzureStorage.parse('DefaultEndpointsProtocol=https;AccountName=dentista;AccountKey=nogDckvD56HkYXDMmJWqMnUAQiimd9g0OYpVJTrHlQRNARxdBJ5quSE2j9i3/K/yIR+ME3YhGkWbNU1E13cChA==;EndpointSuffix=core.windows.net');
+      String container = "quickstartblobs";
+      // get the mine type of the file
+      String contentType = lookupMimeType(fileName);
+      await storage.putBlob('/$container/$fileName', bodyBytes: content,
+          contentType: contentType,
+          type: BlobType.BlockBlob);
+      print("done");
+    } on AzureStorageException catch (ex) {
+      print(ex.message);
+    } catch (err) {
+      print(err);
+    }
+    String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + FileName;
+    upload(ImageURL_Uploaded);
    }
 
   upload(var fileName) async {

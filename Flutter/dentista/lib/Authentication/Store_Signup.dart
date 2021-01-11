@@ -79,7 +79,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                       child: Column(
                         children: [
                           TextFormField(
-                            decoration: authDecoration("Store Name"),
+                            decoration: authDecoration("Store Name",icon: Icons.group_rounded),
                             onChanged: (val) {
                               setState(() {
                                 StoreName = val;
@@ -93,7 +93,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
-                            decoration: authDecoration("Phone Number"),
+                            decoration: authDecoration("Phone Number",icon: Icons.phone_outlined),
                             onChanged: (val) {
                               setState(() {
                                 PhoneNumber = val;
@@ -105,7 +105,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                           ),
                           SizedBox(height: 20),
                           TextFormField(
-                            decoration: authDecoration("Credit Card Number"),
+                            decoration: authDecoration("Credit Card Number",icon: Icons.credit_card),
                             onChanged: (val) {
                               setState(() {
                                 CreditCardNumber = val;
@@ -135,7 +135,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                           SizedBox(height: 20),
                           TextFormField(
                             obscureText: true,
-                            decoration: authDecoration("Password"),
+                            decoration: authDecoration("Password",icon: Icons.app_blocking),
                             onChanged: (val) {
                               setState(() {
                                 Password = val;
@@ -150,7 +150,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                           SizedBox(height: 20),
                           TextFormField(
                             obscureText: true,
-                            decoration: authDecoration("Re-Enter Password"),
+                            decoration: authDecoration("Re-Enter Password",icon: Icons.app_blocking_outlined),
                             onChanged: (val) {
                               setState(() {
                                 RePassword = val;

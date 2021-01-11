@@ -1,4 +1,5 @@
 import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
 import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/UsersControllers/StoreProductController.dart';
@@ -64,40 +65,41 @@ class _Delivery_ChatState extends State<Delivery_Chat> {
 
         backgroundColor: Colors.blueGrey[800],
       ),
+    body:  NotificationListener<ScrollNotification>(
 
-      body: NotificationListener<ScrollNotification>(
-        child:GridView.count(
-          crossAxisCount: 2,
-          children: List.generate(ChatController.DeliveryChats.value , (index) {
-            return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                  onTap: (){},
-                  child: Card(
-                    child:  ListTile(
-                        onTap: () {
-                        },
-                        title: Obx(
-                              () => Text(
-                            ChatController.Delivery[index],
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.deepPurpleAccent,
-                                fontFamily: "Montserrat"
-                            ),
-                          ),
+        child: ListView(
+            shrinkWrap: true,
+            children: List.generate(ChatController.DeliveryChats.value,
+                    (index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: ListTile(
+                          title:
+                          Text(
+                              ChatController.Delivery[index],
+                              style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700)),
+                          trailing: IconButton(
+                            icon: Icon(Icons.chat),
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                      localuserid: authController.UserID,
+                                      recevierid: ChatController.IDs[index],
+                                      recevierName: ChatController.Delivery[index],
+                                      recevierType:"Delivery"
+                                  )));
 
-                        )
+                            },
+                          )
+                      ),
                     ),
-
-                  ),
-                )
-            );
-          },
-          ),
-
-        ),
+                  );
+                })),
       ),
+
       drawer: Drawer(
 
         child: ListView(
@@ -141,7 +143,7 @@ class _Delivery_ChatState extends State<Delivery_Chat> {
               decoration: BoxDecoration(color: Colors.deepPurpleAccent),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
+              leading: Icon(Icons.keyboard_return),
               title: Text('Return Back',
                 style: TextStyle(
                     fontSize: 20,

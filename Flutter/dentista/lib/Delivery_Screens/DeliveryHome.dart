@@ -126,8 +126,11 @@ class _DeliveryHomeState extends State<DeliveryHome> {
         backgroundColor: Colors.blueGrey[800],
         title: Text(
           'Dentista',
-          style: TextStyle(fontSize: 30, fontFamily: "Montserrat"),
-          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: 'montserrat',
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
         ),
         centerTitle: false,
         actions: [
@@ -403,6 +406,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
+                print(deliveryController.ManagerID.value);
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ChatRoom(
                         localuserid: authController.UserID,
@@ -447,6 +451,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     fontWeight: FontWeight.bold),
               ),
               onTap: () {
+                authController.ResetStorage();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => MainScreen()));
               },

@@ -61,11 +61,39 @@ def FetchProducts():
 def SearchProduct():
     search_context = request.json['SearchContext']
     sql = SQL(server_name, server_admin)
-    Query = f"SELECT * FROM PRODUCT WHERE MATCH (PRODUCT_NAME) AGAINST ('{search_context}' IN NATURAL LANGUAGE MODE);"
     
-    result = sql.exectute_query(Query)
-    PRODUCT_ID, PRODUCT_NAME, PRICE, SELLING_PRICE, IMAGE_URL, NUMBER_OF_UNITS, STORE_ID, RATE, NO_OF_REVIEWERS, CATEGORY, Brand, DESCRIPTION = result
-    print(PRODUCT_NAME)
+    columns = ['PRODUCT_ID', 'PRODUCT_NAME', 'SELLING_PRICE', 'IMAGE_URL', 'RATE', 'DESCRIPTION', 'Brand', 'NO_OF_REVIEWERS', 'CATEGORY']
+    condition = f" MATCH (PRODUCT_NAME) AGAINST ('{search_context}' IN NATURAL LANGUAGE MODE);"
+    Prod_Query = sql.select_query('PRODUCT', columns, condition)
+    Output = {}
+    Output['ProductID'] = Prod_Query['PRODUCT_ID']
+    Output['ProductName'] = Prod_Query['PRODUCT_NAME']
+    Output['Price'] = Prod_Query['SELLING_PRICE']
+    Output['Category'] = Prod_Query['CATEGORY']
+    Output['ImageURL'] = Prod_Query['IMAGE_URL']
+    Output['Rate'] = Prod_Query['RATE']
+    Output['Description'] = Prod_Query['DESCRIPTION']
+    Output['Brand'] = Prod_Query['Brand']
+    Output['NoOfReviews'] = Prod_Query['NO_OF_REVIEWERS']
+    Output["discount"] = 0
+    return json.dumps(Output)
+
+    
 
 
+
+def Review():
+    sql = SQL(server_name, server_admin)
+    productid = request.json['product_id']
+    review = request.json['review']
+    Query = f"SET @NOREVIEWS = (SELECT NO_OF_REVIEWERS FROM PRODUCT WHERE PRODUCT_ID = {productid});"
+    sql.exectute_query(Query)
+    Query = f"SET @RATING = (SELECT RATE FROM PRODUCT WHERE PRODUCT_ID = {productid});"
+    sql.exectute_query(Query)
+    Query = f"SET @NEW_RATE = (@RATING * @NOREVIEWS + {review}) / (@NOREVIEWS + 1); "
+    sql.exectute_query(Query)
+    Query = f"UPDATE PRODUCT SET RATE = @NEW_RATE, NO_OF_REVIEWERS = @NOREVIEWS + 1 WHERE PRODUCT_ID = {productid};"
+    sql.exectute_query(Query)
+    sql.close_connection()
+    return '1'
 

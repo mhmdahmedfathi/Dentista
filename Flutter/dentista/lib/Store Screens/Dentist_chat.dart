@@ -1,25 +1,11 @@
+
 import 'package:dentista/Authentication/AuthController.dart';
-import 'package:dentista/Store%20Screens/Product_Profile.dart';
-import 'package:dentista/Store%20Screens/Store_Home.dart';
-import 'package:dentista/UsersControllers/StoreProductController.dart';
-import 'package:dentista/UsersControllers/Store_DentistChatController.dart';
-import 'package:dentista/UsersControllers/Store_ManagerChatController.dart';
-import 'package:dentista/Views/StoreProductView.dart';
-import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
-import 'package:dentista/Store Screens/Add_Item.dart';
-import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:dentista/Models/AuthButtons.dart';
-import 'package:dentista/Models/AuthenticationFields.dart';
-import 'package:dentista/main.dart';
+import'package:dentista/Store Screens/Store_Home.dart';
+import 'package:dentista/Store%20Screens/Store_Home.dart';
+import 'package:dentista/UsersControllers/Store_DentistChatController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import'package:dentista/utility class/Product.dart';
-import 'package:dentista/Auth/Validations.dart';
-import 'package:dentista/Models/Alerts.dart';
-import'package:dentista/Store Screens/Store_Home.dart';
 import'package:get/get.dart';
 
 class Dentist_Chat extends StatefulWidget {

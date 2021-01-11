@@ -52,6 +52,8 @@ app.add_url_rule('/dentist_creditcard_validation', view_func=Dentist.dentist_Cre
 app.add_url_rule('/GetDentist', view_func=Dentist.GetDentist, methods = ['POST'])
 app.add_url_rule('/UpdateDentistTable', view_func=Dentist.UpdateDentistTable, methods = ['POST'])
 app.add_url_rule('/ScheduleOrder', view_func=ScheduleOrders.ScheduleOrder, methods = ['POST'])
+app.add_url_rule('/Remove_Schedule', view_func=ScheduleOrders.Remove_Schedule, methods = ['POST'])
+app.add_url_rule('/RetriveSchedule', view_func=ScheduleOrders.RetriveSchedule, methods = ['POST'])
 app.add_url_rule('/UpdateDentistImage', view_func=Dentist.UpdateDentistImage, methods = ['POST'])
 
 #---------------------------------------------------------------------------------------------------------------------------------
@@ -107,7 +109,6 @@ app.add_url_rule('/Store_getavailableInformations', view_func=Store.Store_Inform
 app.add_url_rule('/Store_UpdateInformations', view_func=Store.Update_Store_table, methods=['POST'])
 app.add_url_rule('/StoreStatus', view_func=Store2.StoreStatus, methods=['POST'])
 app.add_url_rule('/Store_ManagerChat', view_func=Store.Store_ManagerChat, methods=['POST'])
-app.add_url_rule('/Store_DentistChat', view_func=Store.Store_DentistChat , methods=['POST'])
 app.add_url_rule('/Store_DeliveryChat', view_func=Store.Store_DeliveryChat, methods=['POST'])
 
 
@@ -132,6 +133,7 @@ app.add_url_rule('/Product_getavailableTotalProducts', view_func=Add_Item.Avalia
 # For Dentist Products:
 app.add_url_rule('/FetchProducts', view_func=DentistProduct.FetchProducts ,methods=['POST'])
 app.add_url_rule('/NoProducts', view_func=DentistProduct.NoProducts ,methods=['POST'])
+app.add_url_rule('/Review', view_func=DentistProduct.Review ,methods=['POST'])
 
 # Comments:
 app.add_url_rule('/AddComment', view_func=DentistComments.AddComment ,methods=['POST'])
