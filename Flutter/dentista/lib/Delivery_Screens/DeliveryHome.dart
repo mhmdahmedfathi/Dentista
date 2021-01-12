@@ -145,7 +145,8 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
                       body: json.encode({
-                        'MArea' :deliveryController.area.value
+                        'MArea' :deliveryController.area.value,
+                        'MID': deliveryController.ManagerID.value
                       })
                   );
 
