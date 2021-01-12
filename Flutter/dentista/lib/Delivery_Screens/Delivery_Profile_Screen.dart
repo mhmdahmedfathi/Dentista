@@ -260,7 +260,7 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[800],
         title: Text(
-          'Account Seetings',
+          'Account Settings',
           style: TextStyle(
             fontFamily: 'montserrat',
             fontWeight: FontWeight.bold,
@@ -386,7 +386,7 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
                                                 });
                                               },
                                               autofocus: true,
-                                              decoration: authDecoration('Enter new password'),
+                                              decoration: authDecoration('Enter old password'),
                                               validator: (val){
                                                 return val.isEmpty? 'Please Enter A Value' : null;
                                               },
@@ -414,7 +414,7 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
                                                 });
                                               },
                                               autofocus: true,
-                                              decoration: authDecoration('Enter new password'),
+                                              decoration: authDecoration('Re-Enter new password'),
                                               validator: (val){
                                                 return  val!=NewPassword? "password doesn't match": val.isEmpty? 'Please Enter A Value' : null;
                                               },

@@ -6,9 +6,9 @@ import datetime
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # Connection Arguments of the database
-server_name = "localhost"
-server_admin = "root"
-server_password = "@dentista1"
+server_name = "dentista1.mysql.database.azure.com"
+server_admin = "dentista@dentista1"
+server_password = "@dentist1"
 database = "DENTISTA"
 
 connection_details = [server_name, server_admin, server_password, database]
@@ -86,7 +86,7 @@ def OrdersToBeDelivered():
     columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL', 'd.DENTIST_ID', 'O.SHIPMENT_STATUS']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " (SHIPMENT_STATUS = 'Not Delivered' or SHIPMENT_STATUS = 'ASSIGNED')and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
+    condition = " (SHIPMENT_STATUS = 'Not Delivered' or SHIPMENT_STATUS = 'ASSIGNED')and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "' order by O.SHIPMENT_STATUS"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
     result = {'status': result['O.SHIPMENT_STATUS'],'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL'], 'DID':result['d.DENTIST_ID']}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-InputDecoration authDecoration (String hintext, {IconData icon= Icons.email_rounded})
+InputDecoration authDecoration (String hintext, {IconData icon= Icons.edit_outlined})
 {
   return InputDecoration(
     suffixIcon: Icon(icon, color: Colors.blueGrey[600],),

@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Chat/Chatroom.dart';
 import 'package:dentista/Manager%20Screens/DeliveriesPage.dart';
 import 'package:dentista/Manager%20Screens/Manager_Account_Details.dart';
@@ -16,6 +17,7 @@ class ManagerHome extends StatefulWidget {
 
 class _ManagerHomeState extends State<ManagerHome> {
   final ManagerController managerController = Get.put(ManagerController());
+  final AuthController authController = Get.put(AuthController());
   int _page=0;
 
   @override
@@ -156,6 +158,7 @@ fontFamily: 'montserrat',
                 ),
               ),
               onTap: (){
+                authController.ResetStorage();
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
               },
             ),

@@ -40,7 +40,7 @@ def Update_Manager_table():
 
 def Get_Pending_Requests_Del():
     ManagerArea = request.json['MArea']
-    Condition = "AREA = '" + ManagerArea +"'"
+    Condition = "AREA LIKE '" + ManagerArea +"'"
     connector = SQL(server_name,server_admin,server_password)
     result = connector.select_query(table='(delivery D JOIN  delivery_verification DF ON DF.DELIVERY_ID = D.DELIVERY_ID)',columns=['DISTINCT( D.DELIVERY_ID)','DELIVERY_Fname' ,'DELIVERY_Lname'],sql_condition=Condition)
     result = {'DID': result['DISTINCT( D.DELIVERY_ID)'] , 'fname':result['DELIVERY_Fname'], 'lname':result['DELIVERY_Lname']}
@@ -50,10 +50,12 @@ def Get_Pending_Requests_Del():
 
 def Get_Pending_Requests_Stores():
     ManagerArea = request.json['MArea']
-    Condition = "SE.REGION = '" + ManagerArea +"'"
+    Condition = "REGION LIKE '" + ManagerArea +"'"
+    print(Condition)
     connector = SQL(server_name,server_admin,server_password)
-    result = connector.select_query(table='(STORE S JOIN store_branch SE ON SE.STORE_ID=S.STORE_ID JOIN store_verification SV ON SV.STORE_ID = SE.STORE_ID)',columns=['S.STORE_ID','STORE_NAME'],sql_condition=Condition)
-    result = {'SID': result['S.STORE_ID'] , 'Sname':result['STORE_NAME']}
+    result = connector.select_query(table='(STORE S JOIN store_branch SB ON S.STORE_ID = SB.STORE_ID JOIN store_verification SV ON SV.Store_branch_id = SB.Store_branch_id)',columns=['STORE_NAME' , 'S.STORE_ID' , 'SV.STORE_BRANCH_ID'],sql_condition=Condition)
+    print(result)
+    result = {'SID': result['S.STORE_ID'] , 'Sname':result['STORE_NAME'], 'BID' : result['SV.STORE_BRANCH_ID']}
     connector.close_connection()
     return json.dumps(result)
 
@@ -69,7 +71,8 @@ def Get_Request_Info_Delivery():
 
 def Get_All_Stores():
     ManagerArea = request.json['MArea']
-    Condition = "REGION = '"+ManagerArea+"'"
+    ManagerId = request.json['MID']
+    Condition = "REGION = '"+ManagerArea+"'"+ "AND MANAGER_ID = '" +str(ManagerId) +"'"
     connector = SQL(server_name,server_admin,server_password)
     result = connector.select_query(table='(STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID)' , columns=['S.STORE_ID','STORE_NAME'],sql_condition=Condition)
     result = {'SID' : result['S.STORE_ID'] , 'SNAME' : result['STORE_NAME']}
@@ -79,7 +82,8 @@ def Get_All_Stores():
 
 def Get_All_Delivery():
     ManagerArea = request.json['MArea']
-    Condition = "AREA = '"+ManagerArea+"'"
+    ManagerId = request.json['MID']
+    Condition = "AREA = '"+ManagerArea+"'" + "AND MANAGER_ID = '" +str(ManagerId) +"'"
     connector = SQL(server_name,server_admin,server_password)
     result = connector.select_query(table='DELIVERY' , columns=['DELIVERY_ID' , 'DELIVERY_Fname','DELIVERY_Lname'],sql_condition=Condition)
     result = {'DID':result['DELIVERY_ID'],'DFname':result['DELIVERY_Fname'] , 'DLname':result['DELIVERY_Lname']}
@@ -97,7 +101,8 @@ def Accept_Request():
         connector.update_query(table='DELIVERY' ,columns_values_dict= {'MANAGER_ID' : str(ManagerID)} , sql_condition=Condition)
     elif reqType == 'Store':
         Store_id = request.json['SID']
-        Condition = "STORE_ID = '" + str(Store_id) +"'"
+        store_branch_id = request.json['BID']
+        Condition = "STORE_branch_ID = '" + str(store_branch_id) +"'"
         connector.delete_query(table='store_verification' ,sql_condition=Condition)
         connector.update_query(table='Store_branch' ,columns_values_dict= {'MANAGER_ID' :str( ManagerID)} , sql_condition=Condition)
     connector.close_connection()
@@ -164,9 +169,11 @@ def Get_Store_branches():
 
 def Delete_Store():
     Store_ID = request.json['SID']
-    Conditon= "STORE_ID = '"+ str(Store_ID) +"'"
+    Mid = request.json['MID']
+    Conditon= "STORE_ID = '"+ str(Store_ID) +"'" +" AND MANAGER_ID = '"+str(Mid)+"'"
+    print(Conditon)
     connector = SQL(server_name,server_admin,server_password)
-    connector.delete_query(table='STORE' , sql_condition=Conditon)
+    connector.delete_query(table='STORE_branch' , sql_condition=Conditon)
     connector.close_connection()
     return "1"
 
@@ -177,3 +184,13 @@ def Delete_Delivery():
     connector.delete_query(table='DELIVERY' , sql_condition=Conditon)
     connector.close_connection()
     return "1"
+
+def Total_Delivered_orders():
+    Delivery_ID = request.json['DID']
+    Conditon = "DELIVERY_ID = '"+ str(Delivery_ID) + "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='Delivery' , columns=['NUMBER_OF_DORDERS'] , sql_condition=Conditon)
+    result = {"noofOrders" : result['NUMBER_OF_DORDERS'][0]}
+    connector.close_connection()
+    return json.dumps(result)
+
