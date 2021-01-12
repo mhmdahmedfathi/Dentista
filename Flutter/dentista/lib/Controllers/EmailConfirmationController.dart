@@ -29,7 +29,7 @@ class EmailConfirmationController extends GetxController
   void SendCode() async
   {
     final ProductRes = await http.post(
-        'http://10.0.2.2:5000/ConfirmEmail',
+        'https://dentistastore.azurewebsites.net/ConfirmEmail',
         headers: <String,String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

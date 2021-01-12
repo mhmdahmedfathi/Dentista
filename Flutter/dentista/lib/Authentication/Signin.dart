@@ -160,7 +160,7 @@ class _SignInState extends State<SignIn> {
                   onTap:()async
                   {
                     final account = await http.post(
-                      'http://10.0.2.2:5000/LogIn',
+                      'https://dentistastore.azurewebsites.net/LogIn',
                       headers: <String, String>{
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
@@ -175,7 +175,7 @@ class _SignInState extends State<SignIn> {
                     {
                       SuccessfulSignIn(AccountType);
                       final getdata = await http.post(
-                        'http://10.0.2.2:5000/GetData',
+                        'https://dentistastore.azurewebsites.net/GetData',
                         headers: <String, String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                         },
@@ -200,7 +200,7 @@ class _SignInState extends State<SignIn> {
                     else if (AccountType == "Delivery")
                     {
                       final statusresponse = await http.post(
-                        'http://10.0.2.2:5000/delivery_getdeliverystatus',
+                        'https://dentistastore.azurewebsites.net/delivery_getdeliverystatus',
                         headers: <String, String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                         },
@@ -213,7 +213,7 @@ class _SignInState extends State<SignIn> {
                       {
                         SuccessfulSignIn(AccountType);
                         final getdata = await http.post(
-                          'http://10.0.2.2:5000/GetData',
+                          'https://dentistastore.azurewebsites.net/GetData',
                           headers: <String,String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -239,7 +239,7 @@ class _SignInState extends State<SignIn> {
 
 
                         final statusresponse = await http.post(
-                          'http://10.0.2.2:5000/StoreStatus',
+                          'https://dentistastore.azurewebsites.net/StoreStatus',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -250,7 +250,7 @@ class _SignInState extends State<SignIn> {
                         if (status=="Accepted") {
                           SuccessfulSignIn(AccountType);
                           final getdata = await http.post(
-                            'http://10.0.2.2:5000/GetData',
+                            'https://dentistastore.azurewebsites.net/GetData',
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
@@ -277,7 +277,7 @@ class _SignInState extends State<SignIn> {
                     {
                       SuccessfulSignIn(AccountType);
                       final getdata = await http.post(
-                        'http://10.0.2.2:5000/GetData',
+                        'https://dentistastore.azurewebsites.net/GetData',
                         headers: <String,String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                         },

@@ -306,7 +306,7 @@ class _DentistSignupState extends State<DentistSignup> {
                       {
 
                         final email_response = await http.post(
-                          'http://10.0.2.2:5000/dentist_email_validation',
+                          'https://dentistastore.azurewebsites.net/dentist_email_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -319,7 +319,7 @@ class _DentistSignupState extends State<DentistSignup> {
                         );
 
                         final phone_response = await http.post(
-                          'http://10.0.2.2:5000/dentist_phone_validation',
+                          'https://dentistastore.azurewebsites.net/dentist_phone_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -332,7 +332,7 @@ class _DentistSignupState extends State<DentistSignup> {
                         );
 
                         final creditcard_validator = await http.post(
-                          'http://10.0.2.2:5000/dentist_creditcard_validation',
+                          'https://dentistastore.azurewebsites.net/dentist_creditcard_validation',
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
@@ -368,7 +368,7 @@ class _DentistSignupState extends State<DentistSignup> {
                           valid_email = true;
                           // Sending to Database
                           final response = await http.post(
-                            'http://10.0.2.2:5000/dentist_signup',
+                            'https://dentistastore.azurewebsites.net/dentist_signup',
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },

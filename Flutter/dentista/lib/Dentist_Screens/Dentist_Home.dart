@@ -76,7 +76,7 @@ class _DentistHomeState extends State<DentistHome> {
                           {
 
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/ScheduleOrder',
+                              'https://dentistastore.azurewebsites.net/ScheduleOrder',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
@@ -321,7 +321,7 @@ class _DentistHomeState extends State<DentistHome> {
                               onPressed: ()async
                               {
                                 final ProductRes = await http.post(
-                                    'http://10.0.2.2:5000/AddtoCart',
+                                    'https://dentistastore.azurewebsites.net/AddtoCart',
                                     headers: <String,String>{
                                       'Content-Type': 'application/json; charset=UTF-8',
                                     },

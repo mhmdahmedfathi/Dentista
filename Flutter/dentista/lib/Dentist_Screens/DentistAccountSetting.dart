@@ -100,7 +100,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                             }
 
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/UpdateDentistTable',
+                              'https://dentistastore.azurewebsites.net/UpdateDentistTable',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
@@ -213,7 +213,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                       String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + _image.path;
                       //print(ImageURL_Uploaded);
                       final updatedata = await http.post(
-                        'http://10.0.2.2:5000/UpdateDentistImage',
+                        'https://dentistastore.azurewebsites.net/UpdateDentistImage',
                         headers: <String,String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                           'Charset': 'utf-8'

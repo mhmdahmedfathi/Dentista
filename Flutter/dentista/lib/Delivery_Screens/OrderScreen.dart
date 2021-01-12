@@ -223,19 +223,21 @@ class _OrderScreenState extends State<OrderScreen> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [
-                                    Text(
-                                      Products[index].productnumber,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: "Montserrat"),
-                                      textAlign: TextAlign.start,
+                                    Expanded(
+                                      child: Text(
+                                        Products[index].productnumber,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: "Montserrat"),
+                                        textAlign: TextAlign.start,
+                                      ),
                                     ),
                                     SizedBox(width: 20.0),
                                     Expanded(
                                       child: Text(
                                         Products[index].productname,
                                         style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 12,
                                             fontFamily: "Montserrat"),
                                         textAlign: TextAlign.start,
                                       ),
@@ -246,7 +248,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         alignment: Alignment.centerRight,
                                         child: Container(
                                           child: Text(
-                                            Products[index].productprice,
+                                  (int.parse(Products[index].productprice)* int.parse(Products[index].productnumber)).toString()+'EGP',
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontFamily: "Montserrat"),
