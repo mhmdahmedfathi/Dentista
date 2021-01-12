@@ -4,10 +4,10 @@ from SQLAPI import SQL
 import json
 # ------------------------------------------------------------------------------------------------------------------------------
 #Setting Connection Up
-server_name = "127.0.0.1"
+server_name = "localhost"
 server_admin = "root"
-server_password = "Itachionly#1"
-database = "dantista"
+server_password = "@dentista1"
+database = "dentista"
 connection_details = [server_name , server_admin , server_password , database]
 # ------------------------------------------------------------------------------------------------------------------------------
 #Manager Insertion
@@ -137,3 +137,43 @@ def Get_Request_Info_Store():
     result = {'Sname' : result['STORE_NAME'][0],'Email' : result['EMAIL'][0],'CCN' : result['CREDIT_CARD_NUMBER'][0],'Phone' : result['PHONE_NUMBER'][0]}
     connector.close_connection()
     return json.dumps(result)
+
+def Get_Products_Count():
+    Store_ID = request.json['SID']
+    Conditon = "S.STORE_ID = '" + str(Store_ID)  + "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='(PRODUCT P JOIN STORE S ON S.STORE_ID= P.STORE_ID)' , columns=['PRODUCT_ID'],sql_condition=Conditon)
+    total_products = 0
+    try:
+        total_products = len(result['PRODUCT_ID'])
+    except:
+        pass
+    result = {'Products_Count' : total_products}
+    connector.close_connection()
+    return json.dumps(result)
+
+def Get_Store_branches():
+    Store_ID = request.json['SID']
+    Conditon = "S.STORE_ID = '" + str(Store_ID)  + "'"
+    connector = SQL(server_name,server_admin,server_password)
+    result = connector.select_query(table='(store_branch SB JOIN STORE S ON SB.STORE_ID = S.STORE_ID)' , columns=['REGION'],sql_condition=Conditon)
+    result = {'branches' : result['REGION']}
+    connector.close_connection()
+    return json.dumps(result)
+
+
+def Delete_Store():
+    Store_ID = request.json['SID']
+    Conditon= "STORE_ID = '"+ str(Store_ID) +"'"
+    connector = SQL(server_name,server_admin,server_password)
+    connector.delete_query(table='STORE' , sql_condition=Conditon)
+    connector.close_connection()
+    return "1"
+
+def Delete_Delivery():
+    Delivery_ID = request.json['DID']
+    Conditon= "DELIVERY_ID = '"+ str(Delivery_ID) +"'"
+    connector = SQL(server_name,server_admin,server_password)
+    connector.delete_query(table='DELIVERY' , sql_condition=Conditon)
+    connector.close_connection()
+    return "1"

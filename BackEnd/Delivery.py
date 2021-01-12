@@ -6,9 +6,9 @@ import datetime
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # Connection Arguments of the database
-server_name = "dentista1.mysql.database.azure.com"
-server_admin = "dentista@dentista1"
-server_password = "@dentist1"
+server_name = "localhost"
+server_admin = "root"
+server_password = "@dentista1"
 database = "DENTISTA"
 
 connection_details = [server_name, server_admin, server_password, database]
@@ -40,7 +40,7 @@ def Delivery_insertion():
 def DeliveryStatus():
     deliveryemail = request.json['email']
     condition = "DELIVERY_EMAIL = '"+deliveryemail+"'"
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
     #if manager ID has value -> Delivery is accepted
     IDS = connector.select_query(table='DELIVERY', columns=['MANAGER_ID', 'DELIVERY_ID'], sql_condition=condition)
     if IDS['MANAGER_ID'] != [None]:

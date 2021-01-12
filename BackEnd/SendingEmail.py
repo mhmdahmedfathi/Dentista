@@ -12,14 +12,14 @@ import json
 '''
 server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
-server_password = "@dentist1"
+server_password = "@dentista1"
 database = "DENTISTA"
 connection_details = [server_name, server_admin, server_password, database]
 '''
 
 server_name = "localhost"
 server_admin = "root"
-server_password = "@dentist1"
+server_password = "@dentista1"
 database = "DENTISTA"
 connection_details = [server_name, server_admin, server_password, database]
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ class EmailConfirmation:
     def __init__(self, email, code):
         self.__email = email
         self.__code = code
-        self.__sql = SQL(server_name, server_admin)
+        self.__sql = SQL(server_name, server_admin,server_password)
         self.__AccountType = None
         self.__Name = None
         self.__getAccountType()
