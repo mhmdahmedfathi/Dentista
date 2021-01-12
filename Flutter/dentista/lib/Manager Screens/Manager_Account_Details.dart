@@ -55,7 +55,7 @@ class _ManagerAccountDetailsState extends State<ManagerAccountDetails> {
                         });
                       },
                       autofocus: true,
-                      decoration: authDecoration('Enter new '+hintText),
+                      decoration: authDecoration('Enter new '+hintText,icon: Icons.edit_outlined),
                       validator: (val){
                         return val.isEmpty? 'Please Enter A Value' : null;
                       },

@@ -9,8 +9,9 @@ class PendingTile extends StatelessWidget {
   final String Type;
   final int id ;
   final String Photourl;
+  final int branch_id;
   Map result = Map();
-  PendingTile({this.id,this.Name , this.Type , this.Photourl});
+  PendingTile({this.id,this.Name , this.Type , this.Photourl,this.branch_id});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,12 +25,12 @@ class PendingTile extends StatelessWidget {
           }
           else{
             result = await GetRequestInfoStore(id);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RequestInfoStore(result: result,reqID : id)));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RequestInfoStore(result: result,reqID : id,branch_id: branch_id,)));
 
           }
         },
         title: Text(Name , style: TextStyle(fontWeight: FontWeight.w700 , fontFamily: 'montserrat'),),
-        subtitle: Text("ID: "+id.toString(),style: TextStyle(fontWeight: FontWeight.w600 , fontFamily: 'montserrat')),
+        subtitle: Text(Type=='Store'?"ID: "+id.toString()+ "     Branch ID :"+branch_id.toString() :  "ID: "+id.toString(),style: TextStyle(fontWeight: FontWeight.w600 , fontFamily: 'montserrat')),
         leading: CircleAvatar(
           radius: 25,
           backgroundColor: Colors.blueGrey,

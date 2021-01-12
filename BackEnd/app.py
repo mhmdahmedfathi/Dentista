@@ -79,6 +79,7 @@ app.add_url_rule('/store_branches', view_func=Manager.Get_Store_branches, method
 app.add_url_rule('/products_count', view_func=Manager.Get_Products_Count, methods = ['POST'])
 app.add_url_rule('/delete_store', view_func=Manager.Delete_Store, methods = ['POST'])
 app.add_url_rule('/delete_delivery', view_func=Manager.Delete_Delivery, methods = ['POST'])
+app.add_url_rule('/total_doreders', view_func=Manager.Total_Delivered_orders, methods = ['POST'])
 #-----------------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------------

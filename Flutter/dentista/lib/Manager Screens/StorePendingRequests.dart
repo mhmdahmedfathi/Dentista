@@ -15,14 +15,12 @@ class _StorePendingRequestsState extends State<StorePendingRequests> {
   ManagerController managerController = Get.put(ManagerController());
   List Snamesp = List<dynamic>();
   List PIDs = List<dynamic>();
+  List BIDs = List<dynamic>();
   String area;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      area = managerController.M_Area.value;
-    });
     WidgetsBinding.instance.addPostFrameCallback((_){
       fetchRequests();
     });
@@ -34,7 +32,7 @@ class _StorePendingRequestsState extends State<StorePendingRequests> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: json.encode({
-          'MArea' : 'Maadi'
+          'MArea' : managerController.M_Area.value
         })
     );
 
@@ -42,6 +40,7 @@ class _StorePendingRequestsState extends State<StorePendingRequests> {
 
       Snamesp = requests['Sname'];
       PIDs = requests['SID'];
+      BIDs = requests['BID'];
 
     setState(() {
 
@@ -52,7 +51,7 @@ class _StorePendingRequestsState extends State<StorePendingRequests> {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context,index){
-          return PendingTile(Name:Snamesp[index],id:PIDs[index] ,Photourl: "not yet",Type: "Store",);
+          return PendingTile(Name:Snamesp[index],id:PIDs[index] ,Photourl: "not yet",Type: "Store",branch_id: BIDs[index],);
         },
         itemCount: PIDs.length,
       ),

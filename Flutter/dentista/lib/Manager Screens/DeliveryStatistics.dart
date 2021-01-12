@@ -9,15 +9,17 @@ import 'package:http/http.dart' as http;
 class DeliveryStatistics extends StatefulWidget {
   final int Del_id;
   final Map  delInfo;
-  DeliveryStatistics({this.Del_id,this.delInfo});
+  final Map  delorders;
+  DeliveryStatistics({this.Del_id,this.delInfo,this.delorders});
   @override
-  _DeliveryStatisticsState createState() => _DeliveryStatisticsState(Del_id: Del_id,delInfo: delInfo);
+  _DeliveryStatisticsState createState() => _DeliveryStatisticsState(Del_id: Del_id,delInfo: delInfo,delorders: delorders);
 }
 
 class _DeliveryStatisticsState extends State<DeliveryStatistics> {
   final int Del_id;
   final Map  delInfo;
-  _DeliveryStatisticsState({this.Del_id,this.delInfo});
+  final Map  delorders;
+  _DeliveryStatisticsState({this.Del_id,this.delInfo,this.delorders});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,7 +211,7 @@ class _DeliveryStatisticsState extends State<DeliveryStatistics> {
                           ),
                             textAlign: TextAlign.center,
                           ),
-                          Text('',
+                          Text(delorders['noofOrders'].toString(),
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.blueGrey[800],

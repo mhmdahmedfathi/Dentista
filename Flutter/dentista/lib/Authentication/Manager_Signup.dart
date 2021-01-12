@@ -112,7 +112,7 @@ final AuthController authController = Get.put(AuthController());
                       ),
                       SizedBox(height: 20),
                       TextFormField(
-                        decoration: authDecoration("Email"),
+                        decoration: authDecoration("Email",icon: Icons.email_rounded),
                         onChanged: (val){
                           setState(() {
                             email = val;
