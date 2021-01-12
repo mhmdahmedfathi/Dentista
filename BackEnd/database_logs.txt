@@ -1,0 +1,8 @@
+Connection established 
+Retrive from table (STORE S JOIN store_branch SB ON SB.STORE_ID = S.STORE_ID) at 23:40:52 is done correctly
+Connection is Closed 
+ 
+Connection established 
+Retrive from table DELIVERY at 23:40:56 is done correctly
+Connection is Closed 
+ 

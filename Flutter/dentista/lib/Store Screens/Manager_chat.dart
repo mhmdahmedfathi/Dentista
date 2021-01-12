@@ -1,4 +1,5 @@
 import 'package:dentista/Authentication/AuthController.dart';
+import 'package:dentista/Chat/Chatroom.dart';
 import 'package:dentista/Store%20Screens/Product_Profile.dart';
 import 'package:dentista/Store%20Screens/Store_Home.dart';
 import 'package:dentista/UsersControllers/StoreProductController.dart';
@@ -65,36 +66,40 @@ class _Manager_ChatState extends State<Manager_Chat> {
 
       ),
 
-      body: NotificationListener<ScrollNotification>(
-        child:GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(ChatController.managerChats.value , (index) {
-          return Padding(
-              padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  child:  ListTile(
-                    onTap: () {
-              },
-                title: Obx(
-                        () => Text(
-                    ChatController.Manager[index],
+      body:
+      NotificationListener<ScrollNotification>(
+
+        child: ListView(
+            shrinkWrap: true,
+            children: List.generate(ChatController.managerChats.value,
+                    (index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: ListTile(
+                          title:
+                          Text(
+                              ChatController.Manager[index],
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.deepPurpleAccent,
-                                  fontFamily: "Montserrat"
-                              ),
-                        ),
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700)),
+                          trailing: IconButton(
+                            icon: Icon(Icons.chat),
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                      localuserid: authController.UserID,
+                                      recevierid: ChatController.IDs[index],
+                                      recevierName: ChatController.Manager[index],
+                                      recevierType:"Manager"
+                                  )));
 
-                )
+                            },
+                          )
+                      ),
                     ),
-
-                ),
-
-          );
-        },
-        ),
-
-      ),
+                  );
+                })),
       ),
       drawer: Drawer(
 

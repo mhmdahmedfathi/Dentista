@@ -5,9 +5,17 @@ import 'package:dentista/Models/AuthButtons.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/Models/SharedTextStyle.dart';
 import 'package:dentista/UsersControllers/ManagerController.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http ;
+
+import 'package:azblob/azblob.dart';
+import 'package:mime/mime.dart';
+import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 
 class ManagerAccountDetails extends StatefulWidget {
   @override
@@ -100,6 +108,49 @@ class _ManagerAccountDetailsState extends State<ManagerAccountDetails> {
         });
   }
   final ManagerController managerController = Get.put(ManagerController());
+
+
+
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future uploadImageToAzure(BuildContext context) async {
+    try {
+
+      String fileName = _image.path;
+      // read file as Uint8List
+      Uint8List content = await _image.readAsBytes();
+      var storage = AzureStorage.parse('DefaultEndpointsProtocol=https;AccountName=dentista;AccountKey=nogDckvD56HkYXDMmJWqMnUAQiimd9g0OYpVJTrHlQRNARxdBJ5quSE2j9i3/K/yIR+ME3YhGkWbNU1E13cChA==;EndpointSuffix=core.windows.net');
+      String container = "quickstartblobs";
+      // get the mine type of the file
+      String contentType = lookupMimeType(fileName);
+      await storage.putBlob('/$container/$fileName', bodyBytes: content,
+          contentType: contentType,
+          type: BlobType.BlockBlob);
+      print("done");
+    } on AzureStorageException catch (ex) {
+      print(ex.message);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +172,36 @@ class _ManagerAccountDetailsState extends State<ManagerAccountDetails> {
               child: CircleAvatar(
                 backgroundColor: Colors.blueGrey,
                 radius: 85,
+                backgroundImage: NetworkImage(managerController.ImageURL.value),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(icon: Icon(Icons.camera_alt, color: Colors.white,),
+                    onPressed: ()async
+                    {
+                      await getImage();
+                      //print(_image);
+                      uploadImageToAzure(context);
+                      String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + _image.path;
+                      //print(ImageURL_Uploaded);
+                      final updatedata = await http.post(
+                        'http://10.0.2.2:5000/manager_update',
+                        headers: <String,String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                          'Charset': 'utf-8'
+                        },
+                        body: json.encode({
+                          "dic" :{"MANAGER_IMAGE_URL":"$ImageURL_Uploaded"},
+                          "MID"  : managerController.Manager_ID.value,
+                        }),
+                      );
+
+                      managerController.onInit();
+                      setState(() {
+
+                      });
+                    },
+                  ),
+                ),
               ),
             ),
           ),

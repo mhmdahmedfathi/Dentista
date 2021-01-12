@@ -71,7 +71,6 @@ class _All_ProductsState extends State<All_Products> {
           textAlign: TextAlign.left,
         ),
         actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: (){}, color: Colors.white,),
           IconButton(
               icon: Icon(Icons.refresh),
               color: Colors.white,

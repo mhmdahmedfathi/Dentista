@@ -11,6 +11,14 @@ import 'package:get/get.dart';
 import 'package:dentista/UsersControllers/DeliveryController.dart';
 import 'package:dentista/Auth/Validations.dart';
 
+
+import 'package:azblob/azblob.dart';
+import 'package:mime/mime.dart';
+import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+
 class Delivery_Profile extends StatefulWidget {
   @override
   _Delivery_ProfileState createState() => _Delivery_ProfileState();
@@ -203,6 +211,49 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
     );
   }
 
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future uploadImageToAzure(BuildContext context) async {
+    try {
+
+      String fileName = _image.path;
+      // read file as Uint8List
+      Uint8List content = await _image.readAsBytes();
+      var storage = AzureStorage.parse('DefaultEndpointsProtocol=https;AccountName=dentista;AccountKey=nogDckvD56HkYXDMmJWqMnUAQiimd9g0OYpVJTrHlQRNARxdBJ5quSE2j9i3/K/yIR+ME3YhGkWbNU1E13cChA==;EndpointSuffix=core.windows.net');
+      String container = "quickstartblobs";
+      // get the mine type of the file
+      String contentType = lookupMimeType(fileName);
+      await storage.putBlob('/$container/$fileName', bodyBytes: content,
+          contentType: contentType,
+          type: BlobType.BlockBlob);
+      print("done");
+    } on AzureStorageException catch (ex) {
+      print(ex.message);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,6 +281,40 @@ class _Delivery_ProfileState extends State<Delivery_Profile> {
                   child: CircleAvatar(
                     backgroundColor: Colors.blueGrey,
                     radius: 85,
+                    backgroundImage: NetworkImage(deliveryController.ImageURL.value),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        icon: Icon(Icons.camera_alt, color: Colors.white,),
+                        onPressed: ()async
+                        {
+                          await getImage();
+                          //print(_image);
+                          uploadImageToAzure(context);
+                          String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + _image.path;
+                          //print(ImageURL_Uploaded);
+                          final updatedata = await http.post(
+                            'http://10.0.2.2:5000/delivery_UpdateData',
+                            headers: <String,String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                              'Charset': 'utf-8'
+                            },
+                            body: json.encode({
+                              "dic" :{"DELIVERY_IMAGE_URL":"$ImageURL_Uploaded"},
+                              "MID"  : deliveryController.ID.value,
+
+
+                            }),
+                          );
+
+                          deliveryController.onInit();
+                          setState(() {
+
+                          });
+                        },
+                      ),
+                    ),
+
                   ),
                 ),
               ),

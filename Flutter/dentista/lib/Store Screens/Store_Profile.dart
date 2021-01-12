@@ -120,16 +120,6 @@ class _Store_ProfileState extends State<Store_Profile> {
 
       body: Column(
         children: [
-          Container(
-            color: Colors.grey[300],
-            padding: EdgeInsets.all(20),
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
-                radius: 85,
-              ),
-            ),
-          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(12.0),

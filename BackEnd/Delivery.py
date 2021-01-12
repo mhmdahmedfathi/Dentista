@@ -40,7 +40,7 @@ def Delivery_insertion():
 def DeliveryStatus():
     deliveryemail = request.json['email']
     condition = "DELIVERY_EMAIL = '"+deliveryemail+"'"
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
     #if manager ID has value -> Delivery is accepted
     IDS = connector.select_query(table='DELIVERY', columns=['MANAGER_ID', 'DELIVERY_ID'], sql_condition=condition)
     if IDS['MANAGER_ID'] != [None]:
@@ -86,7 +86,7 @@ def OrdersToBeDelivered():
     columns = ['o.ORDER_ID', 'o.TOTAL_COST', 'd.DENTIST_Fname', 'd.DENTIST_LNAME', 'd.DENTIST_ADDRESS', 'd.DENTIST_PHONE_NUMBER', 'd.DENTIST_EMAIL', 'd.DENTIST_ID', 'O.SHIPMENT_STATUS']
     area = request.json['area']
     connector = SQL(host=server_name, user=server_admin)
-    condition = " (SHIPMENT_STATUS = 'Not Delivered' or SHIPMENT_STATUS = 'ASSIGNED')and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "'"
+    condition = " (SHIPMENT_STATUS = 'Not Delivered' or SHIPMENT_STATUS = 'ASSIGNED')and d.DENTIST_ID=o.DENTIST_ID and d.DENTIST_CITY='" + area+ "' order by O.SHIPMENT_STATUS"
     availableordersnumber = connector.select_query(table='orders as O, dentist as d ',columns= ['count(distinct O.ORDER_ID)'],sql_condition=condition)
     result = connector.select_query(table='orders as O, dentist as d ',columns=columns,sql_condition=condition,DISTINCTdetector=True)
     result = {'status': result['O.SHIPMENT_STATUS'],'orderid': result['o.ORDER_ID'], 'ordertotal': result['o.TOTAL_COST'], 'dentistfname': result['d.DENTIST_Fname'], 'dentistlname': result['d.DENTIST_LNAME'], 'no.orders': availableordersnumber['count(distinct O.ORDER_ID)'], 'address': result['d.DENTIST_ADDRESS'], 'phone': result['d.DENTIST_PHONE_NUMBER'], 'email': result['d.DENTIST_EMAIL'], 'DID':result['d.DENTIST_ID']}

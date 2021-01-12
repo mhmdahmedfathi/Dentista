@@ -4,6 +4,10 @@ import json
 from validate_email import validate_email
 
 
+server_name = "localhost"
+server_admin = "root"
+server_password = "@dentista1"
+database = "dentista"
 '''
 server_name = "dentista1.mysql.database.azure.com"
 server_admin = "dentista@dentista1"
@@ -23,7 +27,7 @@ connection_details = [server_name, server_admin, server_password, database]
 def email_validate():
 
     email = request.json['email']
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
     condition = "DENTIST_EMAIL = '" + email + "'"
     output = connector.select_query(table='DENTIST', columns=['DENTIST_ID'], sql_condition= condition)
     connector.close_connection()
@@ -36,7 +40,7 @@ def email_validate():
 def phone_validate():
 
     phone = request.json['phone']
-    connector = SQL(host=server_name, user=server_admin)
+    connector = SQL(host=server_name, user=server_admin,password=server_password)
 
     condition = "DENTIST_PHONE_NUMBER = '" + phone + "'"
     output = connector.select_query(table='DENTIST', columns=['DENTIST_ID'], sql_condition= condition)
