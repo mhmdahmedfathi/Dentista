@@ -167,64 +167,67 @@ class _DeliveryHomeState extends State<DeliveryHome> {
                     scrollinfo.metrics.maxScrollExtent) loadmore();
                 return true;
               },
-              child: ListView(
-                  shrinkWrap: true,
-                  children: List.generate(orderController.numberoforders.value,
-                      (index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Card(
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OrderScreen(index,orderController.Orders[index].Status=='ASSIGNED'?'Deliver':'ASSIGN')));
-                          },
-                          title: Obx(
-                            () => Text(
-                                orderController.Orders[index].DentistFName ==
-                                            "" &&
-                                        orderController
-                                                .Orders[index].DentistLName ==
-                                            ""
-                                    ? ""
-                                    : 'Dr. ' +
-                                        orderController
-                                            .Orders[index].DentistFName +
-                                        " " +
-                                        orderController
-                                            .Orders[index].DentistLName,
-                                style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          subtitle: Obx(
-                            () => Text(orderController
-                                        .Orders[index].DentistAddress ==
-                                    ""
-                                ? ""
-                                : orderController.Orders[index].DentistAddress),
-                          ),
-                          leading: Obx(
-                            () => Text(
-                                orderController.Orders[index].OrderID == ""
-                                    ? ""
-                                    : 'no.' +
-                                        orderController.Orders[index].OrderID),
-                          ),
-                          trailing: Obx(
-                            () => Text(
-                                orderController.Orders[index].TotalCost == ""
-                                    ? ""
-                                    : orderController.Orders[index].TotalCost +
-                                        'EGP',
-                                style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w800)),
+              child: Obx(()=> ListView(
+                    shrinkWrap: true,
+                    children: List.generate(orderController.numberoforders.value,
+                        (index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Card(
+                          color: orderController.Orders[index].Status == "Not Delivered"?  Colors.white: Colors.blueGrey[400],
+                          child: ListTile(
+
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => OrderScreen(index,orderController.Orders[index].Status=='ASSIGNED'?'Deliver':'ASSIGN')));
+                            },
+                            title: Obx(
+                              () => Text(
+                                  orderController.Orders[index].DentistFName ==
+                                              "" &&
+                                          orderController
+                                                  .Orders[index].DentistLName ==
+                                              ""
+                                      ? ""
+                                      : 'Dr. ' +
+                                          orderController
+                                              .Orders[index].DentistFName +
+                                          " " +
+                                          orderController
+                                              .Orders[index].DentistLName,
+                                  style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            subtitle: Obx(
+                              () => Text(orderController
+                                          .Orders[index].DentistAddress ==
+                                      ""
+                                  ? ""
+                                  : orderController.Orders[index].DentistAddress),
+                            ),
+                            leading: Obx(
+                              () => Text(
+                                  orderController.Orders[index].OrderID == ""
+                                      ? ""
+                                      : 'no.' +
+                                          orderController.Orders[index].OrderID),
+                            ),
+                            trailing: Obx(
+                              () => Text(
+                                  orderController.Orders[index].TotalCost == ""
+                                      ? ""
+                                      : orderController.Orders[index].TotalCost +
+                                          'EGP',
+                                  style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w800)),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  })),
+                      );
+                    })),
+              ),
             )
           : _page == 1
               ? SingleChildScrollView(
