@@ -19,6 +19,7 @@ class ViewTile extends StatelessWidget {
   Map Statisticsbranches = Map();
   Map productsCount =Map();
   Map DeliveryInfo = Map();
+  Map TotalDorders = Map();
   ViewTile({this.storeDeliveryName, this.productesDelivers, this.type});
 
   @override
@@ -65,14 +66,15 @@ class ViewTile extends StatelessWidget {
                     else
                       {
                         DeliveryInfo = await GetRequestInfo(int.parse(productesDelivers));
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DeliveryStatistics(delInfo: DeliveryInfo,Del_id: int.parse(productesDelivers),)));
+                        TotalDorders = await GetDorders(int.parse(productesDelivers));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DeliveryStatistics(delInfo: DeliveryInfo,Del_id: int.parse(productesDelivers),delorders: TotalDorders,)));
                       }
                   }
                   ),
               IconButton(
                 icon: Icon(Icons.chat_outlined),
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatRoom(
@@ -94,7 +96,8 @@ class ViewTile extends StatelessWidget {
                           'Content-Type': 'application/json; charset=UTF-8',
                         },
                         body: json.encode({
-                          "SID" : int.parse(productesDelivers)
+                          "SID" : int.parse(productesDelivers),
+                          "MID" : authController.UserID
                         })
                     );
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));

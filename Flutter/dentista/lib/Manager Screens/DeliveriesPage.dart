@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/Manager%20Screens/ViewTile.dart';
 import 'package:dentista/UsersControllers/ManagerController.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class DeliveriesPage extends StatefulWidget {
 
 class _DeliveriesPageState extends State<DeliveriesPage> {
   final ManagerController managerController = Get.put(ManagerController());
+  final AuthController authController = Get.put(AuthController());
   List Dfnames = List<dynamic>();
   List DLnames = List<dynamic>();
   List IDs = List<dynamic>();
@@ -29,7 +31,8 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
         body: json.encode({
-          'MArea' :managerController.M_Area.value
+          'MArea' :managerController.M_Area.value,
+          'MID' : authController.UserID
         })
     );
 

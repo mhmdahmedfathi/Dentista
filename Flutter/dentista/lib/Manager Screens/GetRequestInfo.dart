@@ -55,3 +55,15 @@ async{
   return json.decode(response.body);
 }
 
+Future<Map> GetDorders(int ID)
+async{
+  var response = await http.post('http://10.0.2.2:5000/total_doreders',
+      headers: <String,String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({
+        "DID" : ID
+      })
+  );
+  return json.decode(response.body);
+}

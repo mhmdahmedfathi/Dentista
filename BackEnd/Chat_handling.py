@@ -45,7 +45,7 @@ def InsertChatRoom():
         return "1"
     elif (usertwoType == 'Manager' and useroneType == 'Delivery'):
         columns = ['MESSAGES' , 'MANAGER_ID','DELIVERY_ID','SENDER_ID','SENDER_TYPE']
-        values= [message , useroneID , usertwoID, senderID,senerType]
+        values= [message , usertwoID , useroneID, senderID,senerType]
         connector.insert_query(table='MANAGER_DELIVERY_CHAT' ,attributes=columns , values=values)
         connector.close_connection()
         return "1"
