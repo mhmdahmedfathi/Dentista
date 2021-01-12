@@ -388,7 +388,7 @@ class _DeliveryHomeState extends State<DeliveryHome> {
             ListTile(
               leading: Icon(Icons.account_circle),
               title: Text(
-                'My Acount',
+                'My Account',
                 style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: "Montserrat",

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dentista/Authentication/AuthController.dart';
 import 'package:dentista/UsersControllers/ManagerController.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class StoresPage extends StatefulWidget {
 
 class _StoresPageState extends State<StoresPage> {
   final ManagerController managerController = Get.put(ManagerController());
+  final AuthController authController = Get.put(AuthController());
   List Snames = List<dynamic>();
   List IDs = List<dynamic>();
   @override
@@ -29,7 +31,8 @@ class _StoresPageState extends State<StoresPage> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: json.encode({
-        'MArea' :managerController.M_Area.value
+        'MArea' :managerController.M_Area.value,
+        'MID' : authController.UserID
       })
     );
 

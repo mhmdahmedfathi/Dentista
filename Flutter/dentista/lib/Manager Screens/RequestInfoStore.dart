@@ -13,20 +13,21 @@ import 'package:get/get.dart';
 class RequestInfoStore extends StatefulWidget {
   final Map result;
   final reqID;
+  final int branch_id;
 
-  RequestInfoStore({this.result, this.reqID});
+  RequestInfoStore({this.result, this.reqID,this.branch_id});
 
   @override
   _RequestInfoStoreState createState() =>
-      _RequestInfoStoreState(result: result, reqID: reqID);
+      _RequestInfoStoreState(result: result, reqID: reqID,branch_id: branch_id);
 }
 
 class _RequestInfoStoreState extends State<RequestInfoStore> {
   final ManagerController managerController = Get.put(ManagerController());
   final Map result;
   final reqID;
-
-  _RequestInfoStoreState({this.result, this.reqID});
+  final int branch_id;
+  _RequestInfoStoreState({this.result, this.reqID,this.branch_id});
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +178,7 @@ class _RequestInfoStoreState extends State<RequestInfoStore> {
                             'MID' : managerController.Manager_ID.value,
                             'DID' : reqID,
                             'SID' : reqID,
+                            'BID' : branch_id
                           }));
                       return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
                     },
@@ -196,6 +198,7 @@ class _RequestInfoStoreState extends State<RequestInfoStore> {
                             'MID' : managerController.Manager_ID.value,
                             'DID' : reqID,
                             'SID' : reqID,
+                            'BID' : branch_id
                           })
                       );
                       return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ManagerHome()));
