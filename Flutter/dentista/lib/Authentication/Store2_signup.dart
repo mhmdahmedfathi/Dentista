@@ -168,7 +168,7 @@ class _Store2signupState extends State<Store2signup> {
                   _formsController3.clear();
                   _formsController4.clear();
                 },
-                child: drawButton("Add another bransh", Colors.green),
+                child: drawButton("Add another bransh", Colors.grey),
               ),
             ),
             GestureDetector(
@@ -210,7 +210,7 @@ class _Store2signupState extends State<Store2signup> {
                     .pushReplacement(MaterialPageRoute(builder: (context)=>EmailConfirmation()));
             }
           },
-          child: drawButton("Sign Up", Colors.green),
+          child: drawButton("Sign Up", Colors.grey),
 
         ),
       ),

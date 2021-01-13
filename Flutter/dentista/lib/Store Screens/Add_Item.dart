@@ -207,7 +207,7 @@ class _AddItemState extends State<AddItem> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context)=>StoreHome() ));
                       },
-                      child: drawButton("Back to Home", Colors.green),
+                      child: drawButton("Back to Home", Colors.grey),
                     ),
                   ),
 
