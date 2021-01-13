@@ -140,7 +140,7 @@ class _Delivery_ChatState extends State<Delivery_Chat> {
                     ),)
                 ],
               ),
-              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+              decoration: BoxDecoration(color: Colors.blueGrey),
             ),
             ListTile(
               leading: Icon(Icons.keyboard_return),
