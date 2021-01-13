@@ -116,20 +116,7 @@ class _Delivery_ChatState extends State<Delivery_Chat> {
                         color: Colors.white
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                            fit: BoxFit.fill
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 50),
                   Text( authController.StoreName,
                     style: TextStyle(
                         fontSize: 15,
