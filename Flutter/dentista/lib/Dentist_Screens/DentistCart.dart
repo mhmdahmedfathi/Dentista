@@ -43,7 +43,7 @@ class _DentistCartState extends State<DentistCart> {
               onPressed: () async
               {
                 final ProductRes = await http.post(
-                    'http://10.0.2.2:5000/ClearCart',
+                    'https://dentistastore.azurewebsites.net/ClearCart',
                     headers: <String,String>{
                       'Content-Type': 'application/json; charset=UTF-8',
                     },
@@ -54,12 +54,12 @@ class _DentistCartState extends State<DentistCart> {
                 });
               }
           ),
-          Obx(() =>cartController.IsLoading.value == true ? CircularProgressIndicator() : IconButton(icon: Icon(Icons.local_shipping),
+          Obx(() =>cartController.IsLoading.value == true ? Container() : IconButton(icon: Icon(Icons.local_shipping),
               onPressed: cartController.EnoughBudget.value == false ? null : () async
               {
 
                 final ShipCart = await http.post(
-                    'http://10.0.2.2:5000/ShipCart',
+                    'https://dentistastore.azurewebsites.net/ShipCart',
                     headers: <String,String>{
                       'Content-Type': 'application/json; charset=UTF-8',
                     },
@@ -68,7 +68,7 @@ class _DentistCartState extends State<DentistCart> {
 
                   // To Clean the cart and screen
                   final ProductRes = await http.post(
-                      'http://10.0.2.2:5000/ClearCart',
+                      'https://dentistastore.azurewebsites.net/ClearCart',
                       headers: <String,String>{
                         'Content-Type': 'application/json; charset=UTF-8',
                       },
@@ -81,7 +81,7 @@ class _DentistCartState extends State<DentistCart> {
 
               }
           )),
-          Obx(()=> cartController.IsLoading.value == true ? CircularProgressIndicator() :
+          Obx(()=> cartController.IsLoading.value == true ? Container() :
           Padding(
             padding: const EdgeInsets.only(left: 2.0, top: 12.0, bottom: 12.0, right: 2.0),
             child: Text(
@@ -217,7 +217,7 @@ class _DentistCartState extends State<DentistCart> {
                               onPressed: ()async
                               {
                                 final ProductRes = await http.post(
-                                    'http://10.0.2.2:5000/AddtoCart',
+                                    'https://dentistastore.azurewebsites.net/AddtoCart',
                                     headers: <String,String>{
                                       'Content-Type': 'application/json; charset=UTF-8',
                                     },
@@ -230,7 +230,7 @@ class _DentistCartState extends State<DentistCart> {
                                 onPressed: ()async
                                 {
                                   final ProductRes = await http.post(
-                                      'http://10.0.2.2:5000/RemoveFromCart',
+                                      'https://dentistastore.azurewebsites.net/RemoveFromCart',
                                       headers: <String,String>{
                                         'Content-Type': 'application/json; charset=UTF-8',
                                       },
