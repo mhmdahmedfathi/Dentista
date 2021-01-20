@@ -249,7 +249,7 @@ class _StoreSignUpState extends State<StoreSignUp> {
                         },
                         child: drawButton(
                             "Next",
-                            Colors.green
+                            Colors.grey
                         ),
                       )
                   ),
