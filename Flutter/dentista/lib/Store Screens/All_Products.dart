@@ -98,19 +98,21 @@ class _All_ProductsState extends State<All_Products> {
         shrinkWrap: true,
         children: List.generate(ProductController.ProductCount.value, (index) {
           return Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(0.0),
               child: InkWell(
                 onTap: (){},
                 child: Card(
                   child: Column(
                     children: [
-                      Text(ProductController.Products[index].Product_Name,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.deepPurpleAccent,
-                            fontFamily: "Montserrat"
-                        ),
+                      Expanded(
+                        child: Text(ProductController.Products[index].Product_Name,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.deepPurpleAccent,
+                              fontFamily: "Montserrat"
+                          ),
 
+                        ),
                       )
                       ,
                       Expanded(
@@ -118,10 +120,11 @@ class _All_ProductsState extends State<All_Products> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
+
                             ),
                             borderRadius:
-                            BorderRadius.all(Radius.circular(20.0),),
+                            BorderRadius.all(Radius.circular(20.0)),
                           ),
                         ),
 
@@ -186,20 +189,7 @@ class _All_ProductsState extends State<All_Products> {
                         color: Colors.white
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                            fit: BoxFit.fill
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 50),
                   Text( authController.StoreName,
                     style: TextStyle(
                         fontSize: 15,
@@ -210,7 +200,7 @@ class _All_ProductsState extends State<All_Products> {
                     ),)
                 ],
               ),
-              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+              decoration: BoxDecoration(color: Colors.blueGrey),
             ),
             ListTile(
               leading: Icon(Icons.chat),

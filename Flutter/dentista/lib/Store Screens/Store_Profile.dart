@@ -143,7 +143,7 @@ class _Store_ProfileState extends State<Store_Profile> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.app_blocking_outlined ),
+                            Icon(Icons.person ),
                             SizedBox(width: 16),
                             Expanded(child:Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -176,7 +176,7 @@ class _Store_ProfileState extends State<Store_Profile> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.person),
+                            Icon(Icons.phone),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,14 +197,19 @@ class _Store_ProfileState extends State<Store_Profile> {
                           children: [
                             Icon(Icons.alternate_email),
                             SizedBox(width: 16),
-                            Expanded(child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Email " , style: requestInfoStyle(color: Colors.blueGrey[500])),
-                                Text(storecontroller.EMAIL.value,style: requestInfoStyle()  ),
-                              ],
-                            )),
+                            Container(
+                              child: SizedBox(
+                                width: 300,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Email " , style: requestInfoStyle(color: Colors.blueGrey[500])),
+                                    Text(storecontroller.EMAIL.value,style: requestInfoStyle()  ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Spacer(),
                             IconButton(icon: Icon(Icons.edit), onPressed: (){
                               return displayBottomSheet(context,'email',"Store_EMAIL");

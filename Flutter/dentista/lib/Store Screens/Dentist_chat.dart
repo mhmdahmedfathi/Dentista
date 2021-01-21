@@ -123,7 +123,7 @@ class _Dentist_ChatState extends State<Dentist_Chat> {
                     ),)
                 ],
               ),
-              decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+              decoration: BoxDecoration(color: Colors.blueGrey),
             ),
             ListTile(
               leading: Icon(Icons.logout),

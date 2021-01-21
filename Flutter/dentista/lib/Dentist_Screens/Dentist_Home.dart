@@ -1,12 +1,11 @@
 import 'package:dentista/Authentication/AuthController.dart';
-import 'package:dentista/Authentication/EmailConfirmation.dart';
 import 'package:dentista/Controllers/ProductController.dart';
 import 'package:dentista/Controllers/SearchController.dart';
 import 'package:dentista/Dentist_Screens/DentistAccountSetting.dart';
 import 'package:dentista/Dentist_Screens/DentistCart.dart';
-import 'package:dentista/Dentist_Screens/scheduleOrder.dart';
 import 'package:dentista/Models/AuthenticationFields.dart';
 import 'package:dentista/ProductScreens/ViewProduct.dart';
+import 'package:dentista/SharedDesigns/LoadingCart.dart';
 import 'package:dentista/UsersControllers/DentistController.dart';
 import 'package:flutter/material.dart';
 import 'package:dentista/Screens_Handler/mainscreen.dart';
@@ -15,22 +14,21 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class DentistHome extends StatefulWidget {
-  final String fname;
-  final String lname;
-  final String email;
-  DentistHome(this.fname, this.lname, this.email);
+
+  
   @override
-  _DentistHomeState createState() => _DentistHomeState(fname, lname, email);
+  _DentistHomeState createState() => _DentistHomeState();
 }
 
 
 class _DentistHomeState extends State<DentistHome> {
   DentistController dentistController = Get.put(DentistController());
   ProductController productController = Get.put(ProductController());
-  int products = 20;
-  int present = 20;
-  int perPage = 20;
-  List<bool> fav = List<bool>.generate(20, (index) => false);
+  SearchController searchController = Get.put(SearchController());
+  bool IsSearch = false;
+  String SearchString = "";
+
+  List<bool> fav = List<bool>.generate(10, (index) => false);
 
 
   final _formKey = GlobalKey<FormState>();
@@ -76,7 +74,7 @@ class _DentistHomeState extends State<DentistHome> {
                           {
 
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/ScheduleOrder',
+                              'https://dentistastore.azurewebsites.net/ScheduleOrder',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
@@ -112,13 +110,6 @@ class _DentistHomeState extends State<DentistHome> {
 
 
 
-
-
-  String email;
-  String fname = "";
-  String lname = "";
-  _DentistHomeState(this.fname, this.lname, this.email);
-
   @override
   void initState() {
     super.initState();
@@ -127,28 +118,33 @@ class _DentistHomeState extends State<DentistHome> {
         {
          fav.add(false);
         }
-      present = present + perPage;
+
     });
   }
 
-  void loadMore() {
+  void loadMore() async{
+    
+    await productController.FetchMore(); // Fetching More Products
+    
+    // increase the list of products
+    int favAppend = productController.CurrentIndex.value - fav.length;
+    int favStart = fav.length;
+    for(int favIndex = 0; favIndex < favAppend; favIndex ++)
+      fav.add(false);
+
+
     setState(() {
-      for (int i = 0; i<20; i++)
-      {
-        fav.add(false);
-      }
-      present = present + perPage;
     });
   }
-  SearchController searchController = Get.put(SearchController());
-  bool IsSearch = false;
-  String SearchString = "";
+  
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text('Dentista',
+        title: IsSearch == true ? Container(): Text('Dentista',
           style: TextStyle(
               fontSize: 30,
               fontFamily: "Montserrat",
@@ -157,68 +153,71 @@ class _DentistHomeState extends State<DentistHome> {
           textAlign: TextAlign.left,
         ),
         actions: [
-
-          IconButton(icon: Icon(Icons.add_shopping_cart_outlined),
-              onPressed: ()
-              {
-
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => DentistCart()));
-              setState(){
-
-              }
-
-              },
-              color: Colors.white),
-          IconButton(icon: Icon(Icons.search), onPressed: ()
-          {
-            IsSearch = true;
-          }, color: Colors.white,),
           IsSearch == false ? Container() :
-          Obx(()=> searchController.IsLoading.value == true ? CircularProgressIndicator() : TextField(
+          Obx(()=>  TextField(
             decoration:  new InputDecoration(
-    border: new OutlineInputBorder(
-    borderRadius: const BorderRadius.all(
-    const Radius.circular(10.0),
-    ),
-    ),
-    filled: true,
-    hintStyle: new TextStyle(color: Colors.grey[800]),
-    hintText: "Type in your text",
-    fillColor: Colors.white70),
+                border: new OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  ),
+                ),
+                filled: true,
+                hintStyle: new TextStyle(color: Colors.grey[800]),
+                hintText: "Search",
+                fillColor: Colors.white),
             onChanged: (val){SearchString = val;},
             onEditingComplete: () async
             {
-              IsSearch = false;
+
               searchController.FetchProducts(SearchString);
               productController.ProductList(searchController.ProductList);
+              IsSearch = false;
               setState(() {
 
               });
             },
 
-          ))
+          )),
+
+/*
+          IconButton(icon: Icon(Icons.search), onPressed: ()
+          {
+            IsSearch = true;
+          }, color: Colors.white,),
+          */
+
+          IconButton(icon: Icon(Icons.shopping_cart),
+              onPressed: ()
+              {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DentistCart()));
+                setState(){
+
+                }
+
+              },
+              color: Colors.white),
 
         ],
-        backgroundColor: Colors.blueGrey[800],
+        backgroundColor: Colors.indigo[800],
 
       ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification ScrollInfo){
-          /*
-          if (ScrollInfo.metrics.pixels == ScrollInfo.metrics.maxScrollExtent)
-            {
-              loadMore();
-            }
-            */
+      body: NotificationListener(
+        onNotification: (ScrollNotification scrollInfo)
+        {
+          if (scrollInfo.metrics.pixels ==
+              scrollInfo.metrics.maxScrollExtent) {
+            productController.FetchMore();
+          }
 
           return true;
-        }
-        ,child: Obx( () => productController.IsLoading.value == true ? Center(child: CircularProgressIndicator(),) :
+        },
+        child: Obx( () => productController.IsLoading.value == true  ? CardLoading(context) :
           StaggeredGridView.countBuilder(crossAxisCount: 2, staggeredTileBuilder: (index) => StaggeredTile.fit(1),
 
 
-          itemCount: productController.NoProducts.value,
+          itemCount: productController.CurrentIndex.value,
 
 
           itemBuilder: (BuildContext context, int index)
@@ -234,6 +233,10 @@ class _DentistHomeState extends State<DentistHome> {
                 onDoubleTap: ()
                 {
                   // Add to favourites
+                  fav[index] = !fav[index];
+                  setState(() {
+
+                  });
 
                 },
                 child: Container(
@@ -248,98 +251,122 @@ class _DentistHomeState extends State<DentistHome> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image(
-                              image: NetworkImage(productController.ProductList[index].ImageURL),
+                              image: productController.ProductList[index].ImageURL == ""? NetworkImage('https://img.icons8.com/color/452/dentist.png') : NetworkImage(productController.ProductList[index].ImageURL),
                               fit: BoxFit.fill,
                               width: MediaQuery.of(context).size.width,
                               height: 200,
 
-
                             ),
                           )
                       ),
-                      SizedBox(height: 8.0,),
+
+                      SizedBox(height: 4.0,),
+
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "${productController.ProductList[index].ProductName}", style: TextStyle(
-                              fontSize: 15,
+                            "${productController.ProductList[index].ProductName}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Montserrat",
-                              color: Colors.blueGrey[800]
-
+                              color: Colors.indigo[800]
                           ),
                           ),
                         ),
                       ),
 
-                      SizedBox(height: 8.0,),
+                      SizedBox(height: 4.0,),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             "${productController.ProductList[index].Category}", style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
                               fontFamily: "Montserrat",
-                              color: Colors.black
+                              color: Colors.lightBlueAccent[700]
 
                           ),
                           ),
                         ),
                       ),
-
+                      SizedBox(height: 4.0,),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              "${productController.ProductList[index].Price}EGP", style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat",
-                                color: Colors.blueGrey[800],
-                                decoration: productController.ProductList[index].Discount!=0 ? TextDecoration.lineThrough : TextDecoration.none
+                            Expanded(
+                              child: Text(
+                                "${productController.ProductList[index].Price}EGP", style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: "Montserrat",
+                                  color: Colors.indigo[800],
+                                  decoration: productController.ProductList[index].Discount!=0 ? TextDecoration.lineThrough : TextDecoration.none
 
-                            ),
+                              ),
+                              ),
                             ),
                             productController.ProductList[index].Discount!=0 ?
-                            Text(
+                            Expanded(child: Text(
                               "${productController.ProductList[index].Price - productController.ProductList[index].Discount}EGP",
                               style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
                                 fontFamily: "Montserrat",
-                                color: Colors.black,
+                                color: Colors.blueAccent[700],
                               ),
 
-                            ) : Container(),
-                            IconButton(icon: Icon(Icons.add_shopping_cart),
-                              onPressed: ()async
-                              {
-                                final ProductRes = await http.post(
-                                    'http://10.0.2.2:5000/AddtoCart',
-                                    headers: <String,String>{
-                                      'Content-Type': 'application/json; charset=UTF-8',
-                                    },
-                                    body: json.encode({"product_id" : productController.ProductList[index].ProductID, "dentist_email": dentistController.DentistEmail}));
-                              },
-                              alignment: Alignment.topRight,
+                            )) : Container(),
 
-                            ),
-                            IconButton(icon: Icon(Icons.schedule),
-                                onPressed: ()
-                                {
-                                  displayBottomSheet(context, index);
-                                }
-                            )
                           ],
                         ),
-                      ),
 
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                        IconButton(icon: Icon(Icons.add_shopping_cart,color: Colors.indigo[700]),
+                          onPressed: ()async
+                          {
+                            final ProductRes = await http.post(
+                                'https://dentistastore.azurewebsites.net/AddtoCart',
+                                headers: <String,String>{
+                                  'Content-Type': 'application/json; charset=UTF-8',
+                                },
+                                body: json.encode({"product_id" : productController.ProductList[index].ProductID, "dentist_email": dentistController.DentistEmail}));
+                          },
+
+
+                        ),
+                        IconButton(icon: Icon(Icons.schedule, color: Colors.indigo[700],),
+                          onPressed: ()
+                          {
+                            displayBottomSheet(context, index);
+                          },
+
+                        ),
+                          fav[index] == false ?
+                          IconButton(icon: Icon(Icons.favorite_border, color: Colors.indigo,),
+                              onPressed: (){
+                            setState(() {
+                              fav[index] = true;
+                            });
+                              }
+                          ):
+                              IconButton(icon: Icon(Icons.favorite, color: Colors.red[900],), onPressed: (){
+                                setState(() {
+                                  fav[index] = false;
+                                });
+                              })
+                      ],)
 
                     ],
                   ),
@@ -347,13 +374,13 @@ class _DentistHomeState extends State<DentistHome> {
               ),
             );
           }
-      )
+        )
 
-      ),
+        ),
       ),
       drawer: Drawer(
 
-        child: ListView(
+        child: Obx(() => dentistController.isLoading.value ? Container() : ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
@@ -364,7 +391,7 @@ class _DentistHomeState extends State<DentistHome> {
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Montserrat",
-                      color: Colors.white
+                        color: Colors.white
                     ),
                   ),
                   Padding(
@@ -386,12 +413,12 @@ class _DentistHomeState extends State<DentistHome> {
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Montserrat",
-                      color: Colors.white
+                        color: Colors.white
 
                     ),)
                 ],
               ),
-              decoration: BoxDecoration(color: Colors.blueGrey[800]),
+              decoration: BoxDecoration(color: Colors.indigo[800]),
             ),
             /*
             ListTile(
@@ -410,12 +437,13 @@ class _DentistHomeState extends State<DentistHome> {
 
              */
             ListTile(
-              leading: Icon(Icons.account_circle_rounded),
+              leading: Icon(Icons.account_circle_rounded, color: Colors.cyanAccent[700],),
               title: Text('Account Details',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"
+                    fontFamily: "Montserrat",
+                    color: Colors.lightBlueAccent[700]
                 ),
               ),
               onTap: (){
@@ -426,12 +454,13 @@ class _DentistHomeState extends State<DentistHome> {
             ),
 
             ListTile(
-              leading: Icon(Icons.shopping_cart),
+              leading: Icon(Icons.shopping_cart, color: Colors.cyanAccent[700],),
               title: Text('My Shopping Cart',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"
+                    fontFamily: "Montserrat",
+                  color: Colors.lightBlueAccent[700]
                 ),
               ),
               onTap: (){
@@ -439,25 +468,28 @@ class _DentistHomeState extends State<DentistHome> {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DentistCart()));
               },
             ),
+            /*
             ListTile(
               leading: Icon(Icons.schedule),
               title: Text('scheduled Orders',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Montserrat"
                 ),
               ),
               onTap: (){
                 // To Move to About Dentista Page
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ScheduleOrder()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ScheduleOrders()));
               },
             ),
+            */
+             /*
             ListTile(
               leading: Icon(Icons.star),
               title: Text('Favorites',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Montserrat"
                 ),
@@ -467,13 +499,16 @@ class _DentistHomeState extends State<DentistHome> {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>EmailConfirmation()));
               },
             ),
+            */
+
             ListTile(
-              leading: Icon(Icons.logout),
+              leading: Icon(Icons.logout, color: Colors.cyanAccent[700],),
               title: Text('Sign Out',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"
+                    fontFamily: "Montserrat",
+                  color: Colors.lightBlueAccent[700]
                 ),
               ),
               onTap: (){
@@ -483,7 +518,7 @@ class _DentistHomeState extends State<DentistHome> {
               },
             ),
           ],
-        ),
+        ) ),
 
       ),
     );

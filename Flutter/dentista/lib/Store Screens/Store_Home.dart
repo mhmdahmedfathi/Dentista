@@ -50,7 +50,7 @@ class _StoreHomeState extends State<StoreHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.home, size: 30,color: Colors.white),
-                Text("Profile" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
+                Text("My products" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10,color: Colors.white),)
               ],
             ),
           ),

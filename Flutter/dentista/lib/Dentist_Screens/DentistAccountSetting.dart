@@ -100,7 +100,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                             }
 
                             final updatedata = await http.post(
-                              'http://10.0.2.2:5000/UpdateDentistTable',
+                              'https://dentistastore.azurewebsites.net/UpdateDentistTable',
                               headers: <String,String>{
                                 'Content-Type': 'application/json; charset=UTF-8',
                                 'Charset': 'utf-8'
@@ -189,16 +189,16 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
           letterSpacing: 1.2,
         ),
         ),
-        backgroundColor:Colors.blueGrey[800],
+        backgroundColor:Colors.indigo[800],
       ),
       body: Column(
         children: [
           Container(
-            color: Colors.grey[300],
+            color: Colors.indigoAccent[400],
             padding: EdgeInsets.all(20),
             child: Center(
               child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
+                backgroundColor: Colors.indigo,
                 radius: 85,
                 backgroundImage: NetworkImage(dentistController.DentistImageURL.value),
                 child: Align(
@@ -213,7 +213,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                       String ImageURL_Uploaded = "https://dentista.blob.core.windows.net/quickstartblobs/" + _image.path;
                       //print(ImageURL_Uploaded);
                       final updatedata = await http.post(
-                        'http://10.0.2.2:5000/UpdateDentistImage',
+                        'https://dentistastore.azurewebsites.net/UpdateDentistImage',
                         headers: <String,String>{
                           'Content-Type': 'application/json; charset=UTF-8',
                           'Charset': 'utf-8'
@@ -242,7 +242,8 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'montserrat',
-                  letterSpacing: 2.5
+                  letterSpacing: 2.5,
+                color: Colors.cyanAccent[700]
               ) ),
             ),
           ),
@@ -258,7 +259,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.person_pin),
+                            Icon(Icons.person_pin, color: Colors.indigo[700],),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +269,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700],), onPressed: (){
                               return displayBottomSheet(context,'name',"");
                             })
                           ],
@@ -276,7 +277,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.alternate_email),
+                            Icon(Icons.alternate_email, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +287,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'email',"DENTIST_EMAIL");
                             })
                           ],
@@ -294,7 +295,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.enhanced_encryption),
+                            Icon(Icons.enhanced_encryption, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +305,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'Password',"DENTIST_PASSWORD");
                             })
                           ],
@@ -312,7 +313,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.call),
+                            Icon(Icons.call, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,7 +323,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'Phone Number','DENTIST_PHONE_NUMBER');
                             })
                           ],
@@ -330,7 +331,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,7 +341,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'address','DENTIST_ADDRESS');
                             })
                           ],
@@ -348,7 +349,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,7 +359,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'Zip Code','DENTIST_ZIP_CODE');
                             })
                           ],
@@ -366,7 +367,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,7 +377,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'Region','DENTIST_REGION');
                             })
                           ],
@@ -384,7 +385,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                         SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(Icons.location_city),
+                            Icon(Icons.location_city, color: Colors.indigo[700]),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,7 +395,7 @@ class _DentistAccountSettingsState extends State<DentistAccountSettings> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(icon: Icon(Icons.edit), onPressed: (){
+                            IconButton(icon: Icon(Icons.edit, color: Colors.indigo[700]), onPressed: (){
                               return displayBottomSheet(context,'City','DENTIST_CITY');
                             })
                           ],
