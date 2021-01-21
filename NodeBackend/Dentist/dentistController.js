@@ -1,3 +1,6 @@
+const mysql = require('mysql');
+
+
 class dentistController
 {
     
@@ -7,8 +10,11 @@ class dentistController
         this.dentistModel = new dentistNameSpace.Dentist();
      }
 
-     setDentist()   // this takes the dentist
-     {
-         
-     }
+     async insertDentist(request, response) 
+      {
+           this.dentistModel.setFname = request.body.Dentist_Fname;
+           this.dentistModel.setLname = request.body.Dentist_Lname;
+           this.dentistModel.setFname = request.body.Dentist_Email;
+      }
+ 
 }
